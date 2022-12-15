@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
     /* hold show fronend**/
     Route::resource('holds', HoldController::class);
     /* kitechen show fronend**/
-    Route::resource('kitchens', KitchenController::class);
+    Route::resourc('kitchens', KitchenController::class);
     /* last **/
     Route::resource('pos', PosController::class);
     /* last **/
