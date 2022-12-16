@@ -24,10 +24,10 @@ return new class extends Migration
             $table->string('photo', 200);
             $table->string('photothumb', 500)->nullable();
             $table->string('color', 20);
-            $table->boolean('type')->nullable();
+            $table->smallInteger('type')->nullable();
             $table->integer('alertqt')->nullable();
             $table->string('unit', 100)->nullable();
-            $table->integer('taxmethod')->nullable();
+            $table->boolean('taxmethod')->nullable();
             $table->string('h_stores', 300)->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('category_id')->nullable();           

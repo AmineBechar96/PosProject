@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +23,7 @@ use Illuminate\Support\Facades\Route;
     /*index problem */
     Route::resource('dashboard', DashboardController::class);
     Route::resource('login', AuthController::class);
-    Route::resource('categories', [CategoryController::class,'store','update','destroy']);
+    Route::resource('categories', CategoryController::class);
     Route::resource('categorieexpences', CategoryExpenceController::class);
     /* pivot table */
     Route::resource('combos', ComboController::class);
@@ -30,8 +33,9 @@ use Illuminate\Support\Facades\Route;
     /* hold show fronend**/
     Route::resource('holds', HoldController::class);
     /* kitechen show fronend**/
-    Route::resourc('kitchens', KitchenController::class);
+    Route::resource('kitchens', KitchenController::class);
     /* last **/
+    Route::get('pos/resetPos/{id}', [PosController::class,'resetPos']);
     Route::resource('pos', PosController::class);
     /* last **/
     Route::resource('purchases', PurchaseController::class);
@@ -42,7 +46,8 @@ use Illuminate\Support\Facades\Route;
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);
     Route::resource('suppliers', SupplierController::class);
-    Route::resource('tables', TablesController::class);
+    Route::post('tables/exchangeTables', [TableController::class,'exchangeTables']);
+    Route::resource('tables', TableController::class);
     Route::resource('waiters', WaiterController::class);
     Route::resource('warehouses', WarehouseController::class);
     Route::resource('zones', ZoneController::class);

@@ -33,8 +33,11 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $cash = $this->input->post('cash');
+        $id = $this->input->post('store');
+        $waitersCach = $this->input->post('waitersCach');
+        $waitercc = '';
     }
 
     /**

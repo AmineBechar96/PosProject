@@ -38,7 +38,7 @@ class HoldController extends Controller
     {
         $hold = Hold::where(['register_id'=>$request['register_id'],'table_id'=>$request['table_id'],])->last();
         $number = ! empty($hold) ? intval($hold->number) + 1 : 1;
-        Posale::where(['status' => 1, 'register_id' => $request["register_id"]])->update(['status' => 0]);
+        Posale::where(['status' => 1, 'register_id' => $request['register_id']])->update(['status' => 0]);
         $attributes = array(
             'number' => $number,
             'time' => date("H:i"),

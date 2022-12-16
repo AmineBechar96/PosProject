@@ -9,6 +9,7 @@ class Posale extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    public $guarded = [];
     public function register(){
         return $this->belongsTo(Register::class);
     }
