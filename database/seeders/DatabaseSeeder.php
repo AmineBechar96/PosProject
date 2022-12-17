@@ -76,6 +76,6 @@ class DatabaseSeeder extends Seeder
             'stripe' => 0,
             'decimals' => 1,
             'time_visit' => now(),
-         ]);
+                 ]);
     }
 }

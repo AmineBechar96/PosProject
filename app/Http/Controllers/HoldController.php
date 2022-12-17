@@ -36,8 +36,8 @@ class HoldController extends Controller
      */
     public function store(Request $request)
     {
-        $hold = Hold::where(['register_id'=>$request['register_id'],'table_id'=>$request['table_id'],])->last();
-        $number = ! empty($hold) ? intval($hold->number) + 1 : 1;
+        $hold = Hold::where(['register_id' => $request['register_id'], 'table_id' => $request['table_id'],])->order('asc')->first();
+        $number = !$hold->isEmpty() ? intval($hold->number) + 1 : 1;
         Posale::where(['status' => 1, 'register_id' => $request['register_id']])->update(['status' => 0]);
         $attributes = array(
             'number' => $number,
@@ -46,6 +46,7 @@ class HoldController extends Controller
             'table_id' => $request['table_id']
         );
         Hold::create($attributes);
+        return response(['success' => true]);
     }
 
     /**
@@ -56,9 +57,13 @@ class HoldController extends Controller
      */
     public function show($id)
     {
-        $holds = Hold::where('register_id',$id)->order('asc')->get();
-        $posale = Posale::where('status',1)->get();
-
+        
+    }
+    public function holdList(Request $request)
+    {
+        $holds = Hold::where(['register_id'=> $request['register_id'],'table_id'=>$request['table_id']])->order('asc')->get();
+        $posale = Posale::where(['status'=> 1,'register_id'=> $request['register_id'],'table_id'=>$request['table_id']])->get();
+        return response(['holds' => $holds,'posale' => $posale]);
     }
 
     /**
@@ -82,6 +87,7 @@ class HoldController extends Controller
     {
         Posale::where(['status' => 1, 'register_id' => $request["register_id"]])->update(['status' => 0]);
         Posale::where(['number' => $id, 'register_id' => $request["register_id"]])->update(['status' => 1]);
+        return response(['success' => true]);
     }
 
     /**
@@ -93,5 +99,15 @@ class HoldController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function removeHold(Request $request)
+    {
+        $hold = Hold::where(['number' => $request['number'], 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->first();
+        $hold->delete();
+        Posale::where(['number' => $request['number'], 'register_id' => $request['register_id']])->delete();
+        $hold = Hold::where(['register_id' => $request['register_id'], 'table_id' => $request['table_id'],])->order('asc')->first();
+
+        Posale::where(['number' => $hold->number, 'register_id' => $request['register_id']])->update(['status' => 1]);
+        return response(['success' => true]);
     }
 }

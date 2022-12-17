@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TableController;
 use Illuminate\Http\Request;
@@ -31,10 +33,12 @@ use Illuminate\Support\Facades\Route;
     /* expence attachement unlink */
     Route::resource('expences', ExpenceController::class);
     /* hold show fronend**/
+    Route::post('holds/removeHold',[HoldController::class,'removeHold']);
     Route::resource('holds', HoldController::class);
     /* kitechen show fronend**/
     Route::resource('kitchens', KitchenController::class);
     /* last **/
+    Route::post('pos/addPosaleOptions', [PosController::class,'addPosaleOptions']);
     Route::get('pos/resetPos/{id}', [PosController::class,'resetPos']);
     Route::resource('pos', PosController::class);
     /* last **/

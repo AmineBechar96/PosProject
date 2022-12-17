@@ -19,7 +19,9 @@ class PayementIncomeFactory extends Factory
         return [
             'date' => now(),
             'paid' => $this->faker->randomFloat(10000,5000.0,100000.0),
-            'paid_method' => rand(1,20),
+            'type' => rand(1,20),
+            'credit_card_number' => rand(1,20),
+            'credit_card_holder' => "Amine",
             'waiter_id' => rand(1,20),
             'register_id' => rand(1,20),
             'created_by' => rand(1,20),

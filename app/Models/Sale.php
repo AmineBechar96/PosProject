@@ -24,6 +24,6 @@ class Sale extends Model
         return $this->hasMany(PayementIncome::class);
     }
     public function products(){
-        return $this->belongsToMany(Product::class)->withPivot('quantity','cost','price');
+        return $this->belongsToMany(Product::class)->withPivot('quantity','price','date');
     }
 }

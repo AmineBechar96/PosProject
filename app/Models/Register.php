@@ -30,5 +30,8 @@ class Register extends Model
     public function store(){
         return $this->belongsTo(Store::class);
     }
+    public function waiters(){
+        return $this->belongsToMany(Waiter::class)->withPivot('cash_in_hand');
+    }
     
 }

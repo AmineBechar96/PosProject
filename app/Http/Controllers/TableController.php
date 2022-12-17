@@ -116,7 +116,6 @@ class TableController extends Controller
             $result_table1 = Posale::where("table_id", $table1)->get();
             $result_table2 = Posale::where("table_id", $table2)->get();
             if ($result_table2->isEmpty()) {
-                print('aaaaaaaaaaaa');
                 Posale::where('table_id', $table1)->update([
                     'table_id' => $table2,
                     'status' => 1

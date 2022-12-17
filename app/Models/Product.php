@@ -29,9 +29,9 @@ class Product extends Model
         return $this->hasOne(Stock::class);
     }
     public function sales(){
-        return $this->belongsToMany(Sale::class)->withPivot('quantity','cost','price');
-    }
+        
+        return $this->belongsToMany(Sale::class)->withPivot('quantity','price','date');}
     public function purchases(){
-        return $this->belongsToMany(Purchase::class)->withPivot('quantity','cost','price');
-    }
+        
+        return $this->belongsToMany(Purchase::class)->withPivot('quantity','price','date');}
 }
