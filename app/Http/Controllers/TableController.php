@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hold;
 use App\Models\Posale;
+use App\Models\Register;
+use App\Models\Sale;
+use App\Models\Setting;
+use App\Models\Store;
 use App\Models\Table;
 use App\Models\Zone;
 use Illuminate\Http\Request;
@@ -64,6 +69,43 @@ class TableController extends Controller
         return Response(['tables' => $tables, 'zones', $zones]);
     }
 
+
+    public function selectTable($register_id, $id)
+    {
+        $hold = Hold::where(['register_id' => $register_id, 'table_id' => $id])->first();
+
+        if (!$hold) {
+            $attributes = array(
+                'number' => 1,
+                'time' => date("H:i"),
+                "table_id" => $id,
+                'register_id' => $register_id
+            );
+            Hold::create($attributes);
+        } else {
+            Posale::where(['number' => 1, 'register_id' => $register_id, 'table_id' => $id])->update(['status' => 1]);
+        }
+        if ($id > 0) {
+            $table = Table::find($id);
+            if ($table->status != 1) {
+                $table->status = 1;
+                $table->time = date("H:i");
+                $table->save();
+            }
+        } else {
+            Setting::update_all(array(
+                'set' => array(
+                    'time_visit' => date("Y-m-d H:i:s")
+                ),
+            ));
+            Posale::where(['number' => 1, 'register_id' => $register_id, 'table_id' => $id])->update(['time_visit' => date("Y-m-d H:i:s")]);
+        }
+
+        return ["selectedTable" => $id];
+    }
+
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -75,6 +117,46 @@ class TableController extends Controller
         $table = Table::find($id)->get();
         $zones = Zone::all();
         return Response(['table' => $table, 'zones' => $zones]);
+    }
+
+    public function switchTable($register_id)
+    {
+        Posale::where(['status' => 1, 'register_id' => $register_id])->update([
+            'status' => 0
+        ]);
+
+        return ["selectedTable" => 0];
+    }
+
+    public function addNewTableSale(Request $request, $tableId)
+    {
+        $date = date("Y-m-d H:i:s");
+        $register = Register::find($request['register_id']);
+        $store = Store::find($register->store_id);
+        $sale = Sale::create($request);
+
+        $posales = Posale::where(['register_id' => $request['register_id'], 'table_id' => $tableId])->get();
+        $holds = [];
+
+        if ($tableId == 0) {
+        } else {
+            $tabb = Table::find($tableId);
+        }
+        $poss = Posale::where(['table_id' => $tableId])->groupBy('number')->get();
+
+        foreach ($poss as $posss) {
+            $hold = Hold::where(['number' => $posss->number, 'register_id' => $request['registerId'], 'table_id' => $tableId])->get();
+            array_push($holds, $hold);
+        }
+        return ([
+            'date' => $date,
+            'register' => $register,
+            'store' => $store,
+            'sale' => $sale,
+            'table' => $tabb,
+            'posales' => $posales,
+            'holds' => $holds
+        ]);
     }
 
     /**
@@ -93,18 +175,6 @@ class TableController extends Controller
             'checked' => 'required|string|max:50',
         ]);
         Table::where('id', $id)->update([$data]);
-        return response(['success' => true]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        Zone::destroy($id);
         return response(['success' => true]);
     }
 
@@ -146,4 +216,35 @@ class TableController extends Controller
         }
         return response(['success' => true]);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        Zone::destroy($id);
+        return response(['success' => true]);
+    }
+
+    
+
+    public function CloseTable(Request $request)
+   {
+      Hold::where(['table_id' => $request['table_id'] , 'register_id' => $request['register_id']])->delete();
+      Posale::where(['table_id' => $request['table_id'] , 'register_id' => $request['register_id']])->delete();
+              
+      if($request['table_id'] != 0){
+
+         $table = Table::find($request['table_id']);
+            $table->status = 0;
+            $table->time = '';
+            $table->save();
+      }
+      return response(['success' => true]);
+   }
+
 }

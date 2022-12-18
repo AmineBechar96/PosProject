@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
@@ -29,7 +30,11 @@ use Illuminate\Support\Facades\Route;
     Route::resource('categorieexpences', CategoryExpenceController::class);
     /* pivot table */
     Route::resource('combos', ComboController::class);
+
+    Route::post('customers/customerName', [CustomerController::class,'customerName']);
+    Route::post('customers/changeCustomers', [CustomerController::class,'changeCustomers']);
     Route::resource('customers', CustomerController::class);
+
     /* expence attachement unlink */
     Route::resource('expences', ExpenceController::class);
     /* hold show fronend**/
@@ -37,7 +42,13 @@ use Illuminate\Support\Facades\Route;
     Route::resource('holds', HoldController::class);
     /* kitechen show fronend**/
     Route::resource('kitchens', KitchenController::class);
+    /* last */
+    Route::resource('products', ProductController::class);
     /* last **/
+    Route::post('pos/showticketKit', [PosController::class,'showticketKit']);
+    Route::post('pos/showTicket', [PosController::class,'showTicket']);
+    Route::post('pos/subTot', [PosController::class,'subTot']);
+    Route::post('pos/totPosales', [PosController::class,'totPosales']);
     Route::post('pos/addPosaleOptions', [PosController::class,'addPosaleOptions']);
     Route::get('pos/resetPos/{id}', [PosController::class,'resetPos']);
     Route::resource('pos', PosController::class);
@@ -50,8 +61,15 @@ use Illuminate\Support\Facades\Route;
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);
     Route::resource('suppliers', SupplierController::class);
+    
+    Route::get('tables/switchTable/{register_id}', [TableController::class,'switchTable']);
+    Route::get('tables/selectTable/{register_id}/{id}', [TableController::class,'selectTable']);
     Route::post('tables/exchangeTables', [TableController::class,'exchangeTables']);
     Route::resource('tables', TableController::class);
+
+    Route::post('waiters/changeWaiters',[WaiterController::class,'changeWaiters']);
+    Route::post('waiters/waiterName',[WaiterController::class,'waiterName']);
+    Route::get('waiters/storeWaiterCash/{id}',[WaiterController::class,'storeWaiterCash']);
     Route::resource('waiters', WaiterController::class);
     Route::resource('warehouses', WarehouseController::class);
     Route::resource('zones', ZoneController::class);

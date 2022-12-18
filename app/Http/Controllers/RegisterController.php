@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hold;
 use App\Models\PayementIncome;
 use App\Models\PayementOutcome;
+use App\Models\Posale;
 use App\Models\Register;
 use App\Models\Sale;
+use App\Models\Setting;
+use App\Models\Store;
+use App\Models\Table;
 use App\Models\User;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
@@ -19,7 +24,6 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -40,10 +44,36 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $cash = $this->input->post('cash');
-        $id = $this->input->post('store');
-        $waitersCach = $this->input->post('waitersCach');
-        $waitercc = '';
+        $setting = Setting::find(1);
+        date_default_timezone_set($setting->timezone);
+        $date = date("Y-m-d H:i:s");
+        $data = array(
+            "cash_total" => $request['expectedcash'],
+            "cash_sub" => $request['countedcash'],
+            "cc_total" => $request['expectedcc'],
+            "cc_sub" => $request['countedcc'],
+            "cheque_total" => $request['expectedcheque'],
+            "cheque_sub" => $request['countedcheque'],
+            "note" => $request['registerNote'],
+            "closed_by" => $request['user_id'],
+            "closed_at" => $date,
+            "status" => 0
+        );
+
+        $register = Register::find($request['register_id'])->update($data);
+    
+
+        $store = Store::find($register->store_id);
+        $store->status = 0;
+        $store->save();
+
+        Table::where('store_id', $register->store_id)->update(['status' => 0,'time' => '']);
+        
+
+        Hold::where('register_id',$register->id)->delete();
+        Posale::where('register_id',$register->id)->delete();
+
+        return response(['success' => true]);
     }
 
     /**
@@ -54,7 +84,9 @@ class RegisterController extends Controller
      */
     public function show($id)
     {
-        //
+        $register = Register::where(['store_id' => $id , 'status' => 1])->first();
+        return Response(['register_id' => $register->id, 'store_id' => $id]);
+
     }
 
     /**
@@ -75,9 +107,31 @@ class RegisterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id = 0)
     {
-        //
+        $cash = $request['cash'];
+        $id = $request['store'];
+        $waitersCachs = $request['waitersCach'];
+
+        $data = array(
+            "status" => 1,
+            "user_id" => $request['user_id'],
+            "cash_in_hand" => $cash,
+            "store_id" => $id
+        );
+        $register = Register::create($data);
+
+        foreach ($waitersCachs as $waitersCach) {
+            foreach ($waitersCach as $key => $value) {
+                $register->waiters()->detach($key);
+                $register->waiters()->attach([$key => ['cash_in_hand' => $value]]);
+            }
+        }
+
+        $store = Store::find($id);
+        $store->status = 1;
+        $store->save();
+        return Response(['register_id' => $register->id, 'store_id' => $id]);
     }
 
     /**
@@ -178,7 +232,7 @@ class RegisterController extends Controller
         return [
             'Wtotals' => $Wtotals, 'cashinHand' => $cashinHand, 'cash' => $cashs,
             'cheque' => $cheques,
-            'cc' => $ccs,'user' =>$user
+            'cc' => $ccs, 'user' => $user
         ];
     }
 }

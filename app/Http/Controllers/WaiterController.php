@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hold;
 use App\Models\Store;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class WaiterController extends Controller
     {
         $stores = Store::all();
         $waiters = Waiter::all();
-        return Response(['store' => $stores, 'waiters' => $waiters]);
+        return Response(['stores' => $stores, 'waiters' => $waiters]);
     }
 
     /**
@@ -40,14 +41,14 @@ class WaiterController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:50',
-            'phone'=>'required|phone|max:30',
-            'email'=>'required|string|max:50',
+            'name' => 'required|string|max:50',
+            'phone' => 'required|phone|max:30',
+            'email' => 'required|string|max:50',
         ]);
-    
+
         throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Waiter::create($data);
-        return response(['success'=>true]);
+        return response(['success' => true]);
     }
 
     /**
@@ -61,6 +62,31 @@ class WaiterController extends Controller
         //
     }
 
+
+    public function storeWaiterCash($id)
+    {
+        $waiters = Waiter::where('store_id', $id)->get();
+        return Response(['waiters' => $waiters,]);
+    }
+
+    public function waiterName(Request $request, $num = null)
+    {
+        $hold = Hold::where(['number' => $num, 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->first();
+        return Response(['waiter_id' => $hold->waiterid]);
+    }
+
+    public function changeWaiters(Request $request)
+    {
+        $num = $request['num'];
+        $id = $request['id'];
+
+        $hold = Hold::where(['number' => $num, 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->first();
+
+        $hold->waiter_id = $id;
+        $hold->save();
+
+        return response(['success' => true]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,7 +96,7 @@ class WaiterController extends Controller
     public function edit($id)
     {
         $waiter = Waiter::find($id)->get();
-        return Response(['waiter'=>$waiter]);
+        return Response(['waiter' => $waiter]);
     }
 
     /**
@@ -83,12 +109,12 @@ class WaiterController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:50',
-            'phone'=>'required|phone|max:30',
-            'email'=>'required|string|max:50',
+            'name' => 'required|string|max:50',
+            'phone' => 'required|phone|max:30',
+            'email' => 'required|string|max:50',
         ]);
-        Waiter::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
+        Waiter::where('id', $id)->update([$data]);
+        return response(['success' => true]);
     }
 
     /**
@@ -100,6 +126,6 @@ class WaiterController extends Controller
     public function destroy($id)
     {
         Waiter::destroy($id);
-        return response(['success'=>true]);
+        return response(['success' => true]);
     }
 }

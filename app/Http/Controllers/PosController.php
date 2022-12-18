@@ -12,6 +12,8 @@ use App\Models\Sale;
 use App\Models\Setting;
 use App\Models\Stock;
 use App\Models\Store;
+use App\Models\Table;
+use App\Models\Waiter;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -24,9 +26,11 @@ class PosController extends Controller
     public function index()
     {
         $setting = Setting::find(1)->select('currency');
-        $posales = Posale::where('status', 1,)->get();
+        $posales = Posale::where('status', 1)->get();
         $registers = Register::all();
         $stocks = Stock::all();
+
+
         return Response(['setting' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks]);
     }
 
@@ -180,81 +184,59 @@ class PosController extends Controller
         return response(['success' => true]);
     }
 
-    public function AddSale(Request $request, $type, $tableId)
+    public function showTicket(Request $request)
     {
-        $setting = Setting::find(1);
-        date_default_timezone_set($setting->timezone);
-        $date = date("Y-m-d H:i:s");
-        $request['created_at'] = $date;
-        $register = Register::find($request['register_id']);
-        if ($type == 2) {
-            try {
-                Stripe::setApiKey($this->setting->stripe_secret_key);
-                $myCard = [
-                    'number' => $request['ccnum'],
-                    'exp_month' => $request['ccmonth'],
-                    'exp_year' => $request['ccyear'],
-                    "cvc" => $request['ccv']
-                ];
-                $charge = Stripe_Charge::create([
-                    'card' => $myCard,
-                    'amount' => (floatval($request['paid']) * 100),
-                    'currency' => $this->setting->currency
-                ]);
-                return response(['success' => true]);
-            } catch (Stripe_CardError $e) {
-                $body = $e->getJsonBody();
-                $err = $body['error'];
-                return response(['error' => $err]);
-            }
-        }
-        unset($request['ccnum']);
-        unset($request['ccmonth']);
-        unset($request['ccyear']);
-        unset($request['ccv']);
-        $paystatus = $request['paid'] - $request['total'];
-        $request['first_payement'] = $paystatus > 0 ? $request['total'] : $request['paid'];
-        $sale = Sale::create($request);
-        $posales = Posale::where(['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $tableId]);
-        foreach ($posales as $posale) {
-            $data = array(
-                "price" => $posale->price,
-                "quantity" => $posale->quantity,
-                "date" => $date
-            );
-            $number = $posale->number;
-            $register = Register::find($request['register_id']);
-            $prod = Product::find($posale->product_id);
-            if ($prod->type == 2) {
-                $combos = ComboItem::where('product_id', $posale->product_id)->get();
-                foreach ($combos as $combo) {
-                    $prd = Product::find($combo->item_id);
-                    if ($prd->type == 0) {
-                        $stock = Stock::where(['store_id' => $register->store_id, 'product_id' => $combo->item_id])->first();
-                        $stock->quantity = $stock->quantity - ($combo->quantity * $posale->qt);
-                        $stock->save();
-                    }
-                }
-            } else if ($prod->type == 0) {
-                $stock = Stock::where(['store_id' => $register->store_id, 'product_id' => $posale->item_id])->first();
-                $stock->quantity = $stock->quantity - ($posale->quantity * $posale->qt);
-                $stock->save();
-            }
-            $pos = $sale->products()->sync($data);
-        }
+        // $hold = Hold::find($num);
+        $waiterN = $request['waiter_id'] > 0 ? Waiter::find($request['waiter_id'])->name : 'withoutWaiter';
+        $store = Store::find($request['store_id']);
+        $tableN = Table::find($request['table_id'])->name;
+        $posales = Posale::where(['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->get();
 
-        Posale::where([['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $tableId]])->delete();
-
-        if (isset($number)) {
-            if ($number != 1)
-                Hold::where(['number' => $number, 'register_id' => $request['register_id'], 'table_id' => $tableId])->delete();
-        }
-        $hold = Hold::where(['register_id' => $request['register_id'], 'table_id' => $tableId])->order('asc')->first();
-        if ($hold) {
-            Posale::where(['number' => $hold->number, 'register_id' => $request['register_id'], 'table_id' => $tableId])->update(['status' => 1]);
-        }
-        return response(['success' => true]);
+        return (['waiterN' => $waiterN, 'store' => $store, 'tableN' => $tableN, 'posales' => $posales]);
     }
+
+
+    public function showticketKit(Request $request)
+    {
+        if ($request['id'] == 1) {
+            $table = Table::find($request['table_id']);
+            $posales = [];
+            $products = Product::with('posales', 'category')->get();
+            foreach ($products as $product)
+                if ($product->category->display == 0 && !$product->posales->isEmpty())
+                    foreach ($product->posales as $pos)
+                        if ($pos->table_id == $request['table_id'])
+                            array_merge($posales, $pos);
+            $table->checked = date("Y-m-d H:i:s");
+            $table->save();
+        } else {
+            $posales = Posale::where(['number' => $request['table_id'], 'table_id' => 0, 'register_id' => $request['register_id']])->order('time')->get();
+            Posale::where(['number' => $request['table_id'], 'table_id' => 0, 'register_id' => $request['register_id']])->update(['time_visit' => date("Y-m-d H:i:s")]);
+        }
+
+
+        foreach ($posales as $posale) {
+            $d1 = $posale->time;
+            $d2 = $posale->time_visit;
+            if ($d1 < $d2) {
+                $posale->time = 'y';
+            } else {
+                $posale->time = 'n';
+            }
+        }
+
+
+        return ['posales' => $posales];
+    }
+
+    public function getoptions($id, $posale)
+   {
+      $options = Option::where('product_id',$id)->get();
+      $poOptions = Posale::find($posale)->options;
+      
+      
+      return ['poOptions'=>$poOptions,'options'=>$options];
+   }
     /**
      * Display the specified resource.
      *
@@ -325,6 +307,27 @@ class PosController extends Controller
                 return response(['error' => 'stock']);
             }
         }
+    }
+
+    public function subTot(Request $request)
+    {
+        $posales = Posale::where(['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->get();
+
+        $sub = 0;
+        foreach ($posales as $posale) {
+            $sub += $posale->price * $posale->quantity;
+        }
+        return ["subTotal" => $sub];
+    }
+
+    public function totPosales(Request $request)
+    {
+        $posales = Posale::where(['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $request['table_id']])->get();
+        $sub = 0;
+        foreach ($posales as $posale) {
+            $sub += $posale->quantity;
+        }
+        return ["totPosale" => $sub];
     }
 
     /**
