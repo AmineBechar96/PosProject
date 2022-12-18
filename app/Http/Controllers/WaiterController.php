@@ -18,7 +18,7 @@ class WaiterController extends Controller
     {
         $stores = Store::all();
         $waiters = Waiter::all();
-        return Response(['stores' => $stores, 'waiters' => $waiters]);
+        return Response(['store' => $stores, 'waiters' => $waiters]);
     }
 
     /**
