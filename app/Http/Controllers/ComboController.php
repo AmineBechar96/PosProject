@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComboItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ComboController extends Controller
@@ -35,19 +36,13 @@ class ComboController extends Controller
      */
     public function store(Request $request)
     {
-    $data = $request->validate([
-            'quantity'=>'required|int',]);  
-
-    if ($data['items']) {
-        ComboItem::where('product_id', $data['product_id'])->delete();
-        foreach ($data['items'] as $item) {
-            $item['product_id'] = $data['product_id'];
-            unset($item['code']);
-            unset($item['name']);
-            ComboItem::create($item);
-            return response(['success'=>true]);
-         }
-      }
+        $product = Product::find($request['product_id']);
+        $product->combos()->delete();
+        $combos = $request['items'];
+        foreach ($combos as $combo) {
+            $product_op = new ComboItem($combo);
+            $product->combos()->save($product_op);
+        }
     }
 
     /**
@@ -58,9 +53,9 @@ class ComboController extends Controller
      */
     public function show($id)
     {
-        $combos = ComboItem::where('product_id',$id)->get();
-        $product = ComboItem::where('product_id',$id)->product()->get();
-        return Response(['combos'=>$combos,'product'=>$product]);
+        $combos = ComboItem::where('product_id', $id)->get();
+        $product = ComboItem::where('product_id', $id)->product()->get();
+        return Response(['combos' => $combos, 'product' => $product]);
     }
 
     /**
@@ -71,7 +66,9 @@ class ComboController extends Controller
      */
     public function edit($id)
     {
-        //
+        $combos = ComboItem::where('product_id', $id)->get();
+        $product = ComboItem::where('product_id', $id)->product()->get();
+        return Response(['combos' => $combos, 'product' => $product]);
     }
 
     /**

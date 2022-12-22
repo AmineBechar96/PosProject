@@ -9,29 +9,41 @@ class Product extends Model
 {
     use HasFactory;
     public $guarded = [];
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
-    public function supplier(){
+    public function supplier()
+    {
         return $this->belongsTo(Supplier::class);
     }
 
-    public function combo_items(){
+    public function combo_items()
+    {
         return $this->hasMany(ComboItem::class);
     }
-    public function options(){
+    public function options()
+    {
         return $this->hasMany(Option::class);
     }
-    public function posales(){
+    public function posales()
+    {
         return $this->hasMany(Posale::class);
     }
-    public function stock(){
+    public function stock()
+    {
         return $this->hasOne(Stock::class);
     }
-    public function sales(){
-        
-        return $this->belongsToMany(Sale::class)->withPivot('quantity','price','date');}
-    public function purchases(){
-        
-        return $this->belongsToMany(Purchase::class)->withPivot('quantity','price','date');}
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class)->withPivot('quantity', 'price', 'date');
+    }
+    public function purchases()
+    {
+        return $this->belongsToMany(Purchase::class)->withPivot('quantity', 'price', 'date');
+    }
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class);
+    }
 }

@@ -35,12 +35,9 @@ use Illuminate\Support\Facades\Route;
     Route::post('customers/changeCustomers', [CustomerController::class,'changeCustomers']);
     Route::resource('customers', CustomerController::class);
 
-    /* expence attachement unlink */
     Route::resource('expences', ExpenceController::class);
-    /* hold show fronend**/
     Route::post('holds/removeHold',[HoldController::class,'removeHold']);
     Route::resource('holds', HoldController::class);
-    /* kitechen show fronend**/
     Route::resource('kitchens', KitchenController::class);
     /* last */
     Route::resource('products', ProductController::class);
@@ -52,6 +49,12 @@ use Illuminate\Support\Facades\Route;
     Route::post('pos/addPosaleOptions', [PosController::class,'addPosaleOptions']);
     Route::get('pos/resetPos/{id}', [PosController::class,'resetPos']);
     Route::resource('pos', PosController::class);
+
+    Route::get('product/updateStock/{id}', [ProductController::class,'updateStock']);
+    Route::post('product/createStock', [ProductController::class,'createStock']);
+    Route::get('product/makePrdInvis/{id}/{store_id}', [ProductController::class,'makePrdInvis']);
+    Route::resource('products', ProductController::class);
+    
     /* last **/
     Route::resource('purchases', PurchaseController::class);
     Route::resource('registers', RegisterController::class);

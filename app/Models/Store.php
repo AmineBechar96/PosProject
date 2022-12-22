@@ -30,4 +30,9 @@ class Store extends Model
     public function zones(){
         return $this->hasMany(Zone::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

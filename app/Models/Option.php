@@ -9,6 +9,7 @@ class Option extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    public $guarded = [];
     public function product(){
         return $this->belongsTo(Product::class);
     }
