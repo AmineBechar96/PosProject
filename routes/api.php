@@ -7,6 +7,8 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TableController;
+use App\Models\PayementIncome;
+use App\Models\PayementOutcome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +30,6 @@ use Illuminate\Support\Facades\Route;
     Route::resource('login', AuthController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('categorieexpences', CategoryExpenceController::class);
-    /* pivot table */
     Route::resource('combos', ComboController::class);
 
     Route::post('customers/customerName', [CustomerController::class,'customerName']);
@@ -39,9 +40,10 @@ use Illuminate\Support\Facades\Route;
     Route::post('holds/removeHold',[HoldController::class,'removeHold']);
     Route::resource('holds', HoldController::class);
     Route::resource('kitchens', KitchenController::class);
-    /* last */
-    Route::resource('products', ProductController::class);
-    /* last **/
+    Route::resource('payementIncome', PayementIncomeController::class);
+    //done
+    Route::resource('payementOutcome', PayementOutcomeController::class);
+
     Route::post('pos/showticketKit', [PosController::class,'showticketKit']);
     Route::post('pos/showTicket', [PosController::class,'showTicket']);
     Route::post('pos/subTot', [PosController::class,'subTot']);
@@ -50,17 +52,17 @@ use Illuminate\Support\Facades\Route;
     Route::get('pos/resetPos/{id}', [PosController::class,'resetPos']);
     Route::resource('pos', PosController::class);
 
-    Route::get('product/updateStock/{id}', [ProductController::class,'updateStock']);
-    Route::post('product/createStock', [ProductController::class,'createStock']);
-    Route::get('product/makePrdInvis/{id}/{store_id}', [ProductController::class,'makePrdInvis']);
+    Route::get('products/updateStock/{id}', [ProductController::class,'updateStock']);
+    Route::post('products/createStock', [ProductController::class,'createStock']);
+    Route::get('products/makePrdInvis/{id}/{store_id}', [ProductController::class,'makePrdInvis']);
     Route::resource('products', ProductController::class);
     
     /* last **/
     Route::resource('purchases', PurchaseController::class);
     Route::resource('registers', RegisterController::class);
-    //Route::resource('Report', ReportController::class);
-    Route::resource('sale', SaleController::class);
+    Route::resource('report', ReportController::class);
     //done
+    Route::resource('sale', SaleController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);
     Route::resource('suppliers', SupplierController::class);

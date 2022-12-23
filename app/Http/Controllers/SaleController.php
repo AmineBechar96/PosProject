@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComboItem;
+use App\Models\Customer;
 use App\Models\Hold;
 use App\Models\Posale;
 use App\Models\Product;
@@ -21,7 +22,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $sales = Sale::all();
+        return ($sales);
     }
 
     /**
@@ -102,7 +104,7 @@ class SaleController extends Controller
                 $stock->quantity = $stock->quantity - ($posale->quantity * $posale->qt);
                 $stock->save();
             }
-            $pos = $sale->products()->sync($data);
+            $sale->products()->sync($data);
         }
         Posale::where([['status' => 1, 'register_id' => $request['register_id'], 'table_id' => $tableId]])->delete();
 
@@ -125,7 +127,11 @@ class SaleController extends Controller
      */
     public function show($id)
     {
-        //
+        $sale = Sale::find($id);
+        $items = $sale->products();
+        $client = Customer::find($sale->client_id);
+        $payements = $sale->payementIncomes();
+        return ['sale'=>$sale,'items'=>$items,'client'=>$client,'payements'=>$payements]; 
     }
 
     /**
@@ -136,7 +142,10 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sale = Sale::find($id);
+        $customer = $sale->customer();
+        $setting = Setting::find(1);
+        return ['customer'=>$customer,'sale'=>$sale,'setting'=>$setting];
     }
 
     /**
@@ -147,8 +156,14 @@ class SaleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $setting = Setting::find(1);
+        date_default_timezone_set($setting->timezone);
+        $date = date("Y-m-d H:i:s");
+        $request["modified_at"] = $date;
+        Sale::find($id)->update($request->json()->all());
+        return response(['success' => true]);
+        
     }
 
     /**
@@ -159,6 +174,9 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sale = Sale::find($id);
+        $sale->products()->detach();
+        Sale::destroy($id);
+        return response(['success' => true]);
     }
 }

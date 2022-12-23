@@ -66,13 +66,10 @@ class ProductController extends Controller
     public function show($id)
     {
       $product = Product::find($id);
-      $warehouses = Warehouse::all();
-      $stores = Store::all();
-      
       $setting = Setting::find(1);
       $store_products = $product->stores();
       $stocks = $product->stocks();
-      return(['product'=>$product,'warehouses'=>$warehouses,'stores'=>$stores,'setting'=>$setting,'store_products'=>$store_products,'stocks'=>$stocks,]);
+      return(['product'=>$product,'setting'=>$setting,'store_products'=>$store_products,'stocks'=>$stocks,]);
     
     }
 

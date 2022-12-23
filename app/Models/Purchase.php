@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     use HasFactory;
+    public $guarded = [];
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -24,6 +25,5 @@ class Purchase extends Model
         return $this->hasMany(PayementOutcome::class);
     }
     public function products(){
-        
         return $this->belongsToMany(Product::class)->withPivot('quantity','price','date');}
 }

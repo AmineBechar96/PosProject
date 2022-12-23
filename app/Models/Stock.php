@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
+    public $guarded = [];
     public $timestamps = false;
     public function store(){
         return $this->belongsTo(Store::class);
