@@ -61,17 +61,17 @@ class RegisterController extends Controller
         );
 
         $register = Register::find($request['register_id'])->update($data);
-    
+
 
         $store = Store::find($register->store_id);
         $store->status = 0;
         $store->save();
 
-        Table::where('store_id', $register->store_id)->update(['status' => 0,'time' => '']);
-        
+        Table::where('store_id', $register->store_id)->update(['status' => 0, 'time' => '']);
 
-        Hold::where('register_id',$register->id)->delete();
-        Posale::where('register_id',$register->id)->delete();
+
+        Hold::where('register_id', $register->id)->delete();
+        Posale::where('register_id', $register->id)->delete();
 
         return response(['success' => true]);
     }
@@ -84,9 +84,8 @@ class RegisterController extends Controller
      */
     public function show($id)
     {
-        $register = Register::where(['store_id' => $id , 'status' => 1])->first();
+        $register = Register::where(['store_id' => $id, 'status' => 1])->first();
         return Response(['register_id' => $register->id, 'store_id' => $id]);
-
     }
 
     /**
@@ -97,7 +96,8 @@ class RegisterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $register = Register::find($id);
+        return Response(['register_id' => $register->id]);
     }
 
     /**
@@ -234,5 +234,17 @@ class RegisterController extends Controller
             'cheque' => $cheques,
             'cc' => $ccs, 'user' => $user
         ];
+    }
+    public function destroy2($id)
+    {
+        $register = Register::find($id);
+        $sales = $register->sales();
+        foreach ($sales as $sale) {
+            $sale->products()->delete();
+        }
+        $sales = $register->sales()->delete();
+        $sales = $register->payementIncomes()->delete();
+
+        $register->delete();
     }
 }

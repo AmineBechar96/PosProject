@@ -49,6 +49,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::create($request->json()->all());
         foreach ($products as $product) {
             if (count($product) != 0) {
+                
                 $purchase->products()->sync([$product]);
 
                 $register = Register::find($register_id);
