@@ -10,7 +10,7 @@ import Store from './store/store.js';
 
 const app = createApp(App);
 const store = createStore(Store);
-console.log("aw");
+
 app.use(router);
 app.use(store);
 

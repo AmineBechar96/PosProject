@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginScreen from './pages/LoginScreen.vue';
-console.log('aw2');
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [

@@ -4,7 +4,9 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  <div class="dark">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
