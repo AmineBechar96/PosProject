@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +14,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+        return Inertia::render('Users/Index', [
+            'name'=>'amine'
+        ]);
         return Response(['categories'=>$categories]);
     }
 
