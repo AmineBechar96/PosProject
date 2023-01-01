@@ -33,7 +33,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {/*
         $data = $request->validate([
             'name'=>'required|string|max:60|unique:categories,name',
         ]);
@@ -42,7 +42,8 @@ class CategoryController extends Controller
     
         $data['display'] = 0;
         Category::create($data);
-        return response(['success'=>true]);
+        return response(['success'=>true]);*/
+        return redirect()->route('dashboard');
     }
 
     /**

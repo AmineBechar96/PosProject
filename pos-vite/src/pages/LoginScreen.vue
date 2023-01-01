@@ -8,7 +8,7 @@
                 <span class="font-light text-gray-800 mb-4 mt-8 dark:text-white">
                     Veuillez Entrer Vos Informations:
                 </span>
-                <form @submit.prevent="onSubmit">
+                <form @submit.prevent="form.post(route('login.post'))">
                     <div class="py-2">
                         <label for="username-icon"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username:</label>

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('avatar',200);
             $table->rememberToken();
             $table->timestamps();
-            $table->unsignedBigInteger('store_id');           
+            $table->unsignedBigInteger('store_id')->nullable();           
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
        
         });
