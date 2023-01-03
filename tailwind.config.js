@@ -6,9 +6,17 @@ module.exports = {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'color-gray':'#fafaf9'
+      },
+      fontFamily: {
+        'quicksand': ['"Quicksand"', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     require('tailwindcss-rtl'),
+    require('flowbite/plugin')
   ],
 }

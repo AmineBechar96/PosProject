@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import 'flowbite'
 import './style.css'
 import App from './App.vue'
-
 import router from './router.js';
 //import BaseBadge from './components/ui/BaseBadge.vue';
 import { createStore } from "vuex";

@@ -1,5 +1,4 @@
 <template>
-
     <Head>
         <title>Login Project</title>
     </Head>
