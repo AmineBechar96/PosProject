@@ -13,16 +13,15 @@
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch md:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img class="block h-6 w-auto md:hidden"
-            :src="'images/tassyir.png'" alt="Tassyir" />
-            <img class="hidden h-6 w-auto md:block sm:hidden"
-              :src="'images/tassyir.png'" alt="Tassyir" />
+            <img class="block h-6 w-auto md:hidden" :src="'images/tassyir.png'" alt="Tassyir" />
+            <img class="hidden h-6 w-auto md:block sm:hidden" :src="'images/tassyir.png'" alt="Tassyir" />
           </div>
           <div class="hidden md:ml-8 md:block">
             <div class="flex space-x-4">
               <a v-for="item in navigation" :key="item.name" :href="item.href"
                 :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
-                :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                :aria-current="item.current ? 'page' : undefined"><font-awesome-icon :icon="item.icon" /> {{
+                item.name }}</a>
             </div>
           </div>
         </div>
@@ -59,7 +58,6 @@
                     <use xlink:href="#e" x="2470" />
                   </g>
                 </svg>
-                <div class="rounded hidden lg:block">English (US)</div>
               </MenuButton>
             </div>
             <transition enter-active-class="transition ease-out duration-100"
@@ -95,28 +93,57 @@
                 </a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                    <div class="inline-flex items-center">
-                      <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-de" viewBox="0 0 512 512"><path fill="#ffce00" d="M0 341.3h512V512H0z"/><path d="M0 0h512v170.7H0z"/><path fill="#d00" d="M0 170.7h512v170.6H0z"/></svg>
-                      Deutsch
-                    </div>
-                  </a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                  role="menuitem">
+                  <div class="inline-flex items-center">
+                    <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                      id="flag-icon-css-de" viewBox="0 0 512 512">
+                      <path fill="#ffce00" d="M0 341.3h512V512H0z" />
+                      <path d="M0 0h512v170.7H0z" />
+                      <path fill="#d00" d="M0 170.7h512v170.6H0z" />
+                    </svg>
+                    Deutsch
+                  </div>
+                </a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                    <div class="inline-flex items-center">
-                      <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-it" viewBox="0 0 512 512"><g fill-rule="evenodd" stroke-width="1pt"><path fill="#fff" d="M0 0h512v512H0z"/><path fill="#009246" d="M0 0h170.7v512H0z"/><path fill="#ce2b37" d="M341.3 0H512v512H341.3z"/></g></svg>              
-                      Italiano
-                    </div>
-                  </a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                  role="menuitem">
+                  <div class="inline-flex items-center">
+                    <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                      id="flag-icon-css-it" viewBox="0 0 512 512">
+                      <g fill-rule="evenodd" stroke-width="1pt">
+                        <path fill="#fff" d="M0 0h512v512H0z" />
+                        <path fill="#009246" d="M0 0h170.7v512H0z" />
+                        <path fill="#ce2b37" d="M341.3 0H512v512H341.3z" />
+                      </g>
+                    </svg>
+                    Italiano
+                  </div>
+                </a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                    <div class="inline-flex items-center">
-                      <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icon-css-cn" viewBox="0 0 512 512"><defs><path id="a" fill="#ffde00" d="M1-.3L-.7.8 0-1 .6.8-1-.3z"/></defs><path fill="#de2910" d="M0 0h512v512H0z"/><use width="30" height="20" transform="matrix(76.8 0 0 76.8 128 128)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-121 142.6 -47) scale(25.5827)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-98.1 198 -82) scale(25.6)" xlink:href="#a"/><use width="30" height="20" transform="rotate(-74 272.4 -114) scale(25.6137)" xlink:href="#a"/><use width="30" height="20" transform="matrix(16 -19.968 19.968 16 256 230.4)" xlink:href="#a"/></svg>
-                      中文 (繁體)
-                    </div>
-                  </a>
+                <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                  role="menuitem">
+                  <div class="inline-flex items-center">
+                    <svg class="h-3.5 w-3.5 rounded-full mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icon-css-cn" viewBox="0 0 512 512">
+                      <defs>
+                        <path id="a" fill="#ffde00" d="M1-.3L-.7.8 0-1 .6.8-1-.3z" />
+                      </defs>
+                      <path fill="#de2910" d="M0 0h512v512H0z" />
+                      <use width="30" height="20" transform="matrix(76.8 0 0 76.8 128 128)" xlink:href="#a" />
+                      <use width="30" height="20" transform="rotate(-121 142.6 -47) scale(25.5827)" xlink:href="#a" />
+                      <use width="30" height="20" transform="rotate(-98.1 198 -82) scale(25.6)" xlink:href="#a" />
+                      <use width="30" height="20" transform="rotate(-74 272.4 -114) scale(25.6137)" xlink:href="#a" />
+                      <use width="30" height="20" transform="matrix(16 -19.968 19.968 16 256 230.4)" xlink:href="#a" />
+                    </svg>
+                    中文 (繁體)
+                  </div>
+                </a>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -141,11 +168,13 @@
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-color-gray py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
                 <div class="px-4 py-3">
                   <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                  <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                  <span
+                    class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
                 </div>
-              
+
                 <MenuItem v-slot="{ active }">
-                <a href="#" :class="[active ? 'bg-black-700' : '', 'block px-4 py-2 text-sm text-black-200 hover:bg-gray-100 dark:hover:bg-gray-600']">Your
+                <a href="#"
+                  :class="[active ? 'bg-black-700' : '', 'block px-4 py-2 text-sm text-black-200 hover:bg-gray-100 dark:hover:bg-gray-600']">Your
                   Profile</a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
@@ -153,7 +182,8 @@
                   :class="[active ? 'bg-black-700' : '', 'block px-4 py-2 text-sm text-black-200 hover:bg-gray-100 dark:hover:bg-gray-600']">Settings</a>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <a href="#" :class="[active ? 'bg-black-100' : '', 'block px-4 py-2 text-sm text-black-200 hover:bg-gray-100 dark:hover:bg-gray-600']">Sign
+                <a href="#"
+                  :class="[active ? 'bg-black-100' : '', 'block px-4 py-2 text-sm text-black-200 hover:bg-gray-100 dark:hover:bg-gray-600']">Sign
                   out</a>
                 </MenuItem>
               </MenuItems>
@@ -167,24 +197,26 @@
       <div class="space-y-1 px-2 pt-2 pb-3">
         <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
           :class="[item.current ? 'bg-gray-900 text-red' : 'text-red hover:bg-gray-700 hover:text-red', 'block px-3 py-2 rounded-md text-base font-medium']"
-          :aria-current="item.current ? 'page' : undefined">{{ item.name }}</DisclosureButton>
+          :aria-current="item.current ? 'page' : undefined"> <font-awesome-icon :icon="item.icon" /> {{ item.name }}
+        </DisclosureButton>
       </div>
     </DisclosurePanel>
   </Disclosure>
 </template>
 
 <script setup>
+
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Bars3Icon,  XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const navigation = [
-  { name: 'POS', href: '#', current: false },
-  { name: 'PRODUCT', href: '#', current: false },
-  { name: 'STORE', href: '#', current: false },
-  { name: 'PEOPLE', href: '#', current: false },
-  { name: 'SALES', href: '#', current: false },
-  { name: 'PURCHASE', href: '#', current: false },
-  { name: 'EXPENSE', href: '#', current: false },
-  { name: 'REPORTS', href: '#', current: false },
+  { name: '', href: '#', current: false, icon: "fa-solid fa-house" },
+  { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice" },
+  { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" },
+  { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" },
+  { name: 'SALES', href: '#', current: false, icon: "fa-solid fa-receipt" },
+  { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" },
+  { name: 'EXPENSE', href: '#', current: false, icon: "fa-solid fa-dollar-sign" },
+  { name: 'REPORTS', href: '#', current: false, icon: "fa-solid fa-chart-pie" },
 ]
 </script>

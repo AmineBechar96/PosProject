@@ -12,6 +12,5 @@
   </head>
   <body dir="ltr">
      @inertia
-     <script src="{{ url("js/flowbite.js") }}" type="text/javascript"></script>
-  </body>
+   </body>
 </html>

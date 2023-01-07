@@ -3,8 +3,13 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import TheNavbar from "./layouts/TheNavbar.vue";
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 import '../../node_modules/flowbite/src/flowbite.js';
 
+library.add(fas);
 InertiaProgress.init({
   delay: 200,
 
@@ -22,6 +27,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .component('TheNavbar', TheNavbar)
+      .component('font-awesome-icon', FontAwesomeIcon)
       .mixin({methods :{route}})
       .mount(el)
   },
