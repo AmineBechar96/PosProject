@@ -17,15 +17,8 @@ class DashboardController extends Controller
     public function index()
     {
         $products = Product::all();
-        dd($products[0]);
-        /*if (! Posale::first()) {
-            $hold = Hold::last();
-            if ($hold)
-                $hold->update(
-                    ['time' => date("H:i")]
-                );
-        }*/
-        return Response(['products'=>$products]);
+
+        return redirect()->route('dashboard');
     }
 
     /**

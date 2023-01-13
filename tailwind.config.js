@@ -7,11 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors:{
-        'color-gray':'#fafaf9'
+      colors: {
+        'color-gray': '#fafaf9'
       },
       fontFamily: {
         'quicksand': ['"Quicksand"', 'sans-serif'],
+        'fontspring': ['Font Spring', 'sans-serif']
       },
     },
   },

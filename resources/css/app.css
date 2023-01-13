@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    @font-face {
-      font-family: Font Spring;
-      font-weight: 400;
-      src: url(/fonts/Fontspring-DEMO-neuesingular-h-bold.otf) format("otf");
-    }
-  }
+
+@font-face {
+  font-family: "Font Spring";
+  font-weight: 800;
+  src: url(/fonts/Fontspring-DEMO-neuesingular-h-bold.otf) format("otf");
+}

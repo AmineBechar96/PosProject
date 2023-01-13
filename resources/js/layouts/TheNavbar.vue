@@ -1,5 +1,5 @@
 <template>
-  <Disclosure as="nav" class="bg-color-gray" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-white" v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-2 md:px-6 sm:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center md:hidden">
@@ -18,10 +18,8 @@
           </div>
           <div class="hidden md:ml-8 md:block">
             <div class="flex space-x-4">
-              <a v-for="item in navigation" :key="item.name" :href="item.href"
-                :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
-                :aria-current="item.current ? 'page' : undefined"><font-awesome-icon :icon="item.icon" /> {{
-                item.name }}</a>
+              <NavbarMenu v-for="item in navigation" :item="item">
+              </NavbarMenu>
             </div>
           </div>
         </div>
@@ -148,7 +146,6 @@
               </MenuItems>
             </transition>
           </Menu>
-
           <!-- Profile dropdown -->
           <Menu as="div" class="relative ml-6">
             <div>
@@ -192,12 +189,12 @@
         </div>
       </div>
     </div>
-
     <DisclosurePanel class="md:hidden mr-2">
       <div class="space-y-1 px-2 pt-2 pb-3">
         <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
           :class="[item.current ? 'bg-gray-900 text-red' : 'text-red hover:bg-gray-700 hover:text-red', 'block px-3 py-2 rounded-md text-base font-medium']"
-          :aria-current="item.current ? 'page' : undefined"> <font-awesome-icon :icon="item.icon" /> {{ item.name }}
+          :aria-current="item.current ? 'page' : undefined"> <font-awesome-icon :icon="item.icon" />
+          <div class="ml-1">{{ item.name }}</div>
         </DisclosureButton>
       </div>
     </DisclosurePanel>
@@ -208,15 +205,17 @@
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import NavbarMenu from './NavbarMenu.vue'
 
 const navigation = [
-  { name: '', href: '#', current: false, icon: "fa-solid fa-house" },
-  { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice" },
-  { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" },
-  { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" },
-  { name: 'SALES', href: '#', current: false, icon: "fa-solid fa-receipt" },
-  { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" },
-  { name: 'EXPENSE', href: '#', current: false, icon: "fa-solid fa-dollar-sign" },
-  { name: 'REPORTS', href: '#', current: false, icon: "fa-solid fa-chart-pie" },
+  { name: '', href: '#', current: false, icon: "fa-solid fa-house", subMenu:"monoMenu" },
+  { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice", subMenu:"monoMenu" },
+  { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" ,subMenu:"monoMenu"},
+  { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},
+  { name: 'SALES', href: '#', current: false, icon: "fa-solid fa-receipt" ,subMenu:"monoMenu"},
+  { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" ,subMenu:"monoMenu"},
+  { name: 'EXPENSE', href: '#', current: false, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
+  { name: 'CATEGORY', href: '#', current: false, icon: "fa-solid fa-bars" ,subMenu:"multiMenuCategory"},
+  { name: 'REPORTS', href: '#', current: false, icon: "fa-solid fa-chart-pie" ,subMenu:"monoMenu"},
 ]
 </script>
