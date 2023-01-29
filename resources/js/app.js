@@ -1,7 +1,8 @@
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3'
 import TheNavbar from "./layouts/TheNavbar.vue";
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import TheTooltip from "./layouts/Tooltip.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,8 +19,9 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .component('TheNavbar', TheNavbar)
+      .component('TheTooltip', TheTooltip)
       .component('font-awesome-icon', FontAwesomeIcon)
-      .mixin({methods :{route}})
+      .mixin({ methods: { route } })
       .mount(el)
   },
 })

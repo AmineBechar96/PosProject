@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Request;
 
 class CategoryController extends Controller
 {
@@ -14,10 +13,18 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')
-            ->paginate(10);
+        $perPage = Request::input('per_pages');
+        if(Request::input('per_pages') == null){
+            $perPage = 5;
+        }
+        $categories = Category::query()
+        ->when(Request::input('search'),function ($query,$search){
+            $query->where('name', 'like' ,"%{$search}%");
+        })
+        ->paginate($perPage)
+        ->withQueryString();
         return Inertia::render('Category/CategoryScreen', [
-            'categories' => $categories
+            'categories' => $categories, 'filters' => Request::only(['search','per_pages'])
         ]);
     }
 
@@ -76,7 +83,19 @@ class CategoryController extends Controller
             'name' => 'required|string|max:60|unique:categories,name',
         ]);
         Category::where('id', $id)->update(['name' => $data["name"], 'display' => $data["display"]]);
-        return response(['success' => true]);
+        return redirect('/categories');
+    }
+
+    public function update_display($id)
+    { 
+        $display = Category::where('id', $id)->first();
+        if($display->display == 1){
+            Category::where('id', $id)->update(['display' => 0]);
+        }
+        else{
+            Category::where('id', $id)->update(['display' => 1]);
+        }
+        return redirect('/categories');
     }
 
     /**
@@ -85,7 +104,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
-        return response(['success' => true]);
+        //Category::destroy($id);
+        return redirect('/categories');
     }
 }
