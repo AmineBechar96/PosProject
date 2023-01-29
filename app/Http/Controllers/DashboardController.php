@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Hold;
 use App\Models\Posale;
 use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
@@ -16,9 +18,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-
-        return redirect()->route('dashboard');
+        $stores = Store::orderBy('id', 'desc')
+            ->paginate(25);
+        return Inertia::render('Users/DashboardScreen', [
+            'stores' => $stores
+        ]);
     }
 
     /**

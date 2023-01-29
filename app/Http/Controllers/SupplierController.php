@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class SupplierController extends Controller
 {
@@ -16,7 +17,7 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
-        return Response(['suppliers'=>$suppliers]);
+        return Inertia::render('SupplierScreen', ['suppliers'=>$suppliers]);
     }
 
     /**

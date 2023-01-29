@@ -13,6 +13,7 @@ use App\Models\Store;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class ReportController extends Controller
 {
@@ -39,7 +40,7 @@ class ReportController extends Controller
         $categoriesNumber = Category::count();
         $productNumber = Product::count();
 
-        return (['date' => $date, 'categoriesNumber' => $categoriesNumber, 'productNumber' => $productNumber, 'customerNumber' => $customerNumber, 'top5product' => $top5product, 'monthlyExp' => $monthlyExp, 'monthly' => $monthly, 'customers' => $customers, 'products' => $products, 'stores' => $stores, 'warehouses' => $warehouses,]);
+        return Inertia::render('WaiterScreen', ['date' => $date, 'categoriesNumber' => $categoriesNumber, 'productNumber' => $productNumber, 'customerNumber' => $customerNumber, 'top5product' => $top5product, 'monthlyExp' => $monthlyExp, 'monthly' => $monthly, 'customers' => $customers, 'products' => $products, 'stores' => $stores, 'warehouses' => $warehouses,]);
     }
 
     public function getCustomerReport(Request $request)

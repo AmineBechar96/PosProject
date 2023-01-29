@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\Stock;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PurchaseController extends Controller
 {
@@ -20,7 +21,9 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::all();
-        return ($purchases);
+        return Inertia::render('PurchasesScreen', [
+            'purchases' => $purchases
+        ]);
     }
 
     /**
@@ -49,7 +52,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::create($request->json()->all());
         foreach ($products as $product) {
             if (count($product) != 0) {
-                
+
                 $purchase->products()->sync([$product]);
 
                 $register = Register::find($register_id);
@@ -62,10 +65,10 @@ class PurchaseController extends Controller
                 } else {
                     $stocks = array(
                         "store_id" => $register->store_id,
-                        "product_id" =>$product["product_id"],
-                        "quantity" =>$product["quantity"],
+                        "product_id" => $product["product_id"],
+                        "quantity" => $product["quantity"],
                         "price" => $product["price"],
-                        "warehouse_id"=>$request["warehouse_id"]
+                        "warehouse_id" => $request["warehouse_id"]
                     );
                     Stock::create($stocks);
                 }

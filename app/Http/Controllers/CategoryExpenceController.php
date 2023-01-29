@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryExpence;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class CategoryExpenceController extends Controller
 {
@@ -16,7 +17,9 @@ class CategoryExpenceController extends Controller
     public function index()
     {
         $categories_expences = CategoryExpence::all();
-        return Response(['categories_expences'=>$categories_expences]);
+        return Inertia::render('CategoryScreen', [
+            'categories_expences'=>$categories_expences
+        ]);
     }
 
     /**

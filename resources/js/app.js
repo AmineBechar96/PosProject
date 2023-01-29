@@ -1,27 +1,18 @@
 import { createApp, h } from 'vue';
-import { InertiaProgress } from '@inertiajs/progress';
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createInertiaApp } from '@inertiajs/vue3'
 import TheNavbar from "./layouts/TheNavbar.vue";
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
-import '../../node_modules/flowbite/src/flowbite.js';
 
 library.add(fas);
-InertiaProgress.init({
-  delay: 200,
-
-  color: '#29d',
-
-  includeCSS: true,
-
-  showSpinner: false,
-})
 
 createInertiaApp({
-  resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+  resolve: name => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    return pages[`./Pages/${name}.vue`]
+  },
   title: title => `${title} - Project`,
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
@@ -31,4 +22,4 @@ createInertiaApp({
       .mixin({methods :{route}})
       .mount(el)
   },
-});
+})

@@ -14,17 +14,22 @@
             <StoreCard />
             <StoreCard />
             <StoreCard />
+            <Pagination class="mt-12 ml-50 border 1x border-red" :links="stores.links" />
         </div>
     </div>
-    <button @click="activeModal = true">AW {{ activeModal }}</button>
     <StoreModal v-if="activeModal"></StoreModal>
 </template>  
 
 <script setup>
-import StoreCard from '../../components/StoreCard.vue';
+import StoreCard from '../../components/StoreCard.vue'
 import StoreModal from '../../layouts/Dashboard/StoreModal.vue'
+import Pagination from '@/Components/Pagination.vue'
 import {ref} from 'vue'
+
 const activeModal = ref(false);
+const props = defineProps({
+    stores: Object,
+})
 </script>
 <style scoped>
 .background {

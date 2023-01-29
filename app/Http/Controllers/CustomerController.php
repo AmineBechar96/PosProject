@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Hold;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
@@ -17,7 +18,9 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return Response(['customers' => $customers]);
+        return Inertia::render('CustomerScreen', [
+            'customers'=>$customers
+        ]);
     }
 
     /**

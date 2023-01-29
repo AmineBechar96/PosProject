@@ -7,6 +7,7 @@ use App\Models\Expence;
 use App\Models\Register;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ExpenceController extends Controller
 {
@@ -19,7 +20,9 @@ class ExpenceController extends Controller
     {
         $stores = Store::all();
         $categorie_expences = CategoryExpence::all();
-        return Response(['stores'=>$stores,'categorie_expences'=>$categorie_expences]);
+        return Inertia::render('CategoryExpenceScreen', [
+            'stores'=>$stores,'categorie_expences'=>$categorie_expences
+        ]);
     }
 
     /**

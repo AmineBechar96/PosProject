@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class WaiterController extends Controller
 {
@@ -19,7 +20,7 @@ class WaiterController extends Controller
     {
         $stores = Store::all();
         $waiters = Waiter::all();
-        return Response(['stores' => $stores, 'waiters' => $waiters]);
+        return Inertia::render('WaiterScreen', ['stores' => $stores, 'waiters' => $waiters]);
     }
 
     /**

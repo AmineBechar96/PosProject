@@ -2,7 +2,7 @@
     <div class="grid my-4 gap-8 grid-cols-1 md:grid-cols-1 xl:grid-cols-1"></div>
     <div class="flex flex-col-2 w-full">
         <div class="bg-red-200 opacity-70 shadow-md rounded-3xl p-6 w-2/3 mx-auto">
-            <a href="giiglz.xil">
+            <p @click="" href="aw.com">
                 <div class="flex-none lg:flex">
                     <div class=" h-full w-full lg:h-48 lg:w-48 lg:mb-0 mb-3">
                         <img :src="'/images/4058271.jpg'" alt="Just a flower"
@@ -37,7 +37,7 @@
                                 <p class="">05-25-2021</p>
                             </div>
                         </div>
-                        <div class="flex p-4 pb-2 border-t border-gray-200 "></div>
+                        <div class="flex p-4 pb-2 border-t border-gray-700 "></div>
                         <div class="flex space-x-3 text-sm font-medium">
                             <div class="flex-auto flex space-x-3">
 
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-            </a>
+            </p>
         </div>
     </div>
 </template>

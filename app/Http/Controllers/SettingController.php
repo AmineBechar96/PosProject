@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SettingController extends Controller
 {
@@ -20,8 +21,7 @@ class SettingController extends Controller
         $warehouses = Warehouse::all();
         $users = User::all();
         $stores = Store::all();
-        return Response(['stores' => $stores, 'warehouses' => $warehouses,'users'=>$users]);
-        
+        return Inertia::render('SettingsScreen', ['stores' => $stores, 'warehouses' => $warehouses, 'users' => $users]);
     }
 
     /**
@@ -77,18 +77,17 @@ class SettingController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'companyname'=>'required|string|max:100',
-            'logo'=>'required|string|max:200',
-            'phone'=>'required|string|max:25',
-            'phone'=>'required|string|max:10',
-            'keyboard'=>'required|boolean',
-            'theme'=>'required|string|max:20',
-            'discount'=>'required|int',
-            'tax'=>'required|string|int',
+            'companyname' => 'required|string|max:100',
+            'logo' => 'required|string|max:200',
+            'phone' => 'required|string|max:25',
+            'phone' => 'required|string|max:10',
+            'keyboard' => 'required|boolean',
+            'theme' => 'required|string|max:20',
+            'discount' => 'required|int',
+            'tax' => 'required|string|int',
         ]);
-        Setting::where('id',1)->update([$data]);
-        return response(['success'=>true]);
-
+        Setting::where('id', 1)->update([$data]);
+        return response(['success' => true]);
     }
 
     /**

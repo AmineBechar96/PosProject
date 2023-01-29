@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::inertia('/', 'Users/DashboardScreen')->name('dashboard');
+    Route::get('/', [DashboardController::class,'index'])->name('dashboardIndex');
     //Route::resource('dashboard', DashboardController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('categorieexpences', CategoryExpenceController::class);

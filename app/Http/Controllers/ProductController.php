@@ -11,6 +11,7 @@ use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -24,7 +25,9 @@ class ProductController extends Controller
         $products = Product::all();
         $categories = Category::all();
         $suppliers = Supplier::all();
-        return ["products" => $products, "categories" => $categories, "suppliers" => $suppliers];
+        return Inertia::render('ProductScreen', [
+            'products' => $products, 'categories' => $categories, 'suppliers' => $suppliers
+        ]);
     }
 
     /**

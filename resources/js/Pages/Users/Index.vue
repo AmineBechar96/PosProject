@@ -93,7 +93,7 @@
                 </form>
                 <div
                     class="absolute hidden bottom-2 ms-5 p-4 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block dark:bg-black-200">
-                    <span class="font-light text-black-100 mb-1 text-sm font-medium dark:text-white">© 2022 AGENCE
+                    <span class="font-light text-black-100 mb-1 text-sm font-medium dark:text-white">© 2023 AGENCE
                         TASSYIR<br />
                     </span>
                 </div>
@@ -102,7 +102,7 @@
     </div>
 </template>
 <script>
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import ModalLogin from '../../components/ModalLogin.vue';
 
 export default {

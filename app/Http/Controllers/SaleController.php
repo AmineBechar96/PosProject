@@ -12,6 +12,7 @@ use App\Models\Sale;
 use App\Models\Setting;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SaleController extends Controller
 {
@@ -23,7 +24,9 @@ class SaleController extends Controller
     public function index()
     {
         $sales = Sale::all();
-        return ($sales);
+        return Inertia::render('SaleScreen', [
+            'sales' => $sales
+        ]);
     }
 
     /**

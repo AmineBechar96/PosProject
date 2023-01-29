@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -13,11 +14,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return Inertia::render('Users/Index', [
-            'name'=>'amine'
+        $categories = Category::orderBy('id', 'desc')
+            ->paginate(10);
+        return Inertia::render('Category/CategoryScreen', [
+            'categories' => $categories
         ]);
-        return Response(['categories'=>$categories]);
     }
 
     /**
@@ -70,12 +71,12 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $data = $request->validate([
-            'name'=>'required|string|max:60|unique:categories,name',
+            'name' => 'required|string|max:60|unique:categories,name',
         ]);
-        Category::where('id',$id)->update(['name'=>$data["name"],'display'=>$data["display"]]);
-        return response(['success'=>true]);
+        Category::where('id', $id)->update(['name' => $data["name"], 'display' => $data["display"]]);
+        return response(['success' => true]);
     }
 
     /**
@@ -85,6 +86,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::destroy($id);
-        return response(['success'=>true]);
+        return response(['success' => true]);
     }
 }

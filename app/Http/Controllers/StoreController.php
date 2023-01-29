@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class StoreController extends Controller
 {
@@ -16,7 +17,7 @@ class StoreController extends Controller
     public function index()
     {
         $stores = Store::all();
-        return Response(['stores'=>$stores]);
+        return Inertia::render('StoreScreen', ['stores'=>$stores]);
     }
 
     /**
