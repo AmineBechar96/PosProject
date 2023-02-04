@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <title>Login Project</title>
+        <title>Login POS</title>
     </Head>
     <div class="flex items-center justify-center min-h-screen bg-cover bg-center dark:bg-gray-400" :style="{
     'background-image': `url('images/login2.jpg')`,

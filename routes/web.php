@@ -9,7 +9,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class,'index'])->name('dashboardIndex');
     //Route::resource('dashboard', DashboardController::class);
 
-    Route::get('/update_display/{id}', [CategoryController::class,'update_display']);
+    Route::post('/update_display', [CategoryController::class,'update_display']);
     Route::resource('categories', CategoryController::class);
     Route::resource('categorieexpences', CategoryExpenceController::class);
     Route::resource('combos', ComboController::class);

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Category;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Validation\ValidationException;
+
+//use Illuminate\Support\Facades\Request;
 
 class CategoryController extends Controller
 {
@@ -13,18 +17,24 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $perPage = Request::input('per_pages');
-        if(Request::input('per_pages') == null){
+        $perPage = FacadesRequest::input('per_pages');
+        if($perPage == null){
+            $perPage = 5;
+        }
+        if(FacadesRequest::input('checkbox') != null){
             $perPage = 5;
         }
         $categories = Category::query()
-        ->when(Request::input('search'),function ($query,$search){
+        ->when(FacadesRequest::input('search'),function ($query,$search){
             $query->where('name', 'like' ,"%{$search}%");
+        })
+        ->when(FacadesRequest::has('column'),function ($query){
+            $query->orderBy(FacadesRequest::input('column'),FacadesRequest::input('direction'));
         })
         ->paginate($perPage)
         ->withQueryString();
         return Inertia::render('Category/CategoryScreen', [
-            'categories' => $categories, 'filters' => Request::only(['search','per_pages'])
+            'categories' => $categories, 'filters' => FacadesRequest::only(['search','per_pages'])
         ]);
     }
 
@@ -41,17 +51,15 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {/*
+    {
         $data = $request->validate([
             'name'=>'required|string|max:60|unique:categories,name',
         ]);
-    
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
+        
+        //throw ValidationException::withMessages(['name' => 'This Category Exists !']);
     
         $data['display'] = 0;
         Category::create($data);
-        return response(['success'=>true]);*/
-        return redirect()->route('dashboard');
     }
 
     /**
@@ -83,11 +91,11 @@ class CategoryController extends Controller
             'name' => 'required|string|max:60|unique:categories,name',
         ]);
         Category::where('id', $id)->update(['name' => $data["name"], 'display' => $data["display"]]);
-        return redirect('/categories');
     }
 
-    public function update_display($id)
+    public function update_display(Request $request)
     { 
+        $id = $request["checkbox"];
         $display = Category::where('id', $id)->first();
         if($display->display == 1){
             Category::where('id', $id)->update(['display' => 0]);
@@ -95,7 +103,6 @@ class CategoryController extends Controller
         else{
             Category::where('id', $id)->update(['display' => 1]);
         }
-        return redirect('/categories');
     }
 
     /**
@@ -104,7 +111,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //Category::destroy($id);
-        return redirect('/categories');
+        Category::destroy($id);
     }
 }

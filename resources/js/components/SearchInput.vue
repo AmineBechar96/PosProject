@@ -25,11 +25,10 @@ const props = defineProps({
 })
 
 const search = ref(props.filters.search);
+const emit = defineEmits(['filter'])
+
 watch(search, value => {
-    router.get('/' + props.routes, { search: value }, {
-        preserveState: true,
-        replace: true,
-    });
+    emit('filter', { search: value })
 });
 
 </script>

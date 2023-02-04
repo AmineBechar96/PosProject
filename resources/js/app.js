@@ -15,6 +15,7 @@ createInertiaApp({
     return pages[`./Pages/${name}.vue`]
   },
   title: title => `${title} - Project`,
+  progress: false,
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)

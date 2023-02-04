@@ -9,37 +9,37 @@
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                     clip-rule="evenodd"></path>
             </svg>
-            {{ per_pages ? per_pages : 5 }} Par Pages
+            {{ per_pages? per_pages: 5 }} Per Page
             <svg class="w-3 h-3 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </button>
         <!-- Dropdown menu -->
-        <ul class="dropdown-menu absolute hidden bg-white border border-gray-300 opacity-90 z-10 p-3 space-y-1 w-28 text-sm text-gray-700 dark:text-gray-200"
+        <ul class="dropdown-menu absolute hidden bg-white border border-gray-300 opacity-90 z-10 p-3 space-y-1 w-20 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownRadioButton">
             <li>
                 <button @click="per_pages = 5"
-                    class="flex items-center w-24 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    5
+                    class="flex items-center w-16 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <span class="mx-auto font-bold">5</span>
                 </button>
             </li>
             <li>
                 <button @click="per_pages = 10"
-                    class="flex items-center w-24 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    10
+                    class="flex items-center w-16 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <span class="mx-auto font-bold">10</span>
                 </button>
             </li>
             <li>
                 <button @click="per_pages = 25"
-                    class="flex items-center w-24 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    25
+                    class="flex items-center w-16 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <span class="mx-auto font-bold">25</span>
                 </button>
             </li>
             <li>
                 <button @click="per_pages = 100"
-                    class="flex items-center w-24 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    100
+                    class="flex items-center w-16 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <span class="mx-auto font-bold">100</span>
                 </button>
             </li>
 
@@ -61,11 +61,11 @@ const props = defineProps({
 })
 
 const per_pages = ref(props.filters.per_pages);
+const emit = defineEmits(['filter'])
+
 watch(per_pages, value => {
-    router.get('/' + props.routes, { per_pages: value }, {
-        preserveState: true,
-        replace: true,
-    });
+    emit("filter", { per_pages: value })
 });
+
 
 </script>
