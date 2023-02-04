@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
@@ -68,3 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::inertia('/login', 'Users/Index')->name('login');
 Route::post('login', [LoginController::class, 'store'])->name('login.post');
+App::missing(function($exception)
+{
+    return Response::view('errors.missing', array(), 404);
+});

@@ -6,7 +6,7 @@
             }}</label>
         <input type="text" id="base-input"
             class="w-96 font-semibold text-sm rounded-lg block w-full p-2.5"
-            :class="{'bg-red-50 hover:bg-red-50 border border-red-500 text-red-900 dark:text-red-500 dark:border-red-500': (errors != null), 'bg-gray-50 hover:bg-blue-50 border border-gray-300 text-gray-900 dark:border-gray-600 dark:text-white': (errors == null) }"
+            :class="{'bg-red-50 hover:bg-red-50 border border-red-500 text-red-900 dark:text-red-500 dark:border-red-500': (errors != null), 'bg-gray-50 hover:bg-gray-50 border border-gray-300 text-gray-900 dark:border-gray-600 dark:text-white': (errors == null) }"
             v-model="form_value" @focus="errors = null">
             <p v-if="errors" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ errors }}</span></p>     
     </div>
@@ -22,6 +22,7 @@ const props = defineProps({
 
 const emit = defineEmits(["form"])
 const form_value = ref("");
+form_value.value = props.form_inputs.var_model
 
 watch(form_value, value => {
     emit("form", { value, form_inputs: props.form_inputs.input })

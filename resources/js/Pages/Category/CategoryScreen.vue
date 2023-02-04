@@ -1,35 +1,39 @@
 <template>
-    <div class="bg-gray-100 w-screen">
-        <TheNavbar />
-        <BreadcumberComponent class="mt-6 ml-20" :menu="['Category','Product']"></BreadcumberComponent>
-        <div
-            class="mx-auto mt-12 w-3/4 bg-white border border-gray-200 rounded-3xl shadow-lg sm:p-6 md:p-10 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between pb-2 mb-2">
-                <DropdownComponent :filters="filters" routes="categories" @filter="filter"></DropdownComponent>
-                <SearchInput :filters="filters" routes="categories" @filter="filter"></SearchInput>
+    <Base>
+        <div>
+            <div class="bg-gray-100 w-screen">
+                <TheNavbar />
+                <BreadcumberComponent class="mt-6 ml-20" :menu="['Category','Product']"></BreadcumberComponent>
+                <div
+                    class="mx-auto mt-12 w-3/4 bg-white border border-gray-200 rounded-3xl shadow-lg p-6 md:p-10 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="sm:flex sm:items-center sm:justify-between pb-2 mb-2">
+                        <DropdownComponent :filters="filters" routes="categories" @filter="filter"></DropdownComponent>
+                        <SearchInput :filters="filters" routes="categories" @filter="filter"></SearchInput>
+                    </div>
+                    <div class="flex items-center">
+                        <TableComponent routes="categories" :data="categories" @checkbox="checkbox" @edit_item="edit_item"
+                            @filter="filter">
+                        </TableComponent>
+                    </div>
+                    <nav class="sm:flex sm:items-center sm:justify-between pt-4" aria-label="Table navigation">
+                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
+                                class="font-semibold text-gray-900 dark:text-white">{{ categories.from }}-{{
+                                    categories.to
+                                }}</span>
+                            of <span class="font-semibold text-gray-900 dark:text-white">{{ categories.total }}</span></span>
+                        <Pagination class="mt-12 ml-50 border 1x border-red" :links="categories.links" />
+                    </nav>
+                    <button type="button" @click="activeAddModal = true" 
+                        class="mt-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"><font-awesome-icon
+                            icon="fa-solid fa-add" class="mr-1" />Add Category</button>
+                </div>
             </div>
-            <div class="flex items-center">
-                <TableComponent routes="categories" :data="categories" @checkbox="checkbox" @edit_item="edit_item"
-                    @filter="filter">
-                </TableComponent>
-            </div>
-            <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
-                        class="font-semibold text-gray-900 dark:text-white">{{ categories.from }}-{{
-                            categories.to
-                        }}</span>
-                    of <span class="font-semibold text-gray-900 dark:text-white">{{ categories.total }}</span></span>
-                <Pagination class="mt-12 ml-50 border 1x border-red" :links="categories.links" />
-            </nav>
-            <button type="button" @click="activeAddModal = true" 
-                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"><font-awesome-icon
-                    icon="fa-solid fa-add" class="mr-1" />Add Category</button>
+            <Teleport to="body">
+                <AddModal :open="activeAddModal" :errors="errors" @close="closeModal(1)" @store="store_item"></AddModal>
+                <EditModal :open="activeEditModal" :errors="errors" @close="closeModal(2)" @update="update_item" :items="items"></EditModal>
+            </Teleport>
         </div>
-    </div>
-    <Teleport to="body">
-        <AddModal :open="activeAddModal" :errors="errors" @close="closeModal(1)" @store="store_item"></AddModal>
-        <EditModal v-if="activeEditModal" @close="closeModal(2)" @update="update_item" :items="items"></EditModal>
-    </Teleport>
+    </Base>
 </template>
 
 <script setup>
