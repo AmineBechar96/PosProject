@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryExpence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -16,9 +17,24 @@ class CategoryExpenceController extends Controller
      */
     public function index()
     {
-        $categories_expences = CategoryExpence::all();
-        return Inertia::render('CategoryScreen', [
-            'categories_expences'=>$categories_expences
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        if (FacadesRequest::input('checkbox') != null) {
+            $perPage = 5;
+        }
+        $categories = CategoryExpence::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('Category/AllCategoryScreen', [
+            'page_name' => 'categoryexpences', 'categories' => $categories, 'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
 
@@ -41,13 +57,9 @@ class CategoryExpenceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:60|unique:categorie_expences,name',
+            'name' => 'required|string|max:60|unique:category_expences,name',
         ]);
-    
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
-    
         CategoryExpence::create($data);
-        return response(['success'=>true]);
     }
 
     /**
@@ -82,10 +94,10 @@ class CategoryExpenceController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:60|',
+            'name' => 'required|string|max:60|',
         ]);
-        CategoryExpence::where('id',$id)->update(['name'=>$data["name"]]);
-        return response(['success'=>true]);
+        CategoryExpence::where('id', $id)->update(['name' => $data["name"]]);
+        return response(['success' => true]);
     }
 
     /**
@@ -96,7 +108,6 @@ class CategoryExpenceController extends Controller
      */
     public function destroy($id)
     {
-        CategoryExpence::destroy($id);
-        return response(['success'=>true]);
+        CategoryExpence::destroy((int)$id);
     }
 }
