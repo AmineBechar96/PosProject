@@ -21,11 +21,13 @@
                                     categories.to
                                 }}</span>
                             of <span class="font-semibold text-gray-900 dark:text-white">{{ categories.total }}</span></span>
-                        <Pagination class="mt-12 ml-50 border 1x border-red" :links="categories.links" />
+                        <Pagination class="mt-12 ml-50" :links="categories.links" />
                     </nav>
-                    <button type="button" @click="activeAddModal = true" 
-                        class="mt-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"><font-awesome-icon
-                            icon="fa-solid fa-add" class="mr-1" />Add Category</button>
+                    <div class="px-4 py-3 sm:flex  sm:px-6">
+                        <button type="button" @click="activeAddModal = true" 
+                            class="mt-4 w-full sm:w-auto inline-flex justify-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800"><font-awesome-icon
+                                icon="fa-solid fa-add" class="mr-1" />Add Category</button>
+                    </div>
                 </div>
             </div>
             <Teleport to="body">

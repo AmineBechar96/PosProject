@@ -1,9 +1,9 @@
 <template>
-    <a :key="item.name" :href="item.href" v-if="item.subMenu == 'monoMenu'"
+    <Link :key="item.name" :href="item.href" v-if="item.subMenu == 'monoMenu'"
         :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-2 py-2 rounded-md text-sm font-medium']"
         :aria-current="item.current ? 'page' : undefined"><font-awesome-icon class="mr-1" :icon="item.icon" />
         {{ item.name }}
-    </a>
+    </Link>
     <Menu as="div" class="relative ml-6" v-if="item.subMenu == 'multiMenuPeople'">
         <div>
             <MenuButton
@@ -63,13 +63,13 @@
             <MenuItems
                 class="absolute left-0 z-10 mt-2 w-36 origin-top-left rounded-md bg-color-gray py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none font-medium">
                 <MenuItem v-slot="{ active }">
-                <a href="#"
+                <Link href="/categories"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                     role="menuitem">
                     <div class="inline-flex items-center">
                         PRODUCT
                     </div>
-                </a>
+                </Link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                 <a href="#"
@@ -85,7 +85,7 @@
     </Menu>
 </template>
 <script setup>
-
+import { Link } from '@inertiajs/vue3'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 const props = defineProps({
     item: Object

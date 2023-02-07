@@ -208,7 +208,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import NavbarMenu from './NavbarMenu.vue'
 
 const navigation = [
-  { name: '', href: '#', current: false, icon: "fa-solid fa-house", subMenu:"monoMenu" },
+  { name: '', href: '/', current: false, icon: "fa-solid fa-house", subMenu:"monoMenu" },
   { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice", subMenu:"monoMenu" },
   { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" ,subMenu:"monoMenu"},
   { name: 'PEOPLE', href: '#', current: true, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},

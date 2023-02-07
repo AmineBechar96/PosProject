@@ -15,9 +15,9 @@
                       <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Deactivate account</DialogTitle>
+                      <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">Delete Item</DialogTitle>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.</p>
+                        <p class="text-sm text-gray-500">Are you sure you want to delete this item? All of your data will be permanently removed. This action cannot be undone.</p>
                       </div>
                     </div>
                   </div>

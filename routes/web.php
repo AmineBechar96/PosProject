@@ -70,7 +70,3 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::inertia('/login', 'Users/Index')->name('login');
 Route::post('login', [LoginController::class, 'store'])->name('login.post');
-App::missing(function($exception)
-{
-    return Response::view('errors.missing', array(), 404);
-});
