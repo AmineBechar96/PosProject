@@ -14,7 +14,7 @@
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
-                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('display')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('display')" v-if="routes == 'categories'">
                         Visibility
                         <SortIcons :column="column" column_selected='display' :direction="direction"></SortIcons>
                     </th>
@@ -43,7 +43,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4" v-if="routes == 'categories'">
                         <label class="relative inline-flex items-center cursor-pointer ml-2">
                             <input type="checkbox" value="" class="sr-only peer"
                                 :checked="item.display == '1' ? true : false" @click="emit('checkbox', item.id)">
@@ -68,6 +68,7 @@ import AlertModal from '../layouts/Modals/AlertModal.vue'
 import SortIcons from '../layouts/Icons/SortIcons.vue'
 
 const props = defineProps({
+    page_name:String,
     data: Object,
     routes: String
 })

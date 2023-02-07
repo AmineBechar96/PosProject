@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryExpenceController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -13,7 +14,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/update_display', [CategoryController::class,'update_display']);
     Route::resource('categories', CategoryController::class);
-    Route::resource('categorieexpences', CategoryExpenceController::class);
+    Route::resource('categoryexpences', CategoryExpenceController::class);
     Route::resource('combos', ComboController::class);
 
     Route::post('customers/customerName', [CustomerController::class, 'customerName']);

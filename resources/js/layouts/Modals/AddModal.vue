@@ -14,7 +14,7 @@
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel
                             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                            <form @submit.prevent="form.post('/categories', {
+                            <form @submit.prevent="form.post(page_name, {
                                 preserveScroll: true,
                                 onStart: () => errors.name = null,
                                 onSuccess: () => emit('close'),
@@ -74,6 +74,7 @@ const form = useForm({
 })
 
 const props = defineProps({
+    page_name: String,
     errors: Object,
     open: Boolean
 })

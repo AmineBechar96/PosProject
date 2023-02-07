@@ -18,23 +18,23 @@ class CategoryController extends Controller
     public function index()
     {
         $perPage = FacadesRequest::input('per_pages');
-        if($perPage == null){
+        if ($perPage == null) {
             $perPage = 5;
         }
-        if(FacadesRequest::input('checkbox') != null){
+        if (FacadesRequest::input('checkbox') != null) {
             $perPage = 5;
         }
         $categories = Category::query()
-        ->when(FacadesRequest::input('search'),function ($query,$search){
-            $query->where('name', 'like' ,"%{$search}%");
-        })
-        ->when(FacadesRequest::has('column'),function ($query){
-            $query->orderBy(FacadesRequest::input('column'),FacadesRequest::input('direction'));
-        })
-        ->paginate($perPage)
-        ->withQueryString();
-        return Inertia::render('Category/CategoryScreen', [
-            'categories' => $categories, 'filters' => FacadesRequest::only(['search','per_pages'])
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('Category/AllCategoryScreen', [
+            'page_name' => 'categories', 'categories' => $categories, 'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
 
@@ -53,11 +53,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:60|unique:categories,name',
+            'name' => 'required|string|max:60|unique:categories,name',
         ]);
-        
+
         //throw ValidationException::withMessages(['name' => 'This Category Exists !']);
-    
+
         $data['display'] = 0;
         Category::create($data);
     }
@@ -94,13 +94,12 @@ class CategoryController extends Controller
     }
 
     public function update_display(Request $request)
-    { 
+    {
         $id = $request["checkbox"];
         $display = Category::where('id', $id)->first();
-        if($display->display == 1){
+        if ($display->display == 1) {
             Category::where('id', $id)->update(['display' => 0]);
-        }
-        else{
+        } else {
             Category::where('id', $id)->update(['display' => 1]);
         }
     }
