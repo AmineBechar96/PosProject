@@ -3,7 +3,7 @@
     <div>
         <div class="bg-gray-100 w-screen">
             <TheNavbar />
-            <BreadcumberComponent class="mt-6 ml-20" :menu="['Category', 'Product']"></BreadcumberComponent>
+            <BreadcumberComponent class="mt-6 ml-20" :menu="['Category', menu]"></BreadcumberComponent>
             <div
                 class="mx-auto mt-12 w-3/4 bg-white border border-gray-200 rounded-3xl shadow-lg p-6 md:p-10 dark:bg-gray-800 dark:border-gray-700">
                 <div class="sm:flex sm:items-center sm:justify-between pb-2 mb-2">
@@ -46,7 +46,7 @@
 import BreadcumberComponent from '../../components/BreadcumberComponent.vue'
 import DropdownComponent from '../../components/DropdownComponent.vue'
 import SearchInput from '../../components/SearchInput.vue'
-import TableComponent from '../../components/TableComponent.vue'
+import TableComponent from '../../components/Table/TableComponent.vue'
 import Pagination from '../../components/Pagination.vue'
 
 import AddModal from '../../layouts/Modals/AddModal.vue'
@@ -64,15 +64,14 @@ const props = defineProps({
 
 const activeAddModal = ref(false);
 const activeEditModal = ref(false);
-
+console.log()
 const per_page_ref = ref(5);
 const column_ref = ref("id");
 const direction_ref = ref("asc");
 const search_ref = ref("");
 
 const items = ref({});
-
-
+const menu = props.page_name == 'categories' ? 'Product' : 'Expence';
 
 function closeModal(id) {
     props.errors.name = null;

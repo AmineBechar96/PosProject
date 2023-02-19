@@ -211,10 +211,10 @@ const navigation = [
   { name: '', href: '/', current: false, icon: "fa-solid fa-house", subMenu:"monoMenu" },
   { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice", subMenu:"monoMenu" },
   { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" ,subMenu:"monoMenu"},
-  { name: 'PEOPLE', href: '#', current: true, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},
+  { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},
   { name: 'SALES', href: '#', current: false, icon: "fa-solid fa-receipt" ,subMenu:"monoMenu"},
   { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" ,subMenu:"monoMenu"},
-  { name: 'EXPENSE', href: '#', current: false, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
+  { name: 'EXPENSE', href: '/expenses', current: true, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
   { name: 'CATEGORY', href: '#', current: false, icon: "fa-solid fa-bars" ,subMenu:"multiMenuCategory"},
   { name: 'REPORTS', href: '#', current: false, icon: "fa-solid fa-chart-pie" ,subMenu:"monoMenu"},
 ]

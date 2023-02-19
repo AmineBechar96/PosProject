@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryExpenceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenceController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('customers/changeCustomers', [CustomerController::class, 'changeCustomers']);
     Route::resource('customers', CustomerController::class);
 
-    Route::resource('expences', ExpenceController::class);
+    Route::resource('expenses', ExpenceController::class);
 
     Route::post('holds/removeHold', [HoldController::class, 'removeHold']);
     Route::resource('holds', HoldController::class);

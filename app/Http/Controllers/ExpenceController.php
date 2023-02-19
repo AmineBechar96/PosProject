@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryExpence;
 use App\Models\Expence;
-use App\Models\Register;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class ExpenceController extends Controller
@@ -18,10 +18,28 @@ class ExpenceController extends Controller
      */
     public function index()
     {
-        $stores = Store::all();
-        $categorie_expences = CategoryExpence::all();
-        return Inertia::render('CategoryExpenceScreen', [
-            'stores'=>$stores,'categorie_expences'=>$categorie_expences
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        if (FacadesRequest::input('checkbox') != null) {
+            $perPage = 5;
+        }
+        $expences = Expence::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('reference', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->join('category_expences', 'category_expences.id', '=', 'expences.category_id')
+            ->join('users', 'users.id', '=', 'expences.created_by')
+            ->join('stores', 'stores.id', '=', 'expences.store_id')
+            ->select('expences.*', 'users.username', 'category_expences.name', 'stores.name as name2')
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('ExpenceScreen', [
+            'expences' => $expences, 'page_name' => 'expenses', 'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
 
@@ -44,14 +62,14 @@ class ExpenceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'date'=>'required|date',
-            'reference'=>'required|string|max:150',
-            'note'=>'required|text',
-            'amount'=>'required|float|max:60',
-            'attachment'=>'string|max:200',
+            'date' => 'required|date',
+            'reference' => 'required|string|max:150',
+            'note' => 'required|text',
+            'amount' => 'required|float|max:60',
+            'attachment' => 'string|max:200',
         ]);
         Expence::create($data);
-        return response(['success'=>true]);
+        return response(['success' => true]);
     }
 
     /**
@@ -78,7 +96,7 @@ class ExpenceController extends Controller
         $storeName = $store ? $store->name : 'Store';
         $stores = Store::all();
         $categories = CategoryExpence::all();
-        return Response(['storeName'=>$storeName,'stores'=>$stores,'categories'=>$categories,'expence'=>$expence]);
+        return Response(['storeName' => $storeName, 'stores' => $stores, 'categories' => $categories, 'expence' => $expence]);
     }
 
     /**
@@ -91,14 +109,14 @@ class ExpenceController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'date'=>'required|date',
-            'reference'=>'required|string|max:150',
-            'note'=>'required|text',
-            'amount'=>'required|float|max:60',
-            'attachment'=>'string|max:200',
+            'date' => 'required|date',
+            'reference' => 'required|string|max:150',
+            'note' => 'required|text',
+            'amount' => 'required|float|max:60',
+            'attachment' => 'string|max:200',
         ]);
-        Expence::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
+        Expence::where('id', $id)->update([$data]);
+        return response(['success' => true]);
     }
 
     /**
@@ -109,6 +127,6 @@ class ExpenceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Expence::destroy($id);
     }
 }
