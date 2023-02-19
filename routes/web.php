@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class,'index'])->name('dashboardIndex');
-    //Route::resource('dashboard', DashboardController::class);
+    //Route::resource('dashboard', DashboardController::cla);
 
     Route::post('/update_display', [CategoryController::class,'update_display']);
     Route::resource('categories', CategoryController::class);
