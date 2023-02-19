@@ -33,8 +33,8 @@
             </div>
         </div>
         <Teleport to="body">
-            <AddModal :page_name="page_name" :open="activeAddModal" :errors="errors" @close="closeModal(1)"
-                @store="store_item"></AddModal>
+            <AddModalExpense :page_name="page_name" :open="activeAddModal" :errors="errors" @close="closeModal(1)"
+                @store="store_item"></AddModalExpense>
             <EditModal :page_name="page_name" :open="activeEditModal" :errors="errors" @close="closeModal(2)"
                 @update="update_item" :items="items"></EditModal>
         </Teleport>
@@ -49,7 +49,7 @@ import SearchInput from '../components/SearchInput.vue'
 import ExpenceTable from '../components/Table/ExpenseTable.vue'
 import Pagination from '../components/Pagination.vue'
 
-import AddModal from '../layouts/Modals/AddModal.vue'
+import AddModalExpense from '../layouts/Modals/Add/AddModalExpense.vue'
 import EditModal from '../layouts/Modals/EditModal.vue'
 
 import { router } from '@inertiajs/vue3'

@@ -49,7 +49,7 @@ import SearchInput from '../../components/SearchInput.vue'
 import TableComponent from '../../components/Table/TableComponent.vue'
 import Pagination from '../../components/Pagination.vue'
 
-import AddModal from '../../layouts/Modals/AddModal.vue'
+import AddModal from '../../layouts/Modals/Add/AddModal.vue'
 import EditModal from '../../layouts/Modals/EditModal.vue'
 
 import { router } from '@inertiajs/vue3'

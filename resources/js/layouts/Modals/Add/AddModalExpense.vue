@@ -24,9 +24,13 @@
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <DialogTitle as="h3"
                                                 class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                Add Category</DialogTitle>
-                                            <TextInput :form_inputs="{ input: 'Name' }" :errors="errors.name"
+                                                Add {{props.page_name}}</DialogTitle>
+                                            <SelectInput title="Category"></SelectInput>
+                                            <SelectInput title="Store"></SelectInput>
+                                            <TextInput type="number" :form_inputs="{ input: 'Amount(DA)' }" :errors="errors.name"
                                                 @form="form_method"></TextInput>
+                                                <AttachementInput
+                                                @form="form_method"></AttachementInput>
                                         </div>
                                     </div>
                                 </div>
@@ -67,8 +71,11 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { Head, useForm } from '@inertiajs/vue3'
-import TextInput from '../Inputs/TextInput.vue'
 
+import TextInput from '../../Inputs/TextInput.vue'
+import SelectInput from '../../Inputs/SelectInput.vue'
+import DatePicker from '../../Inputs/DatePicker.vue'
+import AttachementInput from '../../Inputs/AttachementInput.vue'
 const form = useForm({
     name: '',
 })

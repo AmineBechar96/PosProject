@@ -119,6 +119,5 @@ function confirm_delete_item({ decision, id }) {
         });
     }
 }
-
 const emit = defineEmits(['edit_item', 'filter'])
 </script>

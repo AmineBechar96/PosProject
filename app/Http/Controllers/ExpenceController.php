@@ -69,7 +69,6 @@ class ExpenceController extends Controller
             'attachment' => 'string|max:200',
         ]);
         Expence::create($data);
-        return response(['success' => true]);
     }
 
     /**
