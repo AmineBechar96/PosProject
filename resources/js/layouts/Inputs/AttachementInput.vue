@@ -8,3 +8,19 @@
             800x400px).</p>
     </div>
 </template>
+<script setup>
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  title: String,
+  data: Object,
+});
+
+const emit = defineEmits(["form"]);
+const form_value = ref("");
+
+watch(form_value, (value) => {
+    console.log(value)
+  emit("form", { value, form_inputs: props.form_inputs.var_model });
+});
+</script>

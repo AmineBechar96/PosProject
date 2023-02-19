@@ -50,7 +50,7 @@ import TableComponent from '../../components/Table/TableComponent.vue'
 import Pagination from '../../components/Pagination.vue'
 
 import AddModal from '../../layouts/Modals/Add/AddModal.vue'
-import EditModal from '../../layouts/Modals/EditModal.vue'
+import EditModal from '../../layouts/Modals/Edit/EditModal.vue'
 
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'

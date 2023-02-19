@@ -22,13 +22,13 @@
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
-                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('category')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('name')">
                         Category
-                        <SortIcons :column="column" column_selected='category' :direction="direction"></SortIcons>
+                        <SortIcons :column="column" column_selected='name' :direction="direction"></SortIcons>
                     </th>
-                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('store')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer" @click="sort('name2')">
                         Store
-                        <SortIcons :column="column" column_selected='store' :direction="direction"></SortIcons>
+                        <SortIcons :column="column" column_selected='name2' :direction="direction"></SortIcons>
                     </th>
                 </tr>
             </thead>

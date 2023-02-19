@@ -18,6 +18,8 @@ class ExpenceController extends Controller
      */
     public function index()
     {
+        $categories = CategoryExpence::all();
+        $stores = Store::all();
         $perPage = FacadesRequest::input('per_pages');
         if ($perPage == null) {
             $perPage = 5;
@@ -39,7 +41,7 @@ class ExpenceController extends Controller
             ->paginate($perPage)
             ->withQueryString();
         return Inertia::render('ExpenceScreen', [
-            'expences' => $expences, 'page_name' => 'expenses', 'filters' => FacadesRequest::only(['search', 'per_pages'])
+            'expences' => $expences,'categories' => $categories, 'stores' => $stores, 'page_name' => 'expenses', 'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
 
@@ -61,13 +63,16 @@ class ExpenceController extends Controller
      */
     public function store(Request $request)
     {
+       
         $data = $request->validate([
             'date' => 'required|date',
             'reference' => 'required|string|max:150',
-            'note' => 'required|text',
-            'amount' => 'required|float|max:60',
-            'attachment' => 'string|max:200',
+            'note' => 'required|min:3|max:1000',
+            'amount' => 'required|numeric|between:0,999999.99',
+            'store_id' => 'required',
+            'category_id' => 'required',
         ]);
+        $data["created_by"] = 12;
         Expence::create($data);
     }
 

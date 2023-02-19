@@ -25,7 +25,7 @@
                                           <DialogTitle as="h3"
                                               class="text-lg mb-8 font-medium leading-6 text-gray-900">
                                               Edit Category</DialogTitle>
-                                          <TextInput :form_inputs="{ input: 'Name',var_model:items.name }" :errors="errors.name"
+                                          <TextInput :form_inputs="{ input: 'Name',var_edit:items.name }" :errors="errors.name"
                                               @form="form_method"></TextInput>
                                       </div>
                                   </div>
@@ -66,7 +66,7 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { Head, useForm } from '@inertiajs/vue3'
-import TextInput from '../Inputs/TextInput.vue'
+import TextInput from '../../Inputs/TextInput.vue'
 
 const props = defineProps({
   page_name: String,

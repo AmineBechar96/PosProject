@@ -16,7 +16,7 @@
                             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                             <form @submit.prevent="form.post(page_name, {
                                 preserveScroll: true,
-                                onStart: () => errors.name = null,
+                                onStart: () => errors.amount = null,
                                 onSuccess: () => emit('close'),
                             })">
                                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -24,13 +24,19 @@
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <DialogTitle as="h3"
                                                 class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                Add {{props.page_name}}</DialogTitle>
-                                            <SelectInput title="Category"></SelectInput>
-                                            <SelectInput title="Store"></SelectInput>
-                                            <TextInput type="number" :form_inputs="{ input: 'Amount(DA)' }" :errors="errors.name"
+                                                Add {{toTitleCase(props.page_name)}}</DialogTitle>
+                                            <DatePicker :form_inputs="{ input: 'Date',var_model:'date' }" :errors="errors.date"
+                                              @form="form_method"></DatePicker>
+                                            <TextInput :form_inputs="{ input: 'Reference',var_model:'reference' }" :errors="errors.reference"
+                                              @form="form_method"></TextInput>
+                                            <SelectInput title="Category" :data="categories" @form="form_method"></SelectInput>
+                                            <SelectInput title="Store" :data="stores" @form="form_method"></SelectInput>
+                                            <TextInput type="number" :form_inputs="{ input: 'Amount(DA)',var_model:'amount' }" :errors="errors.amount"
                                                 @form="form_method"></TextInput>
-                                                <AttachementInput
+                                            <AttachementInput :form_inputs="{ input: 'Attachement',var_model:'attachement' }" :errors="errors.attachement"
                                                 @form="form_method"></AttachementInput>
+                                            <TextAreaInput :form_inputs="{ input: 'Note' ,var_model:'note'}" :errors="errors.note"
+                                            @form="form_method"></TextAreaInput>
                                         </div>
                                     </div>
                                 </div>
@@ -76,19 +82,38 @@ import TextInput from '../../Inputs/TextInput.vue'
 import SelectInput from '../../Inputs/SelectInput.vue'
 import DatePicker from '../../Inputs/DatePicker.vue'
 import AttachementInput from '../../Inputs/AttachementInput.vue'
+import TextAreaInput from '../../Inputs/TextAreaInput.vue'
+
 const form = useForm({
-    name: '',
+    date: '',
+    reference: '',
+    note: '',
+    amount: 0.0,
+    attachment: '',
+    category_id: '',
+    store_id: '',
 })
 
 const props = defineProps({
     page_name: String,
     errors: Object,
+    stores: Object,
+    categories: Object,
     open: Boolean
 })
+
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}
 
 const emit = defineEmits(['close'])
 
 function form_method({ form_inputs, value }) {
-    form["name"] = value;
+    form[form_inputs] = value;
 }
 </script>

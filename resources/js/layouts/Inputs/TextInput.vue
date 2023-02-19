@@ -22,9 +22,9 @@ const props = defineProps({
 
 const emit = defineEmits(["form"])
 const form_value = ref("");
-form_value.value = props.form_inputs.var_model
+form_value.value = props.form_inputs.var_edit
 
 watch(form_value, value => {
-    emit("form", { value, form_inputs: props.form_inputs.input })
+    emit("form", { value, form_inputs: props.form_inputs.var_model })
 });
 </script>

@@ -6,7 +6,8 @@ import Base from './layouts/Base.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 library.add(fas);
 
@@ -23,6 +24,7 @@ createInertiaApp({
       .component('TheNavbar', TheNavbar)
       .component('TheTooltip', TheTooltip)
       .component('Base', Base)
+      .component('VueDatePicker', VueDatePicker)
       .component('font-awesome-icon', FontAwesomeIcon)
       .mixin({ methods: { route } })
       .mount(el)
