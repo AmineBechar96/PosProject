@@ -67,7 +67,7 @@ class ExpenceController extends Controller
         $data = $request->validate([
             'date' => 'required|date',
             'reference' => 'required|string|max:150',
-            'note' => 'required|min:3|max:1000',
+            'note' => 'required|max:1000',
             'amount' => 'required|numeric|between:0,999999.99',
             'store_id' => 'required',
             'category_id' => 'required',
@@ -112,15 +112,15 @@ class ExpenceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request["attachment"]);
         $data = $request->validate([
             'date' => 'required|date',
             'reference' => 'required|string|max:150',
-            'note' => 'required|text',
-            'amount' => 'required|float|max:60',
+            'note' => 'max:2000',
+            'amount' => 'required|numeric|max:1000000',
             'attachment' => 'string|max:200',
         ]);
-        Expence::where('id', $id)->update([$data]);
-        return response(['success' => true]);
+        Expence::where('id', $id)->update($data);
     }
 
     /**

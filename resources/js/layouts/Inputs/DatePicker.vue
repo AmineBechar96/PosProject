@@ -35,7 +35,6 @@ watch(date, value => {
     const month = value.getMonth() + 1;
     const year = value.getFullYear();
     value = `${year}-${month}-${day}`;
-    console.log(new Date(value).toLocaleDateString());
     emit("form", { value, form_inputs: props.form_inputs.var_model })
 });
 </script>

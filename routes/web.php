@@ -5,6 +5,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryExpenceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenceController;
+use App\Http\Controllers\SaleController;
+
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('report/getStockReport', [ReportController::class, 'getStockReport']);
     Route::get('report/getStockReport', [ReportController::class, 'getStockReport']);
 
-    Route::resource('sale', SaleController::class);
+    Route::resource('sales', SaleController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);
     Route::resource('suppliers', SupplierController::class);

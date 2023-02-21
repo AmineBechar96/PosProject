@@ -14,19 +14,37 @@
                       leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                       <DialogPanel
                           class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                          <form @submit.prevent="form.patch(props.page_name + '/' + props.items.id, {
+                          <form @submit.prevent="router.post(props.page_name + '/' + props.items.id, {
+                              _method: 'put',
+                              date: form.date,
+                                reference: form.reference,
+                                note: form.note,
+                                amount: form.amount,
+                                attachment: form.attachment,
+                                category_id: form.category_id,
+                                store_id: form.store_id},{
                               preserveScroll: true,
-                              onStart: () => errors = null,
+                              onStart: () => errors.date = null,
                               onSuccess: () => emit('close'),
                           })">
                               <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                   <div class="sm:flex sm:items-start">
                                       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                           <DialogTitle as="h3"
-                                              class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                              Edit Category</DialogTitle>
-                                          <TextInput :form_inputs="{ input: 'Name',var_edit:items.name }" :errors="errors.name"
+                                                class="text-lg mb-8 font-medium leading-6 text-gray-900">
+                                                Add {{form.reference + toTitleCase(props.page_name)}}</DialogTitle>
+                                            <DatePicker :form_inputs="{ input: 'Date',var_model:'date' }" :errors="errors.date"
+                                              @form="form_method"></DatePicker>
+                                            <TextInput :form_inputs="{ input: 'Reference',var_model:'reference',var_edit:items.reference }" :errors="errors.reference"
                                               @form="form_method"></TextInput>
+                                            <SelectInput title="Category" :data="categories" :var_edit="items.category_id" @form="form_method"></SelectInput>
+                                            <SelectInput title="Store" :data="stores" :var_edit="items.store_id" @form="form_method"></SelectInput>
+                                            <TextInput type="number" :form_inputs="{ input: 'Amount(DA)',var_model:'amount',var_edit:items.amount }" :errors="errors.amount"
+                                                @form="form_method"></TextInput>
+                                            <AttachementInput :form_inputs="{ input: 'Attachement',var_model:'attachement' }" :errors="errors.attachement"
+                                                @form="form_method"></AttachementInput>
+                                            <TextAreaInput :form_inputs="{ input: 'Note' ,var_model:'note',var_edit:items.note}" :errors="errors.note"
+                                            @form="form_method"></TextAreaInput>
                                       </div>
                                   </div>
                               </div>
@@ -65,22 +83,46 @@
 
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head, useForm,router } from '@inertiajs/vue3'
+
 import TextInput from '../../Inputs/TextInput.vue'
+import SelectInput from '../../Inputs/SelectInput.vue'
+import DatePicker from '../../Inputs/DatePicker.vue'
+import AttachementInput from '../../Inputs/AttachementInput.vue'
+import TextAreaInput from '../../Inputs/TextAreaInput.vue'
+
 
 const props = defineProps({
-  page_name: String,
-  items: Object,
-  errors: Object,
-  open: Boolean
+    page_name: String,
+    errors: Object,
+    stores: Object,
+    categories: Object,
+    items:Object,
+    open: Boolean
 })
-const emit = defineEmits(['close', 'update'])
 
 const form = useForm({
-    name: props.items.name,
+    date: props.items.date,
+    reference: props.items.reference,
+    note: props.items.note,
+    amount: props.items.amount,
+    attachment: props.items.attachment,
+    category_id: props.items.category_id,
+    store_id: props.items.store_id,
 })
 
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}
+const emit = defineEmits(['close', 'update'])
+
 function form_method({ form_inputs, value }) {
-    form["name"] = value;
+    console.log(value)
+    form[form_inputs] = value;
 }
 </script>

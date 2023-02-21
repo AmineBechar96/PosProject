@@ -11,7 +11,9 @@ use App\Models\Register;
 use App\Models\Sale;
 use App\Models\Setting;
 use App\Models\Stock;
+use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class SaleController extends Controller
@@ -23,12 +25,30 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::all();
+        $customers = Customer::all();
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        if (FacadesRequest::input('checkbox') != null) {
+            $perPage = 5;
+        }
+        $sales = Sale::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('reference', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->join('customers', 'customers.id', '=', 'sales.client_id')
+            ->join('users', 'users.id', '=', 'sales.created_by')
+            ->select('sales.*', 'users.username', 'customers.name')
+            ->paginate($perPage)
+            ->withQueryString();
         return Inertia::render('SaleScreen', [
-            'sales' => $sales
+            'sales' => $sales, 'customers' => $customers, 'page_name' => 'sales', 'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      *

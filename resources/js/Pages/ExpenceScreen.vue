@@ -102,9 +102,8 @@
           :stores="stores"
           :errors="errors"
           @close="closeModal(1)"
-          @store="store_item"
         ></AddModalExpense>
-        <EditModal
+        <EditModalExpense
           :page_name="page_name"
           :open="activeEditModal"
           :categories="categories"
@@ -113,7 +112,7 @@
           @close="closeModal(2)"
           @update="update_item"
           :items="items"
-        ></EditModal>
+        ></EditModalExpense>
       </Teleport>
     </div>
   </Base>
@@ -127,7 +126,7 @@ import ExpenceTable from "../components/Table/ExpenseTable.vue";
 import Pagination from "../components/Pagination.vue";
 
 import AddModalExpense from "../layouts/Modals/Add/AddModalExpense.vue";
-import EditModal from "../layouts/Modals/Edit/EditModal.vue";
+import EditModalExpense from "../layouts/Modals/Edit/EditModalExpense.vue";
 
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -140,7 +139,6 @@ const props = defineProps({
   stores: Object,
   errors: Object,
 });
-
 const activeAddModal = ref(false);
 const activeEditModal = ref(false);
 const per_page_ref = ref(5);

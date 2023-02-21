@@ -24,8 +24,10 @@
         dark:focus:ring-blue-500
         dark:focus:border-blue-500
       "
-    >
-      <option v-for="option in data" :key="option.id" :value="option.id">{{ option.name }}</option>
+    > 
+      <option v-for="option in data" :key="option.id" :value="option.id" >
+        {{ option.name  }}
+      </option>
     </select>
   </div>
 </template>
@@ -35,10 +37,11 @@ import { ref, watch } from "vue";
 const props = defineProps({
   title: String,
   data: Object,
+  var_edit: Number,
 });
 
 const emit = defineEmits(["form"]);
-const form_value = ref(null);
+const form_value = ref(props.var_edit);
 
 watch(form_value, (value) => {
   emit("form", { value, form_inputs: props.title.toLowerCase() + "_id" });
