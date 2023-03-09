@@ -26,7 +26,7 @@
           </th>
           <th
             scope="col"
-            class="px-6 py-3 cursor-pointer"
+            class="px-5 py-3 cursor-pointer"
             @click="sort('name')"
           >
           <div class="flex justify-evenly">
@@ -54,7 +54,7 @@
           </th>
           <th
             scope="col"
-            class="px-6 py-3 cursor-pointer"
+            class="px-4 py-3 cursor-pointer"
             @click="sort('discount')"
           >
           <div class="flex justify-evenly">
@@ -80,7 +80,7 @@
             ></SortIcons>
           </div>
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 text-center">
             <span>Action</span>
           </th>
           <th
@@ -99,7 +99,7 @@
           </th>
           <th
             scope="col"
-            class="px-6 py-3 cursor-pointer"
+            class="px-4 py-3 cursor-pointer"
             @click="sort('total_items')"
           >
           <div class="flex justify-around">
@@ -114,7 +114,7 @@
           <th
             scope="col"
             class="px-6 py-3 cursor-pointer"
-            @click="sort('name')"
+            @click="sort('status')"
           >
             <div class="flex justify-around">
               <span class="mr-2">Status</span>
@@ -276,7 +276,9 @@
             {{ item.total_items }}
           </td>
           <td class="px-6 py-4">
-            {{ item.status }}
+            <Badge v-if="(item.status == 0)" title="Unpaid" color="red"></Badge>
+            <Badge v-else-if="(item.status == 1)" title="Partially" color="yellow"></Badge>
+            <Badge v-else title="Paid" color="green"></Badge>
           </td>
         </tr>
       </tbody>
@@ -297,6 +299,7 @@ import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import AlertModal from "../../layouts/Modals/AlertModal.vue";
 import SortIcons from "../../layouts/Icons/SortIcons.vue";
+import Badge from "../../layouts/Badge/Badge.vue";
 
 const props = defineProps({
   page_name: String,
@@ -321,6 +324,7 @@ function delete_item(id) {
   item_id.value = id;
   activeAlertModal.value = true;
 }
+console.log(props.data)
 
 function confirm_delete_item({ decision, id }) {
   activeAlertModal.value = false;

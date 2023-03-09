@@ -27,6 +27,8 @@ return new class extends Migration
             $table->float('tax_amount')->nullable();
             $table->float('discount_amount')->nullable();
             $table->float('first_payement')->nullable();
+            $table->smallInteger('status')->default(0);
+
             $table->timestamps();
             $table->unsignedBigInteger('created_by');           
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

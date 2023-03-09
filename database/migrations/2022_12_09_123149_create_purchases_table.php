@@ -26,6 +26,7 @@ return new class extends Migration
             $table->mediumText('note')->nullable();
             $table->smallInteger('status')->nullable();
             $table->smallInteger('type')->nullable();
+            $table->smallInteger('status')->default(0);
             
             $table->timestamps();
             $table->unsignedBigInteger('created_by');           

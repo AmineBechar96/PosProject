@@ -64,8 +64,8 @@
         <EditModalSale
           :page_name="page_name"
           :open="activeEditModal"
-          :categories="categories"
-          :stores="stores"
+          :customers="customers"
+          :sales="sales"
           :errors="errors"
           @close="closeModal(2)"
           @update="update_item"
@@ -103,7 +103,7 @@ const direction_ref = ref("asc");
 const search_ref = ref("");
 
 const items = ref({});
-const menu = "Expence";
+const menu = "Sales";
 
 function closeModal(id) {
   props.errors.name = null;

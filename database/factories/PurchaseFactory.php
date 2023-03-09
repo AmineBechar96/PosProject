@@ -28,6 +28,7 @@ class PurchaseFactory extends Factory
             'status' => $this->faker->boolean(),
             'type' => $this->faker->boolean(),
             'note' => $this->faker->text(),
+            'status' => rand(0,2),
             'created_at' => now(),
             'updated_at' => now(),
             'supplier_id' => rand(1,20),

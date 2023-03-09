@@ -32,7 +32,7 @@
                                       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                           <DialogTitle as="h3"
                                                 class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                Add {{form.reference + toTitleCase(props.page_name)}}</DialogTitle>
+                                                Edit {{form.reference + toTitleCase(props.page_name)}}</DialogTitle>
                                             <DatePicker :form_inputs="{ input: 'Date',var_model:'date' }" :errors="errors.date"
                                               @form="form_method"></DatePicker>
                                             <TextInput :form_inputs="{ input: 'Reference',var_model:'reference',var_edit:items.reference }" :errors="errors.reference"

@@ -29,6 +29,7 @@ class SaleFactory extends Factory
             'tax_amount' => $this->faker->randomFloat(10000,5000.0,100000.0),
             'discount_amount' => $this->faker->randomFloat(10000,5000.0,100000.0),
             'first_payement' => $this->faker->randomFloat(10000,5000.0,100000.0),
+            'status' => rand(0,2),
             'created_at' => now(),
             'updated_at' => now(),
             'register_id' => rand(1,20),

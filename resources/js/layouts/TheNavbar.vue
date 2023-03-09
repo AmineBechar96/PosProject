@@ -18,7 +18,7 @@
           </div>
           <div class="hidden md:ml-8 md:block">
             <div class="flex space-x-4">
-              <NavbarMenu v-for="item in navigation" :item="item">
+              <NavbarMenu v-for="item in navigation" :item="item" :key="item">
               </NavbarMenu>
             </div>
           </div>
@@ -212,7 +212,7 @@ const navigation = [
   { name: 'PRODUCT', href: '#', current: false, icon: "fa-solid fa-pizza-slice", subMenu:"monoMenu" },
   { name: 'STORE', href: '#', current: false, icon: "fa-solid fa-store" ,subMenu:"monoMenu"},
   { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},
-  { name: 'SALES', href: '#', current: false, icon: "fa-solid fa-receipt" ,subMenu:"monoMenu"},
+  { name: 'SALES', href: '/sales', current: false, icon: "fa-solid fa-receipt" ,subMenu:"monoMenu"},
   { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" ,subMenu:"monoMenu"},
   { name: 'EXPENSE', href: '/expenses', current: true, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
   { name: 'CATEGORY', href: '#', current: false, icon: "fa-solid fa-bars" ,subMenu:"multiMenuCategory"},
