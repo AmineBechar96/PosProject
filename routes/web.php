@@ -70,6 +70,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('waiters', WaiterController::class);
     Route::resource('warehouses', WarehouseController::class);
     Route::resource('zones', ZoneController::class);
+
+
+    Route::inertia('/invoice', 'InvoiceScreen');
 });
 
 Route::inertia('/login', 'Users/Index')->name('login');

@@ -61,7 +61,7 @@
         </div>
       </div>
       <Teleport to="body">
-        <EditModalSale
+        <!--<EditModalSale
           :page_name="page_name"
           :open="activeEditModal"
           :customers="customers"
@@ -70,7 +70,18 @@
           @close="closeModal(2)"
           @update="update_item"
           :items="items"
-        ></EditModalSale>
+        ></EditModalSale>-->
+        <InvoiceModalSale
+          :page_name="page_name"
+          :open="activeEditModal"
+          :customers="customers"
+          :sales="sales"
+          :errors="errors"
+          @close="closeModal(2)"
+          @update="update_item"
+          :items="items"
+        ></InvoiceModalSale>
+        
       </Teleport>
     </div>
   </Base>
@@ -84,6 +95,8 @@ import SaleTable from "../components/Table/SaleTable.vue";
 import Pagination from "../components/Pagination.vue";
 
 import EditModalSale from "../layouts/Modals/Edit/EditModalSale.vue";
+import InvoiceModalSale from "../layouts/Modals/Invoice/InvoiceModal.vue";
+
 
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";

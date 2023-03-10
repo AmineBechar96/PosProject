@@ -1,12 +1,8 @@
 <template>
-    <div
-      id="root"
-      class="min-h-100vh flex grow bg-slate-50 dark:bg-navy-900"
-    >
-    <main class="main-content w-full px-18 pb-8">
+    <main class="main-content w-full px-[var(--margin-x)] pb-8">
         <div class="flex items-center justify-between py-5 lg:py-6">
           <h2
-            class="text-xl font-medium text-slate-700 line-clamp-1 dark:text-navy-50 lg:text-3xl"
+            class="text-xl font-medium text-slate-700 line-clamp-1 dark:text-navy-50 lg:text-2xl"
           >
             Invoice
           </h2>
@@ -14,7 +10,7 @@
           <div class="flex">
             <button
               
-              class="btn h-8 w-8 rounded-full p-2 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9"
+              class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +28,7 @@
               </svg>
             </button>
             <button
-              class="btn h-8 w-8 rounded-full p-2 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9"
+              class="btn h-8 w-8 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25 sm:h-9 sm:w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +54,8 @@
           </div>
         </div>
         <div class="grid grid-cols-1">
-          <div class="card px-5 py-12 sm:px-18 bg-black">
-            <div class="flex flex-rom justify-between sm:flex-row">
+          <div class="card px-5 py-12 sm:px-18">
+            <div class="flex flex-col justify-between sm:flex-row">
               <div class="text-center sm:text-left">
                 <h2
                   class="text-2xl font-semibold uppercase text-primary dark:text-accent-light"
@@ -344,15 +340,4 @@
           </div>
         </div>
       </main>
-    </div>
 </template>
-<style>
-.card {
-  @apply relative flex  min-w-[1px] flex-col break-words rounded-lg  bg-white text-slate-500 shadow-soft dark:bg-navy-700 dark:text-navy-200 dark:shadow-none  print:border;
-}
-
-.main-content {
-  @apply mt-[60px] grid grid-cols-1 place-content-start transition-[width,margin-left,margin-right,padding-left,padding-right] duration-[.25s] ease-in print:m-0 md:ml-[var(--main-sidebar-width)];
-}
-
-</style>

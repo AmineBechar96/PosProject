@@ -232,41 +232,7 @@
                 />
                 <TheTooltip text="Edit"></TheTooltip>
               </button>
-              <button
-                type="button"
-                @click="emit('edit_item', item)"
-                class="
-                  group
-                  relative
-                  inline-block
-                  px-4
-                  py-2
-                  text-sm
-                  font-medium
-                  text-gray-900
-                  bg-white
-                  border border-gray-200
-                  rounded-r-lg
-                  hover:bg-gray-100 hover:text-blue-700
-                  focus:z-10
-                  focus:ring-2
-                  focus:ring-blue-700
-                  focus:text-blue-700
-                  dark:bg-gray-700
-                  dark:border-gray-600
-                  dark:text-white
-                  dark:hover:text-white
-                  dark:hover:bg-gray-600
-                  dark:focus:ring-blue-500
-                  dark:focus:text-white
-                "
-              >
-                <font-awesome-icon
-                  icon="fa-solid fa-gear"
-                  class="mr-1"
-                />
-                <TheTooltip text="Settings"></TheTooltip>
-              </button>
+              <SubMenuButton></SubMenuButton>
             </div>
           </td>
           <td class="px-6 py-4">
@@ -300,6 +266,7 @@ import { ref } from "vue";
 import AlertModal from "../../layouts/Modals/AlertModal.vue";
 import SortIcons from "../../layouts/Icons/SortIcons.vue";
 import Badge from "../../layouts/Badge/Badge.vue";
+import SubMenuButton from "../../components/MenuButton.vue";
 
 const props = defineProps({
   page_name: String,
