@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('report/getStockReport', [ReportController::class, 'getStockReport']);
     Route::get('report/getStockReport', [ReportController::class, 'getStockReport']);
 
+    Route::get('/invoice/{id}', [SaleController::class, 'create_invoice']);
     Route::resource('sales', SaleController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);
@@ -72,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('zones', ZoneController::class);
 
 
-    Route::inertia('/invoice', 'InvoiceScreen');
+    
 });
 
 Route::inertia('/login', 'Users/Index')->name('login');

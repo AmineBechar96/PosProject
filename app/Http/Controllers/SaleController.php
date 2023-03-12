@@ -59,6 +59,16 @@ class SaleController extends Controller
         //
     }
 
+    public function create_invoice($id)
+    {
+        $sale = Sale::find(2);
+        $products = $sale->products;
+        $customer = Customer::find($sale->client_id);
+        return Inertia::render('InvoiceScreen', [
+            'data' => $sale, 'products' => $products,'customer'=>$customer
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
