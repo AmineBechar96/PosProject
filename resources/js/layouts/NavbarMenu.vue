@@ -7,9 +7,10 @@
     <Menu as="div" class="relative ml-6" v-if="item.subMenu == 'multiMenuPeople'">
         <div>
             <MenuButton
-            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']">
+            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-1 py-2 rounded-md text-sm font-medium']">
                 <font-awesome-icon class="mr-1" :icon="item.icon" />
                 {{ item.name }}
+                <font-awesome-icon class="ml-1" icon="fa-solid fa-chevron-down" />
             </MenuButton>
         </div>
         <transition enter-active-class="transition ease-out duration-100"
@@ -54,6 +55,7 @@
             :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']">
                 <font-awesome-icon class="mr-1" :icon="item.icon" />
                 {{ item.name }}
+                <font-awesome-icon class="ml-1" icon="fa-solid fa-chevron-down" />
             </MenuButton>
         </div>
         <transition enter-active-class="transition ease-out duration-100"

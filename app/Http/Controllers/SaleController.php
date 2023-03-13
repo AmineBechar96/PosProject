@@ -61,11 +61,12 @@ class SaleController extends Controller
 
     public function create_invoice($id)
     {
-        $sale = Sale::find(2);
+        $sale = Sale::find($id);
         $products = $sale->products;
         $customer = Customer::find($sale->client_id);
+        $user = Setting::find(1);
         return Inertia::render('InvoiceScreen', [
-            'data' => $sale, 'products' => $products,'customer'=>$customer
+            'data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user
         ]);
     }
 

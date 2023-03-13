@@ -25,7 +25,6 @@ class PurchaseFactory extends Factory
             'payement' => $this->faker->randomFloat(10000,5000.0,100000.0),
             'description' => $this->faker->sentence(),
             'attachment' => $this->faker->sentence(),
-            'status' => $this->faker->boolean(),
             'type' => $this->faker->boolean(),
             'note' => $this->faker->text(),
             'status' => rand(0,2),

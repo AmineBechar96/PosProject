@@ -232,7 +232,7 @@
                 />
                 <TheTooltip text="Edit"></TheTooltip>
               </button>
-              <SubMenuButton></SubMenuButton>
+              <SubMenuButton :id="item.id"></SubMenuButton>
             </div>
           </td>
           <td class="px-6 py-4">

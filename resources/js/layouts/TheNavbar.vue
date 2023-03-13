@@ -214,8 +214,8 @@ const navigation = [
   { name: 'PEOPLE', href: '#', current: false, icon: "fa-solid fa-person" ,subMenu:"multiMenuPeople"},
   { name: 'SALES', href: '/sales', current: false, icon: "fa-solid fa-receipt" ,subMenu:"monoMenu"},
   { name: 'PURCHASE', href: '#', current: false, icon: "fa-solid fa-file-invoice" ,subMenu:"monoMenu"},
-  { name: 'EXPENSE', href: '/expenses', current: true, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
-  { name: 'CATEGORY', href: '#', current: false, icon: "fa-solid fa-bars" ,subMenu:"multiMenuCategory"},
+  { name: 'EXPENSE', href: '/expenses', current: false, icon: "fa-solid fa-dollar-sign" ,subMenu:"monoMenu"},
+  { name: 'CATEGORY', href: '#', current: true, icon: "fa-solid fa-bars" ,subMenu:"multiMenuCategory"},
   { name: 'REPORTS', href: '#', current: false, icon: "fa-solid fa-chart-pie" ,subMenu:"monoMenu"},
 ]
 </script>
