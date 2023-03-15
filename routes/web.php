@@ -6,6 +6,9 @@ use App\Http\Controllers\CategoryExpenceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenceController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\WaiterController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;

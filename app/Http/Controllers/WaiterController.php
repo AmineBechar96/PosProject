@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class WaiterController extends Controller
@@ -18,9 +19,25 @@ class WaiterController extends Controller
      */
     public function index()
     {
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
         $stores = Store::all();
-        $waiters = Waiter::all();
-        return Inertia::render('WaiterScreen', ['stores' => $stores, 'waiters' => $waiters]);
+        $waiters = Waiter::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->join('stores', 'stores.id', '=', 'waiters.store_id')
+            ->select('waiters.*', 'stores.name as name2')
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('People/AllPeopleScreen', [
+            'page_name' => 'Waiters', 'data' => $waiters ,'stores' => $stores,'filters' => FacadesRequest::only(['search', 'per_pages'])
+        ]);
     }
 
     /**
@@ -42,14 +59,12 @@ class WaiterController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:50',
-            'phone' => 'required|phone|max:30',
-            'email' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:waiters,name',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:50',
+            'store_id'=> 'int'
         ]);
-
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Waiter::create($data);
-        return response(['success' => true]);
     }
 
     /**
@@ -85,8 +100,6 @@ class WaiterController extends Controller
 
         $hold->waiter_id = $id;
         $hold->save();
-
-        return response(['success' => true]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -97,7 +110,6 @@ class WaiterController extends Controller
     public function edit($id)
     {
         $waiter = Waiter::find($id)->get();
-        return Response(['waiter' => $waiter]);
     }
 
     /**
@@ -110,12 +122,11 @@ class WaiterController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:50',
-            'phone' => 'required|phone|max:30',
-            'email' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:waiters,name',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:50',
         ]);
-        Waiter::where('id', $id)->update([$data]);
-        return response(['success' => true]);
+        Waiter::where('id', $id)->update($data);
     }
 
     /**
@@ -127,6 +138,5 @@ class WaiterController extends Controller
     public function destroy($id)
     {
         Waiter::destroy($id);
-        return response(['success' => true]);
     }
 }

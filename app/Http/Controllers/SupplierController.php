@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class SupplierController extends Controller
@@ -16,8 +17,22 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::all();
-        return Inertia::render('SupplierScreen', ['suppliers'=>$suppliers]);
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        $suppliers = Supplier::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('People/AllPeopleScreen', [
+            'page_name' => 'Suppliers', 'data' => $suppliers ,'filters' => FacadesRequest::only(['search', 'per_pages'])
+        ]);
     }
 
     /**
@@ -39,15 +54,12 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:200',
-            'phone'=>'required|phone|max:25',
-            'email'=>'required|string|max:150',
+            'name'=>'required|string|max:200|unique:suppliers,name',
+            'phone'=>'required|max:25',
+            'email'=>'required|email|max:150',
             'note'=>'required|string|max:150',
         ]);
-    
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Supplier::create($data);
-        return response(['success'=>true]);
     }
 
     /**
@@ -70,7 +82,6 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $supplier = Supplier::find($id)->get();
-        return Response(['customer'=>$supplier]);
     }
 
     /**
@@ -83,13 +94,12 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:200',
-            'phone'=>'required|phone|max:25',
-            'email'=>'required|string|max:150',
+            'name'=>'required|string|max:200|unique:suppliers,name',
+            'phone'=>'required|max:25',
+            'email'=>'required|email|max:150',
             'note'=>'required|string|max:150',
         ]);
-        Supplier::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
+        Supplier::where('id',$id)->update($data);
     }
 
     /**
@@ -101,6 +111,5 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         Supplier::destroy($id);
-        return response(['success'=>true]);
     }
 }

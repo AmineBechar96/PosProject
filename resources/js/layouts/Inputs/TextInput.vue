@@ -17,7 +17,7 @@ import { ref, watch } from 'vue'
 const props = defineProps({
     form_inputs: Object,
     type: String,
-    errors: String
+    errors: String,
 })
 
 const emit = defineEmits(["form"])

@@ -32,9 +32,9 @@
                                       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                           <DialogTitle as="h3"
                                                 class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                Edit {{form.reference + toTitleCase(props.page_name)}}</DialogTitle>
+                                                Edit {{ toTitleCase(props.page_name)}}</DialogTitle>
                                             <DatePicker :form_inputs="{ input: 'Date',var_model:'date' }" :errors="errors.date"
-                                              @form="form_method"></DatePicker>
+                                             @form="form_method"></DatePicker>
                                             <TextInput :form_inputs="{ input: 'Reference',var_model:'reference',var_edit:items.reference }" :errors="errors.reference"
                                               @form="form_method"></TextInput>
                                             <SelectInput title="Category" :data="categories" :var_edit="items.category_id" @form="form_method"></SelectInput>
@@ -122,7 +122,6 @@ function toTitleCase(str) {
 const emit = defineEmits(['close', 'update'])
 
 function form_method({ form_inputs, value }) {
-    console.log(value)
     form[form_inputs] = value;
 }
 </script>

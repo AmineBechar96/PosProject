@@ -1,13 +1,13 @@
 <template>
     <Link :key="item.name" :href="item.href" v-if="item.subMenu == 'monoMenu'"
-        :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-2 py-2 rounded-md text-sm font-medium']"
+        :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-2 py-3 rounded-md text-sm font-medium']"
         :aria-current="item.current ? 'page' : undefined"><font-awesome-icon class="mr-1" :icon="item.icon" />
         {{ item.name }}
     </Link>
     <Menu as="div" class="relative ml-6" v-if="item.subMenu == 'multiMenuPeople'">
         <div>
             <MenuButton
-            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-1 py-2 rounded-md text-sm font-medium']">
+            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-1 py-3 rounded-md text-sm font-medium']">
                 <font-awesome-icon class="mr-1" :icon="item.icon" />
                 {{ item.name }}
                 <font-awesome-icon class="ml-1" icon="fa-solid fa-chevron-down" />
@@ -20,31 +20,31 @@
             <MenuItems
                 class="absolute left-0 z-10 mt-2 w-36 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none font-medium">
                 <MenuItem v-slot="{ active }">
-                <a href="#"
+                <Link href="/waiters"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                     role="menuitem">
                     <div class="inline-flex items-center">
                         WAITERS
                     </div>
-                </a>
+                </Link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <a href="#"
+                    <Link href="/customers"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                     role="menuitem">
                     <div class="inline-flex items-center">
                         CUSTOMERS
                     </div>
-                </a>
+                </Link>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <a href="#"
+                    <Link href="/suppliers"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                     role="menuitem">
                     <div class="inline-flex items-center">
                         SUPPLIERS
                     </div>
-                </a>
+                </Link>
                 </MenuItem>
             </MenuItems>
         </transition>
@@ -52,7 +52,7 @@
     <Menu as="div" class="relative ml-6" v-if="item.subMenu == 'multiMenuCategory'">
         <div>
             <MenuButton
-            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']">
+            :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-700 hover:text-white', 'px-3 py-3 rounded-md text-sm font-medium']">
                 <font-awesome-icon class="mr-1" :icon="item.icon" />
                 {{ item.name }}
                 <font-awesome-icon class="ml-1" icon="fa-solid fa-chevron-down" />

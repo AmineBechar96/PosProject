@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Hold;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -17,9 +18,21 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
-        return Inertia::render('CustomerScreen', [
-            'customers'=>$customers
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        $customers = Customer::query()
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->paginate($perPage)
+            ->withQueryString();
+        return Inertia::render('People/AllPeopleScreen', [
+            'page_name' => 'Customers', 'data' => $customers ,'filters' => FacadesRequest::only(['search', 'per_pages'])
         ]);
     }
 
@@ -42,15 +55,12 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:50',
-            'phone' => 'required|phone|max:30',
-            'email' => 'required|string|max:50',
-            'discount' => 'required|int'
+            'name' => 'required|string|max:50|unique:customers,name',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:50',
+            'discount' => 'required|int|max:100'
         ]);
-
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Customer::create($data);
-        return response(['success' => true]);
     }
 
     /**
@@ -86,14 +96,15 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $data = $request->validate([
             'name' => 'required|string|max:50',
-            'phone' => 'required|string|max:30',
-            'email' => 'required|string|max:50',
-            'discount' => 'required|int',
+            'phone' => 'required|max:30',
+            'email' => 'required|email|max:50',
+            'discount' => 'int|max:100'
         ]);
-        Customer::where('id', $id)->update([$data]);
-        return response(['success' => true]);
+        Customer::where('id', $id)->update($data);
+       
     }
 
     public function customerName(Request $request)
@@ -112,8 +123,6 @@ class CustomerController extends Controller
 
         $hold->customer_id = $id;
         $hold->save();
-
-        return response(['success' => true]);
     }
 
     /**
@@ -125,6 +134,5 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         Customer::destroy($id);
-        return response(['success' => true]);
     }
 }

@@ -165,7 +165,7 @@ class SaleController extends Controller
         $items = $sale->products();
         $client = Customer::find($sale->client_id);
         $payements = $sale->payementIncomes();
-        return ['sale'=>$sale,'items'=>$items,'client'=>$client,'payements'=>$payements]; 
+        
     }
 
     /**
