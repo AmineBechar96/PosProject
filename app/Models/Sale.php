@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
-{
+{   public $guarded = [];
     use HasFactory;
     public function register(){
         return $this->belongsTo(Register::class);

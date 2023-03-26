@@ -49,22 +49,36 @@
       </MenuItems>
     </transition>
   </Menu>
+  <Teleport to="body">
+    <PayementModalSale
+      page_name="payementIncome"
+      :open="activePayementModal"
+      @close="closeModal()"
+    ></PayementModalSale>
+  </Teleport>
 </template>
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { router } from '@inertiajs/vue3'
+import { ref } from "vue";
+import PayementModalSale from "../layouts/Modals/Payement/PayementModal.vue";
+
+import { usePayementStore } from "../stores/PayementStores.js";
 
 const props = defineProps({
-  id: String,
+  id: Number,
 });
+const activePayementModal = ref(false);
 
-function open_payement(id) {
-  var data = router.get("sales/"+id, {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: () => console.log("aw"),
-  });
+async function open_payement(id) {
+
+  const payementStore = usePayementStore();
+  await payementStore.getPayementData(id);
+  activePayementModal.value = true;
+
+}
+function closeModal() {
+  activePayementModal.value = false;
 }
 </script>

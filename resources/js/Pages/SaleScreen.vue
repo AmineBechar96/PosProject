@@ -7,6 +7,7 @@
           class="mt-6 ml-20"
           :menu="[menu]"
         ></BreadcumberComponent>
+        {{ dat }}
         <div
           class="
             mx-auto
@@ -61,7 +62,7 @@
         </div>
       </div>
       <Teleport to="body">
-        <!--<EditModalSale
+        <EditModalSale
           :page_name="page_name"
           :open="activeEditModal"
           :customers="customers"
@@ -70,18 +71,7 @@
           @close="closeModal(2)"
           @update="update_item"
           :items="items"
-        ></EditModalSale>-->
-        <InvoiceModalSale
-          :page_name="page_name"
-          :open="activeEditModal"
-          :customers="customers"
-          :sales="sales"
-          :errors="errors"
-          @close="closeModal(2)"
-          @update="update_item"
-          :items="items"
-        ></InvoiceModalSale>
-        
+        ></EditModalSale>
       </Teleport>
     </div>
   </Base>
@@ -95,7 +85,6 @@ import SaleTable from "../components/Table/SaleTable.vue";
 import Pagination from "../components/Pagination.vue";
 
 import EditModalSale from "../layouts/Modals/Edit/EditModalSale.vue";
-import InvoiceModalSale from "../layouts/Modals/Invoice/InvoiceModal.vue";
 
 
 import { router } from "@inertiajs/vue3";
@@ -107,6 +96,7 @@ const props = defineProps({
   customers: Object,
   per_pages: Object,
   errors: Object,
+  dat: Object,
 });
 
 const activeEditModal = ref(false);
@@ -142,7 +132,6 @@ function update_item(items) {
     }
   );
 }
-
 function filter({ column, direction, per_pages, search }) {
   if (column != null) {
     column_ref.value = column;

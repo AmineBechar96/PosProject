@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col items-center">
         <div class="inline-flex xs:mt-0" v-if="links.length > 1">
-            <Link :href="links[0].url" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gray-200
+            <Link :href="links[0].url?links[0].url:'#'" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gray-200
                 rounded-l hover:bg-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400
                 dark:hover:bg-gray-700 dark:hover:text-white">
             <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
@@ -12,7 +12,7 @@
             </svg>
             Prev
             </Link>
-            <Link :href="links[links.length - 1].url"
+            <Link :href="links[links.length - 1].url ? links[links.length - 1].url:'#'"
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gray-200
                 rounded-l hover:bg-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400
                 dark:hover:bg-gray-700 dark:hover:text-white">

@@ -30,23 +30,6 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-[1218px]"
             >
-              <form
-                @submit.prevent="
-                  router.post(
-                    props.page_name + '/' + props.items.id,
-                    {
-                      _method: 'put',
-                      client_id: form.client_id,
-                      paid: form.paid,
-                    },
-                    {
-                      preserveScroll: true,
-                      onStart: () => (errors.date = null),
-                      onSuccess: () => emit('close'),
-                    }
-                  )
-                "
-              >
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div class="">
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
@@ -54,7 +37,7 @@
                         as="h3"
                         class="text-lg mb-8 font-medium leading-6 text-gray-900"
                       >
-                        Payements</DialogTitle
+                        Detailed Payements</DialogTitle
                       >
 
                       <div class="col-span-12 lg:col-span-4">
@@ -68,7 +51,7 @@
                               <p
                                 class="text-xl font-semibold text-slate-700 dark:text-navy-100"
                               >
-                                $67.6k
+                                {{ payementStore.items.sale.total }} DA
                               </p>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +77,7 @@
                               <p
                                 class="text-xl font-semibold text-slate-700 dark:text-navy-100"
                               >
-                                12.6K
+                                {{ payementStore.items.sale.paid }} DA
                               </p>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +103,12 @@
                               <p
                                 class="text-xl font-semibold text-slate-700 dark:text-navy-100"
                               >
-                                143
+                                {{
+                                  (payementStore.items.sale.total - payementStore.items.sale.paid).toFixed(
+                                    2
+                                  )
+                                }}
+                                DA
                               </p>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +138,7 @@
                               <th
                                 class="whitespace-nowrap rounded-l-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                               >
-                                #
+                                Date
                               </th>
                               <th
                                 class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
@@ -160,13 +148,14 @@
                               <th
                                 class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                               >
-                                Job
+                                Amount
                               </th>
                               <th
                                 class="whitespace-nowrap rounded-r-lg bg-slate-200 px-3 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
                               >
-                                Favorite Color
+                                Method
                               </th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -176,78 +165,94 @@
                               <td
                                 class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
                               >
-                                1
+                                {{
+                                  new Date(
+                                    payementStore.items.sale.created_at
+                                  ).toLocaleDateString("fr-CA")
+                                }}
                               </td>
                               <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Cy Ganderton
+                                {{ payementStore.items.user.username }}
                               </td>
                               <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Quality Control Specialist
+                                {{ payementStore.items.sale.first_payement }} DA
                               </td>
                               <td
                                 class="whitespace-nowrap rounded-r-lg px-4 py-3 sm:px-5"
                               >
-                                Blue
+                                <div
+                                  v-if="payementStore.items.sale.type == 0"
+                                  class="badge rounded-full border border-info text-info"
+                                >
+                                  Cash
+                                </div>
+                                <div
+                                  v-else-if="payementStore.items.sale.type == 1"
+                                  class="badge rounded-full border border-info text-primary"
+                                >
+                                  Cheque
+                                </div>
+                                <div
+                                  v-else
+                                  class="badge rounded-full border border-success text-success"
+                                >
+                                  Visa
+                                </div>
                               </td>
                             </tr>
                             <tr
+                              v-for="payement in payementStore.items.payements"
+                              :key="payement.id"
                               class="border border-transparent border-b-slate-200 dark:border-b-navy-500"
                             >
                               <td
                                 class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
                               >
-                                2
+                                {{ payement.date }}
                               </td>
                               <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Hart Hagerty
+                                {{ payement[0].username }}
                               </td>
                               <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Desktop Support Technician
+                                {{ payement.paid }} DA
                               </td>
                               <td
                                 class="whitespace-nowrap rounded-r-lg px-4 py-3 sm:px-5"
                               >
-                                Purple
+                                <div
+                                  v-if="payement.type == 0"
+                                  class="badge rounded-full border border-info text-info"
+                                >
+                                  Cash
+                                </div>
+                                <div
+                                  v-else-if="payement.type == 1"
+                                  class="badge rounded-full border border-info text-primary"
+                                >
+                                  Cheque
+                                </div>
+                                <div
+                                  v-else
+                                  class="badge rounded-full border border-success text-success"
+                                >
+                                  Visa
+                                </div>
                               </td>
-                            </tr>
-                            <tr
-                              class="border border-transparent border-b-slate-200 dark:border-b-navy-500"
-                            >
-                              <td
-                                class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
-                              >
-                                3
-                              </td>
-                              <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Brice Swyre
-                              </td>
-                              <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Tax Accountant
-                              </td>
-                              <td
-                                class="whitespace-nowrap rounded-r-lg px-4 py-3 sm:px-5"
-                              >
-                                Red
-                              </td>
-                            </tr>
-                            <tr
-                              class="border border-transparent border-b-slate-200 dark:border-b-navy-500"
-                            >
-                              <td
-                                class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
-                              >
-                                4
-                              </td>
-                              <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Marjy Ferencz
-                              </td>
-                              <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                                Office Assistant I
-                              </td>
-                              <td
-                                class="whitespace-nowrap rounded-r-lg px-4 py-3 sm:px-5"
-                              >
-                                Crimson
+                              <td>
+                                <a class="cursor-pointer" @click="deletePayement(payement.id)">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-4 text-warning"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                  >
+                                    <path
+                                      fill="#000000"
+                                      fill-rule="evenodd"
+                                      d="M7 1a2 2 0 00-2 2v2H2a1 1 0 000 2h.884c.036.338.078.754.12 1.213.11 1.202.218 2.664.218 3.787 0 1.47-.183 3.508-.315 4.776a2.015 2.015 0 002 2.224h10.186a2.015 2.015 0 002-2.224c-.132-1.268-.315-3.306-.315-4.776 0-1.123.107-2.585.218-3.787.042-.459.084-.875.12-1.213H18a1 1 0 100-2h-3V3a2 2 0 00-2-2H7zm6 4V3H7v2h6zM4.996 8.03c-.035-.378-.07-.728-.101-1.03h10.21a81.66 81.66 0 00-.1 1.03c-.112 1.212-.227 2.75-.227 3.97 0 1.584.194 3.714.325 4.982v.007a.02.02 0 01-.005.008l-.003.003H4.905a.024.024 0 01-.008-.01v-.008c.131-1.268.325-3.398.325-4.982 0-1.22-.115-2.758-.226-3.97zM8 8a1 1 0 011 1v6a1 1 0 11-2 0V9a1 1 0 011-1zm5 1a1 1 0 10-2 0v6a1 1 0 102 0V9z"
+                                    />
+                                  </svg>
+                                </a>
                               </td>
                             </tr>
                           </tbody>
@@ -261,47 +266,34 @@
                   class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                 >
                   <button
-                    v-if="form.processing"
-                    disabled
-                    type="button"
                     class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-700 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      role="status"
-                      class="inline mr-2 w-4 h-4 text-gray-200 animate-spin dark:text-gray-600"
-                      viewBox="0 0 100 101"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="#1C64F2"
-                      />
-                    </svg>
-                    Loading...
-                  </button>
-                  <button
-                    v-else
-                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-green-700 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    :disabled="form.processing"
+                    @click="activeAddModal = true"
                   >
                     Add Payement
                   </button>
                   <button
                     type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    :disabled="form.processing"
                     @click="emit('close')"
                   >
                     Cancel
                   </button>
                 </div>
-              </form>
+          
+              <Teleport to="body">
+                <AlertModal
+                  v-if="activeAlertModal"
+                  :id="item_id"
+                  @close="closeModal()"
+                  @confirm="confirm_delete_item"
+                >
+                </AlertModal>
+                <AddPayement
+                  v-if="activeAddModal"
+                >
+                </AddPayement>
+                
+              </Teleport>
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -320,21 +312,25 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { Head, useForm, router } from "@inertiajs/vue3";
-
-import InvoiceComponent from "../../../components/InvoiceComponent.vue";
+import { ref,reactive,toRefs } from "vue";
+import AlertModal from "../AlertModal.vue";
+import AddPayement from "./AddPayement.vue";
+import { usePayementStore } from "../../../stores/PayementStores.js";
 
 const props = defineProps({
   page_name: String,
   errors: Object,
-  customers: Object,
-  items: Object,
   open: Boolean,
-});
+})
 
-const form = useForm({
-  client_id: props.items.client_id,
-  status: props.items.status,
-});
+const payementStore = usePayementStore()
+const items = ref(payementStore.items)
+const item_id = ref(0);
+
+
+const activeAlertModal = ref(false);
+const activeAddModal = ref(false);
+
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -342,7 +338,23 @@ function toTitleCase(str) {
 }
 const emit = defineEmits(["close", "update"]);
 
-function form_method({ form_inputs, value }) {
-  form[form_inputs] = value;
+function deletePayement(id) {
+  item_id.value = id;
+  activeAlertModal.value = true;
+}
+async function confirm_delete_item({ decision, id }) {
+  activeAlertModal.value = false;
+  if (decision == true) {
+    await payementStore.deletePayement(id)
+  }
 }
 </script>
+
+<style scoped>
+.badge,
+.tag {
+  @apply inline-flex items-center justify-center px-2 py-1.5
+     text-xs font-inter tracking-wide align-baseline transition-all duration-200
+     leading-none rounded font-medium;
+}
+</style>

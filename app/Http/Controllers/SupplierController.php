@@ -54,10 +54,10 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:200|unique:suppliers,name',
-            'phone'=>'required|max:25',
-            'email'=>'required|email|max:150',
-            'note'=>'required|string|max:150',
+            'name'=> $request->name != null ? 'sometimes|required|string|max:200|unique:suppliers,name':'',
+            'phone'=>$request->phone != null ?'sometimes|required|max:25':'',
+            'email'=>$request->email != null ?'sometimes|required|email|max:150':'',
+            'note'=>'string|max:150',
         ]);
         Supplier::create($data);
     }
@@ -94,10 +94,10 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:200|unique:suppliers,name',
-            'phone'=>'required|max:25',
-            'email'=>'required|email|max:150',
-            'note'=>'required|string|max:150',
+            'name'=> $request->has('name') ? 'required|string|max:200|unique:suppliers,name':'',
+            'phone'=>$request->has('phone') ?'required|max:25':'',
+            'email'=>$request->has('email') ?'required|email|max:150':'',
+            'note'=>'string|max:150',
         ]);
         Supplier::where('id',$id)->update($data);
     }

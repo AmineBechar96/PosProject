@@ -9,6 +9,8 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\WaiterController;
+use App\Http\Controllers\PayementIncomeController;
+use App\Http\Controllers\PayementOutcomeController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;

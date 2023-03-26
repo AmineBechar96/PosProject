@@ -14,14 +14,10 @@
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel
                             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                            <form @submit.prevent="router.post(props.page_name + '/' + props.items.id, {
-                                _method: 'put',
-                                client_id: form.client_id,
-                                  paid: form.paid,
-                                },{
+                            <form @submit.prevent="form.put(props.page_name + '/' + props.items.id, {
                                 preserveScroll: true,
-                                onStart: () => errors.date = null,
-                                onSuccess: () => emit('close'),
+                                onStart: () => errors = null,
+                                onFinish: () => emit('close'),
                             })">
                                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div class="sm:flex sm:items-start">
@@ -29,8 +25,8 @@
                                             <DialogTitle as="h3"
                                                   class="text-lg mb-8 font-medium leading-6 text-gray-900">
                                                   Edit {{toTitleCase(props.page_name)}}</DialogTitle>
-                                              <SelectInput title="Change Client" :data="customers" :var_edit="items.client_id" @form="form_method"></SelectInput>
-                                              <SelectInput title="Change Status" :data="[{id:0,name:'Unpaid'},{id:1,name:'Partially'},{id:2,name:'Paid'}]" :var_edit="items.status" @form="form_method"></SelectInput>
+                                              <SelectInput title="Change Client" :data="customers" var_input ="client" :var_edit="items.client_id" @form="form_method"></SelectInput>
+                                              <SelectInput title="Change Status" var_input ="status" :data="[{id:0,name:'Unpaid'},{id:1,name:'Partially'},{id:2,name:'Paid'}]" :var_edit="items.status" @form="form_method"></SelectInput>
                                         </div>
                                     </div>
                                 </div>
@@ -96,6 +92,10 @@
   const emit = defineEmits(['close', 'update'])
   
   function form_method({ form_inputs, value }) {
+    if(form_inputs == 'status_id'){
+        form_inputs = 'status'
+    }
       form[form_inputs] = value;
+      console.log(form_inputs)
   }
   </script>

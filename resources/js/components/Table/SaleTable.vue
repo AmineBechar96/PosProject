@@ -242,9 +242,9 @@
             {{ item.total_items }}
           </td>
           <td class="px-6 py-4">
-            <Badge v-if="(item.status == 0)" title="Unpaid" color="red"></Badge>
-            <Badge v-else-if="(item.status == 1)" title="Partially" color="yellow"></Badge>
-            <Badge v-else title="Paid" color="green"></Badge>
+            <Badge v-if="(item.status == 0)" title="Unpaid" color="secondary"></Badge>
+            <Badge v-else-if="(item.status == 1)" title="Partially" color="warning"></Badge>
+            <Badge v-else title="Paid" color="success"></Badge>
           </td>
         </tr>
       </tbody>
@@ -258,12 +258,18 @@
       @confirm="confirm_delete_item"
     >
     </AlertModal>
+    <SuccessModal
+      v-if="activeSuccessModal"
+      @close="closeModal()"
+    >
+    </SuccessModal>
   </Teleport>
 </template>
 <script setup>
 import { router } from "@inertiajs/vue3";
 import { ref } from "vue";
 import AlertModal from "../../layouts/Modals/AlertModal.vue";
+import SuccessModal from "../../layouts/Modals/SucessModal.vue";
 import SortIcons from "../../layouts/Icons/SortIcons.vue";
 import Badge from "../../layouts/Badge/Badge.vue";
 import SubMenuButton from "../../components/MenuButton.vue";
@@ -275,6 +281,7 @@ const props = defineProps({
 });
 
 const activeAlertModal = ref(false);
+const activeSuccessModal= ref(false);
 
 const item_id = ref(0);
 const column = ref("id");
@@ -291,7 +298,6 @@ function delete_item(id) {
   item_id.value = id;
   activeAlertModal.value = true;
 }
-console.log(props.data)
 
 function confirm_delete_item({ decision, id }) {
   activeAlertModal.value = false;
@@ -299,8 +305,12 @@ function confirm_delete_item({ decision, id }) {
     router.delete("/" + props.routes + "/" + id, {
       preserveState: true,
       replace: true,
+      onSuccess: () => (activeSuccessModal.value = true),
     });
   }
+}
+function closeModal() {
+  activeSuccessModal.value = false;
 }
 const emit = defineEmits(["edit_item", "filter"]);
 </script>

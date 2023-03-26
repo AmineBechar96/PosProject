@@ -38,12 +38,13 @@ const props = defineProps({
   title: String,
   data: Object,
   var_edit: Number,
+  var_input:String,
 });
 
 const emit = defineEmits(["form"]);
 const form_value = ref(props.var_edit);
 
 watch(form_value, (value) => {
-  emit("form", { value, form_inputs: props.title.toLowerCase() + "_id" });
+  emit("form", { value, form_inputs: props.var_input.toLowerCase() + "_id" });
 });
 </script>

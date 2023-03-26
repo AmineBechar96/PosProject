@@ -107,12 +107,11 @@ class PayementIncomeController extends Controller
     public function destroy($id)
     {
         $payement = PayementIncome::find($id);
-        $sale = $payement->sale();
+        $sale = Sale::find($payement->sale_id);
         $sale->paid = $sale->paid - $payement->paid;
         $status = $sale->paid - $sale->total;
         $sale->status = $status === -floatval($sale->total) ? 1 : 2;
         $sale->save();
-        $payement->destroy();
-        return response(['success' => true]);
+        PayementIncome::destroy($id);
     }
 }

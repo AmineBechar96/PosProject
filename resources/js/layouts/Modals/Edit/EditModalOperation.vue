@@ -24,7 +24,7 @@
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <DialogTitle as="h3"
                                                   class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                  Edit {{toTitleCase(props.page_name)}}</DialogTitle>
+                                                  Edit {{ toTitleCase(props.page_name)}}</DialogTitle>
                                               
                                                 <TextInput :form_inputs="{ input: 'Waiter Name',var_model:'name',var_edit:items.name }" :errors="errors.name"
                                                 @form="form_method"></TextInput>
@@ -94,9 +94,9 @@
       name: props.items.name,
       phone: props.items.phone,
       email: props.items.email,
-      store_id: props.items.store_id ? props.items.store_id : 0,
-      note: props.items.note ? props.items.note : "nothing",
-      discount: props.items.discount ? props.items.discount : 0 ,
+      store_id: props.items.store_id,
+      note: props.items.note,
+      discount: props.items.discount,
   })
   
   function toTitleCase(str) {

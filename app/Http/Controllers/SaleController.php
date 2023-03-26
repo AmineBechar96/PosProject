@@ -12,6 +12,7 @@ use App\Models\Sale;
 use App\Models\Setting;
 use App\Models\Stock;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
@@ -28,9 +29,6 @@ class SaleController extends Controller
         $customers = Customer::all();
         $perPage = FacadesRequest::input('per_pages');
         if ($perPage == null) {
-            $perPage = 5;
-        }
-        if (FacadesRequest::input('checkbox') != null) {
             $perPage = 5;
         }
         $sales = Sale::query()
@@ -78,6 +76,8 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        $payements = $sale->payementIncomes();
+        dd($payements);
         $type = $request['type'];
         $tableId = $request['table_id'];
         $setting = Setting::find(1);
@@ -162,10 +162,16 @@ class SaleController extends Controller
     public function show($id)
     {
         $sale = Sale::find($id);
-        $items = $sale->products();
-        $client = Customer::find($sale->client_id);
-        $payements = $sale->payementIncomes();
+        $items = $sale->products;
+        $user = User::find($sale->created_by);
+        $payements = $sale->payementIncomes;
         
+        $payements= $payements->map(function ($item, $key) {
+            $users = User::all();
+            $single_user = $users->where('id',$item->created_by);
+            return collect($item)->merge($single_user);
+        });
+        return ['user'=>$user,'sale'=>$sale,'items'=>$items,'payements'=>$payements];
     }
 
     /**
@@ -194,10 +200,8 @@ class SaleController extends Controller
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
-        $request["modified_at"] = $date;
+        $request["updated_at"] = $date;
         Sale::find($id)->update($request->json()->all());
-        return response(['success' => true]);
-        
     }
 
     /**
@@ -211,6 +215,5 @@ class SaleController extends Controller
         $sale = Sale::find($id);
         $sale->products()->detach();
         Sale::destroy($id);
-        return response(['success' => true]);
     }
 }
