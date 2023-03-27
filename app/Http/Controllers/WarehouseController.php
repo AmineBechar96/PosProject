@@ -38,15 +38,13 @@ class WarehouseController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:100',
-            'phone'=>'required|phone|max:20',
-            'email'=>'required|string|max:200',
-            'address'=>'required|string|max:400',
+            'name'=>$request->has('name') ? 'required|string|max:100|unique:warehouses':'',
+            'phone'=>$request->has('phone') ?'required|phone|max:20':'',
+            'email'=> $request->has('email') ?'required|string|max:200':'',
+            'address'=>$request->has('address') ?'required|string|max:400':'',
         ]);
     
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Warehouse::create($data);
-        return response(['success'=>true]);
     }
 
     /**
@@ -82,14 +80,13 @@ class WarehouseController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:100',
-            'phone'=>'required|phone|max:20',
-            'email'=>'required|string|max:200',
-            'address'=>'required|string|max:400',
+            'name'=>$request->has('name') ? 'required|string|max:100|unique:warehouses':'',
+            'phone'=>$request->has('phone') ?'required|phone|max:20':'',
+            'email'=>$request->has('email') ?'required|string|max:200':'',
+            'address'=>$request->has('address') ?'required|string|max:400':'',
         ]);
+        if(count($data)>0)
         Warehouse::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
-
     }
 
     /**
@@ -101,6 +98,5 @@ class WarehouseController extends Controller
     public function destroy($id)
     {
         Warehouse::destroy($id);
-        return response(['success'=>true]);
     }
 }

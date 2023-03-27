@@ -59,11 +59,12 @@ class WaiterController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:50|unique:waiters,name',
-            'phone' => 'required|max:30',
-            'email' => 'required|email|max:50',
+            'name' => $request->has('name') ?'required|string|max:50|unique:waiters,name':'',
+            'phone' => $request->has('phone') ?'required|max:30':'',
+            'email' => $request->has('email')? 'required|email|max:50':'',
             'store_id'=> 'int'
         ]);
+        if(count($data)>0)
         Waiter::create($data);
     }
 
@@ -122,9 +123,9 @@ class WaiterController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:50|unique:waiters,name',
-            'phone' => 'required|max:30',
-            'email' => 'required|email|max:50',
+            'name' => $request->has('name') ?'required|string|max:50|unique:waiters,name':'',
+            'phone' => $request->has('phone') ?'required|max:30':'',
+            'email' => $request->has('email')? 'required|email|max:50':''
         ]);
         Waiter::where('id', $id)->update($data);
     }

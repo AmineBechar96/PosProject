@@ -46,7 +46,6 @@ class HoldController extends Controller
             'table_id' => $request['table_id']
         );
         Hold::create($attributes);
-        return response(['success' => true]);
     }
 
     /**
@@ -87,7 +86,6 @@ class HoldController extends Controller
     {
         Posale::where(['status' => 1, 'register_id' => $request["register_id"]])->update(['status' => 0]);
         Posale::where(['number' => $id, 'register_id' => $request["register_id"]])->update(['status' => 1]);
-        return response(['success' => true]);
     }
 
     /**
@@ -108,6 +106,5 @@ class HoldController extends Controller
         $hold = Hold::where(['register_id' => $request['register_id'], 'table_id' => $request['table_id'],])->order('asc')->first();
 
         Posale::where(['number' => $hold->number, 'register_id' => $request['register_id']])->update(['status' => 1]);
-        return response(['success' => true]);
     }
 }

@@ -83,3 +83,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::inertia('/login', 'Users/Index')->name('login');
 Route::post('login', [LoginController::class, 'store'])->name('login.post');
+
+Route::get('stripe',[StripePaymentController::class,'paymentStripe'])->name('addmoney.paymentstripe');
+Route::post('add-money-stripe',[StripePaymentController::class,'postPaymentStripe'])->name('addmoney.stripe');

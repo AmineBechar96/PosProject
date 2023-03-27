@@ -93,11 +93,12 @@ class CategoryExpenceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $data = $request->validate([
-            'name' => 'required|string|max:60|',
+            'name' => $request->has('name') ?'required|string|max:60|unique:categorie_expences,name':'',
         ]);
-        CategoryExpence::where('id', $id)->update(['name' => $data["name"]]);
-        return response(['success' => true]);
+        if(count($data)>0)
+        CategoryExpence::where('id', $id)->update($data);
     }
 
     /**

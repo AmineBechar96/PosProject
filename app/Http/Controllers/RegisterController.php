@@ -73,7 +73,6 @@ class RegisterController extends Controller
         Hold::where('register_id', $register->id)->delete();
         Posale::where('register_id', $register->id)->delete();
 
-        return response(['success' => true]);
     }
 
     /**

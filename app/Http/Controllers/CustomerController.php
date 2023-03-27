@@ -98,11 +98,12 @@ class CustomerController extends Controller
     {
         
         $data = $request->validate([
-            'name' => 'required|string|max:50',
-            'phone' => 'required|max:30',
-            'email' => 'required|email|max:50',
-            'discount' => 'int|max:100'
+            'name' => $request->has('name') ?'required|string|max:50|unique:customers,name':'',
+            'phone' => $request->has('phone') ?'required|max:30':'',
+            'email' => $request->has('email') ?'required|email|max:50':'',
+            'discount' => $request->has('discount') ?'int|max:100':'',
         ]);
+        if(count($data)>0)
         Customer::where('id', $id)->update($data);
        
     }

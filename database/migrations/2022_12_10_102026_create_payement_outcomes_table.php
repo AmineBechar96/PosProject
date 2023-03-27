@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('payement_outcomes', function (Blueprint $table) {
             $table->id();
             $table->date('date')->nullable();
-            $table->float('paid')->nullable();
+            $table->double('paid')->nullable();
             $table->smallInteger('type')->nullable();
             $table->bigInteger('credit_card_number')->nullable();
             $table->string('credit_card_holder')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('register_id')->references('id')->on('registers')->onDelete('cascade');
             $table->unsignedBigInteger('purchase_id');           
             $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade');
-            $table->unsignedBigInteger('waiter_id');           
+            $table->unsignedBigInteger('waiter_id')->nullable();           
             $table->foreign('waiter_id')->references('id')->on('waiters')->onDelete('cascade');
             
         });

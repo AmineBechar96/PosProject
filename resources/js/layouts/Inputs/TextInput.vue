@@ -3,7 +3,7 @@
         <label for="base-input" class="block mb-2 text-sm font-medium"
             :class="{ 'text-gray-900 dark:text-white': (errors == null), 'text-red-700 dark:text-red-500': (errors != null) }">{{
                 form_inputs.input }}</label>
-        <input :type="type" id="base-input"
+        <input :type="type" id="base-input" step=any
             class="w-96 font-semibold text-sm rounded-lg block w-full p-2.5"
             :class="{'bg-red-50 hover:bg-red-50 border border-red-500 text-red-900 dark:text-red-500 dark:border-red-500': (errors != null), 'bg-gray-50 hover:bg-gray-50 border border-gray-300 text-gray-900 dark:border-gray-600 dark:text-white': (errors == null) }"
             v-model="form_value" @focus="errors = null">

@@ -88,9 +88,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:60|unique:categories,name',
+            'name' => $request->has('name') ? 'required|string|max:60|unique:categories,name':'',
         ]);
-        Category::where('id', $id)->update(['name' => $data["name"], 'display' => $data["display"]]);
+        if(count($data)>0)
+        Category::where('id', $id)->update($data);
     }
 
     public function update_display(Request $request)

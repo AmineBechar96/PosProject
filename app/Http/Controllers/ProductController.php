@@ -57,7 +57,6 @@ class ProductController extends Controller
             $product_op = new Option($option);
             $product->options()->save($product_op);
         }
-        return ["success" => true];
     }
 
     /**
@@ -181,7 +180,6 @@ class ProductController extends Controller
             $product_op = new Option($option);
             $product->options()->save($product_op);
         }
-        return ["success" => true];
     }
 
     public function makePrdInvis($id, $store_id){
@@ -192,7 +190,6 @@ class ProductController extends Controller
         else{
             $product->stores()->attach($store_id);
         }
-        return ["success" => true];
         
     }
     /**

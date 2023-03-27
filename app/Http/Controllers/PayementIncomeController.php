@@ -6,6 +6,7 @@ use App\Models\PayementIncome;
 use App\Models\Register;
 use App\Models\Sale;
 use App\Models\Store;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PayementIncomeController extends Controller
@@ -39,8 +40,8 @@ class PayementIncomeController extends Controller
     public function store(Request $request)
     {
         $type = $request['type'];
-        unset($request['type']);
-        date_default_timezone_set($this->setting->timezone);
+        $setting = Setting::find(1);
+        date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
         $request['date'] = $date;
         $register = Register::find($request['register_id']);
@@ -48,10 +49,14 @@ class PayementIncomeController extends Controller
         if ($type == 2) {
             //Stripe
         }
-        unset($_POST['ccnum']);
-        unset($_POST['ccmonth']);
-        unset($_POST['ccyear']);
-        unset($_POST['ccv']);
+        unset($request['carddate']);
+        unset($request['cvv']);
+        if ($type != 2) {
+            unset($request['credit_card_holder']);
+            if ($type == 0){
+                unset($request['credit_card_number']);  
+            }
+        }
         PayementIncome::create($request->json()->all());
         $sale = Sale::find($request['sale_id']);
 
@@ -59,7 +64,6 @@ class PayementIncomeController extends Controller
         $status = $sale->paid - $sale->total;
         $sale->status = $status >= 0 ? 0 : 2;
         $sale->save();
-        return response(['success' => true]);
     }
 
     /**

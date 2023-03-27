@@ -46,13 +46,12 @@ class TableController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:150',
-            'status' => 'required|phone|max:40',
+            'name' => $request->has('name') ?'required|string|max:150':'',
+            'status' =>$request->has('status') ? 'required|phone|max:40':'',
             'time' => 'required|int',
             'checked' => 'required|string|max:50',
         ]);
 
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Table::create($data);
     }
 
@@ -169,13 +168,13 @@ class TableController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:150',
-            'status' => 'required|phone|max:40',
-            'time' => 'required|int',
-            'checked' => 'required|string|max:50',
+            'name' => $request->has('name') ?'required|string|max:150|unique:tables,name':'',
+            'status' => $request->has('status') ?'required|phone|max:40':'',
+            'time' => $request->has('time') ?'required|int':'',
+            'checked' => $request->has('checked') ?'required|string|max:50':'',
         ]);
+        if(count($data)>0)
         Table::where('id', $id)->update([$data]);
-        return response(['success' => true]);
     }
 
     public function exchangeTables(Request $request)
@@ -214,7 +213,6 @@ class TableController extends Controller
                 }
             }
         }
-        return response(['success' => true]);
     }
 
 
@@ -227,7 +225,6 @@ class TableController extends Controller
     public function destroy($id)
     {
         Zone::destroy($id);
-        return response(['success' => true]);
     }
 
     
@@ -244,7 +241,6 @@ class TableController extends Controller
             $table->time = '';
             $table->save();
       }
-      return response(['success' => true]);
    }
 
 }

@@ -38,10 +38,8 @@ class ZoneController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:150',
+            'name'=> $request->has('name') ?'required|string|max:150|unique:zones,name':'',
         ]);
-    
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Zone::create($data);
     }
 
@@ -77,10 +75,10 @@ class ZoneController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:150',
+            'name'=>$request->has('name') ?'required|string|max:150|unique:zones':'',
         ]);
+        if(count($data)>0)
         Zone::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
     }
 
     /**
@@ -93,6 +91,5 @@ class ZoneController extends Controller
     {
         Table::where('zone_id',$id)->delete();
         Zone::destroy($id);
-        return response(['success'=>true]);
     }
 }

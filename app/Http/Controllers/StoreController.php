@@ -48,9 +48,7 @@ class StoreController extends Controller
             'country'=>'required|string|max:40',
         ]);
     
-        throw ValidationException::withMessages(['name' => 'This Category Exists !']);
         Store::create($data);
-        return response(['success'=>true]);
     }
 
     /**
@@ -86,16 +84,16 @@ class StoreController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'name'=>'required|string|max:40',
-            'phone'=>'required|phone|max:40',
-            'email'=>'required|string|max:40',
-            'address'=>'required|string|max:400',
-            'footer_text'=>'required|string|max:400',
-            'city'=>'required|string|max:40',
-            'country'=>'required|string|max:40',
+            'name'=>$request->has('name') ?'required|string|max:40|unique:stores,name':'',
+            'phone'=>$request->has('phone') ?'required|phone|max:40':'',
+            'email'=>$request->has('email') ?'required|string|max:40':'',
+            'address'=>$request->has('address') ?'required|string|max:400':'',
+            'footer_text'=>$request->has('footer_text') ?'required|string|max:400':'',
+            'city'=>$request->has('city') ?'required|string|max:40':'',
+            'country'=>$request->has('country') ?'required|string|max:40':'',
         ]);
-        Store::where('id',$id)->update([$data]);
-        return response(['success'=>true]);
+        if(count($data)>0)
+        Store::where('id',$id)->update($data);
     }
 
     /**
@@ -107,6 +105,5 @@ class StoreController extends Controller
     public function destroy($id)
     {
         Store::destroy($id);
-        return response(['success'=>true]);
     }
 }

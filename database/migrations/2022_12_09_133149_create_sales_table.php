@@ -18,15 +18,15 @@ return new class extends Migration
             $table->integer('tax')->nullable();
             $table->integer('discount')->nullable();
             $table->float('sub_total')->nullable();
-            $table->float('total')->nullable();
+            $table->double('total')->nullable();
             $table->integer('total_items')->nullable();
-            $table->float('paid')->nullable();
+            $table->double('paid')->nullable();
             $table->smallInteger('type')->nullable();
             $table->bigInteger('credit_card_number')->nullable();
             $table->string('credit_card_holder')->nullable();
-            $table->float('tax_amount')->nullable();
-            $table->float('discount_amount')->nullable();
-            $table->float('first_payement')->nullable();
+            $table->double('tax_amount')->nullable();
+            $table->double('discount_amount')->nullable();
+            $table->double('first_payement')->nullable();
             $table->smallInteger('status')->default(0);
 
             $table->timestamps();

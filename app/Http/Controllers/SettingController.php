@@ -77,17 +77,17 @@ class SettingController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'companyname' => 'required|string|max:100',
-            'logo' => 'required|string|max:200',
-            'phone' => 'required|string|max:25',
-            'phone' => 'required|string|max:10',
-            'keyboard' => 'required|boolean',
-            'theme' => 'required|string|max:20',
-            'discount' => 'required|int',
-            'tax' => 'required|string|int',
+            'companyname' => $request->has('name') ?'required|string|max:100':'',
+            'logo' => $request->has('name') ?'required|string|max:200':'',
+            'phone' => $request->has('name') ?'required|string|max:25':'',
+            'phone' => $request->has('name') ?'required|string|max:10':'',
+            'keyboard' => $request->has('name') ?'required|boolean':'',
+            'theme' => $request->has('name') ?'required|string|max:20':'',
+            'discount' => $request->has('name') ?'required|int':'',
+            'tax' => $request->has('name') ?'required|string|int':'',
         ]);
-        Setting::where('id', 1)->update([$data]);
-        return response(['success' => true]);
+        if(count($data)>0)
+        Setting::where('id', 1)->update($data);
     }
 
     /**
