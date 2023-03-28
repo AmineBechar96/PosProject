@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('report/getStockReport', [ReportController::class, 'getStockReport']);
 
     Route::get('/invoice/{id}', [SaleController::class, 'create_invoice']);
+    Route::get('/ticket/{id}', [SaleController::class, 'create_ticket']);
     Route::resource('sales', SaleController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('stores', StoreController::class);

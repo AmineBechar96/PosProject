@@ -263,7 +263,7 @@ doc.html(myReference.value.innerHTML, {
     x: 2,
     y: 2,
     width: 190, //target width in the PDF document
-    windowWidth: 650 //window width in CSS pixels
+    windowWidth: 850 //window width in CSS pixels
 });
 }
 

@@ -36,16 +36,14 @@
             <div class="inline-flex items-center">Invoice</div>
           </Link>
         </MenuItem>
-        <MenuItem>
-          <Link
-            href="/categoryexpences"
-            class="font-medium block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-            role="menuitem"
-          >
-            <font-awesome-icon icon="fa-solid fa-receipt" class="mr-2" />
-            <div class="inline-flex items-center">Receipt</div>
-          </Link>
-        </MenuItem>
+        <MenuButton
+          @click="open_ticket(id)"
+          class="font-medium block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+          role="menuitem"
+        >
+          <font-awesome-icon icon="fa-solid fa-receipt" class="mr-2" />
+          <div class="inline-flex items-center">Receipt</div>
+        </MenuButton>
       </MenuItems>
     </transition>
   </Menu>
@@ -55,6 +53,13 @@
       :open="activePayementModal"
       @close="closeModal()"
     ></PayementModalSale>
+    <TicketModal
+      page_name="payementIncome"
+      v-if="activeTicketModal"
+      :data="payementStore.items"
+      @close="closeModal()"
+    >
+    </TicketModal>
   </Teleport>
 </template>
 
@@ -63,6 +68,7 @@ import { Link } from "@inertiajs/vue3";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { ref } from "vue";
 import PayementModalSale from "../layouts/Modals/Payement/PayementModal.vue";
+import TicketModal from "../layouts/Modals/TicketModal.vue";
 
 import { usePayementStore } from "../stores/PayementStores.js";
 
@@ -70,15 +76,20 @@ const props = defineProps({
   id: Number,
 });
 const activePayementModal = ref(false);
+const activeTicketModal = ref(false);
+const payementStore = usePayementStore();
 
 async function open_payement(id) {
-
-  const payementStore = usePayementStore();
   await payementStore.getPayementData(id);
   activePayementModal.value = true;
-
 }
+async function open_ticket(id) {
+  await payementStore.getTicketData(id);
+  activeTicketModal.value = true;
+}
+
 function closeModal() {
   activePayementModal.value = false;
+  activeTicketModal.value = false;
 }
 </script>

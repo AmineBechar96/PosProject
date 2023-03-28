@@ -24,9 +24,9 @@
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <DialogTitle as="h3"
                                                   class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                  Edit {{ toTitleCase(props.page_name)}}</DialogTitle>
+                                                  Edit {{ toTitleCase(props.page_name.slice(0, -1))}}</DialogTitle>
                                               
-                                                <TextInput :form_inputs="{ input: 'Waiter Name',var_model:'name',var_edit:items.name }" :errors="errors.name"
+                                                <TextInput :form_inputs="{ input: toTitleCase(props.page_name.slice(0, -1))+ ' Name',var_model:'name',var_edit:items.name }" :errors="errors.name"
                                                 @form="form_method"></TextInput>
                                                 <TextInput :form_inputs="{ input: 'Phone',var_model:'phone',var_edit:items.phone }" :errors="errors.phone"
                                                 @form="form_method"></TextInput>
