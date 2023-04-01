@@ -41,11 +41,8 @@ class PayementIncomeController extends Controller
     {
         if ($request['paid'] == '0')
         return;
-<<<<<<< HEAD
-=======
         dd($request);
->>>>>>> a4a1ee88e520a15229898678be13f604c74dbabe
-        $type = $request['type'];
+         $type = $request['type'];
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
