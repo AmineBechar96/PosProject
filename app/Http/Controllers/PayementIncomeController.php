@@ -39,6 +39,8 @@ class PayementIncomeController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request['paid'] == '0')
+        return;
         $type = $request['type'];
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);

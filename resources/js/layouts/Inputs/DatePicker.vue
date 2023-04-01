@@ -8,8 +8,7 @@
       class="w-96"
       v-model="date"
       @focus="errors = null"
-      placeholder="Start Typing ..."
-      date
+      :placeholder= "date_props ? date_props : 'Start Typing ...'"
     />
     <p v-if="errors" class="mt-2 text-sm text-red-600 dark:text-red-500">
       <span class="font-medium">{{ errors }}</span>
@@ -22,6 +21,7 @@
 import { ref, watch } from 'vue'
 
 const props = defineProps({
+    date_props:String,
     form_inputs: Object,
     errors: String
 })

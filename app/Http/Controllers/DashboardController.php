@@ -19,7 +19,7 @@ class DashboardController extends Controller
     public function index()
     {
         $stores = Store::orderBy('id', 'desc')
-            ->paginate(25);
+            ->paginate(10);
         return Inertia::render('Users/DashboardScreen', [
             'stores' => $stores
         ]);

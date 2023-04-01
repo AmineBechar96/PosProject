@@ -24,13 +24,13 @@
                                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                             <DialogTitle as="h3"
                                                 class="text-lg mb-8 font-medium leading-6 text-gray-900">
-                                                Add {{toTitleCase(props.page_name)}}</DialogTitle>
+                                                Add {{toTitleCase(props.page_name) + errors}}</DialogTitle>
                                             <DatePicker :form_inputs="{ input: 'Date',var_model:'date' }" :errors="errors.date"
                                               @form="form_method"></DatePicker>
                                             <TextInput :form_inputs="{ input: 'Reference',var_model:'reference' }" :errors="errors.reference"
                                               @form="form_method"></TextInput>
-                                            <SelectInput title="Category" :data="categories" @form="form_method"></SelectInput>
-                                            <SelectInput title="Store" :data="stores" @form="form_method"></SelectInput>
+                                            <SelectInput title="Category" :data="categories" :errors="errors.category_id" @form="form_method"></SelectInput>
+                                            <SelectInput title="Store" :data="stores" :errors="errors.store_id" @form="form_method"></SelectInput>
                                             <TextInput type="number" :form_inputs="{ input: 'Amount(DA)',var_model:'amount' }" :errors="errors.amount"
                                                 @form="form_method"></TextInput>
                                             <AttachementInput :form_inputs="{ input: 'Attachement',var_model:'attachement' }" :errors="errors.attachement"

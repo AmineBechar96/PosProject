@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
+use App\Traits\UploadImageTrait;
 class ExpenceController extends Controller
 {
     /**
@@ -61,17 +62,23 @@ class ExpenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    use UploadImageTrait;
     public function store(Request $request)
     {
-       
         $data = $request->validate([
             'date' => 'required|date',
             'reference' => 'required|string|max:150|unique:expences,reference',
-            'note' => 'required|max:1000',
+            'note' => 'max:1000',
             'amount' => 'required|numeric|between:0,999999.99',
             'store_id' => 'required',
             'category_id' => 'required',
         ]);
+        if(isset($request['attachment']))
+        {
+            $path = $this->uploadImage($request,'expences');
+            unset($data['attachment']);
+            $data['attachment'] = $path;
+         }
         $data["created_by"] = 12;
         Expence::create($data);
     }
@@ -110,16 +117,24 @@ class ExpenceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    use UploadImageTrait;
     public function update(Request $request, $id)
     {
-        
         $data = $request->validate([
-            'date' => $request->has('name') ?'required|date':'',
-            'reference' => $request->has('reference') ?'required|string|max:150|unique:expences,reference':'',
+            'date' => $request->has('date')?'required|date':'',
+            'reference' => $request->has('reference') ? 'required|string|max:150':'',
             'note' => 'max:2000',
-            'amount' => $request->has('amount') ?'required|numeric|max:1000000':'',
-            'attachment' => 'string|max:200',
+            'amount' => $request->has('amount')?'required|numeric|max:1000000':'',
+            'store_id' => $request->has('store_id')?'required':'',
+            'category_id' => $request->has('category_id')?'required':'',
         ]);
+        if(isset($request['attachment']))
+        {
+            $path = $this->uploadImage($request,'expences');
+            unset($data['attachment']);
+            $data['attachment'] = $path;
+         }
         if(count($data)>0)
         Expence::where('id', $id)->update($data);
     }

@@ -67,6 +67,14 @@ class SaleController extends Controller
             'data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user
         ]);
     }
+    public function create_ticket($id)
+    {
+        $sale = Sale::find($id);
+        $products = $sale->products;
+        $customer = Customer::find($sale->client_id);
+        $user = Setting::find(1);
+        return ['data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user];
+    }
 
     /**
      * Store a newly created resource in storage.
