@@ -29,6 +29,7 @@
         "jspdf": "^2.5.1",
         "pdfmake": "^0.2.7",
         "pinia": "^2.0.33",
+        "swiper": "^9.2.0",
         "vue": "^3.2.45",
         "vue-html2pdf": "^1.8.0",
         "vue-menu-button": "^0.2.3",

@@ -60,7 +60,7 @@
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   ></path>
                 </svg>
-                <p class="">{{ data.city }}</p>
+                <p class="">{{ data.city}}</p>
               </div>
               <div class="flex">
                 <svg
@@ -99,13 +99,13 @@
     </div>
   </div>
   <Teleport to="body">
-    <StoreModal v-if="createRegisterModal"></StoreModal>
+    <StoreModal :open="createRegisterModal" :data="storeStore.items"></StoreModal>
   </Teleport>
 </template>
 
 <script setup>
 import { ref, reactive, toRefs } from "vue";
-import { usePayementStore } from "../stores/PayementStores.js";
+import { useStoreStore } from "../stores/StoreStore.js";
 import StoreModal from "../layouts/Dashboard/StoreModal.vue";
 import { router } from '@inertiajs/vue3'
 
@@ -113,14 +113,19 @@ const props = defineProps({
   data: Object,
 });
 
-const payementStore = usePayementStore();
+const storeStore = useStoreStore();
 const createRegisterModal = ref(false);
 
-function open_modal(id, status) {
-  if (status == 0) {
-    createRegisterModal.value = true;
-  }
+async function open_modal(id, status) {
+  await storeStore.getStoreData(id)
+  createRegisterModal.value = true;
   //else
   //router.get(url, data, options)
 }
 </script>
+
+<style scoped>
+  @import "/public/css/tailwind.css";
+  @import "/public/css/icons.css";
+  @import "/public/css/line.css";
+</style>

@@ -151,5 +151,8 @@ const props = defineProps({
   stores: Object,
 });
 </script>
-
-
+<style scoped>
+  @import "/public/css/tailwind.css";
+  @import "/public/css/icons.css";
+  @import "/public/css/line.css";
+</style>
