@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('user_id');           
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('closed_by');           
+            $table->unsignedBigInteger('closed_by')->nullable();           
             $table->foreign('closed_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('store_id');           
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');

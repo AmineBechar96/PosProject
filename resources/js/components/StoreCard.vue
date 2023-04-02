@@ -99,15 +99,14 @@
     </div>
   </div>
   <Teleport to="body">
-    <StoreModal :open="createRegisterModal" :data="storeStore.items"></StoreModal>
+    <StoreModal :open="createRegisterModal" :data="storeStore.items" @close="closeModal"></StoreModal>
   </Teleport>
 </template>
 
 <script setup>
 import { ref, reactive, toRefs } from "vue";
 import { useStoreStore } from "../stores/StoreStore.js";
-import StoreModal from "../layouts/Dashboard/StoreModal.vue";
-import { router } from '@inertiajs/vue3'
+import StoreModal from "../layouts/Modals/StoreModal.vue";
 
 const props = defineProps({
   data: Object,
@@ -119,9 +118,11 @@ const createRegisterModal = ref(false);
 async function open_modal(id, status) {
   await storeStore.getStoreData(id)
   createRegisterModal.value = true;
-  //else
-  //router.get(url, data, options)
 }
+
+function closeModal() {
+  createRegisterModal.value = false;
+  }
 </script>
 
 <style scoped>

@@ -12,6 +12,7 @@ use App\Http\Controllers\WaiterController;
 use App\Http\Controllers\PayementIncomeController;
 use App\Http\Controllers\PayementOutcomeController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\RegisterController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;

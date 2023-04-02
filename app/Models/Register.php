@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Register extends Model
 {
     use HasFactory;
+    public $guarded = [];
     public function holds(){
         return $this->hasMany(Hold::class);
     }

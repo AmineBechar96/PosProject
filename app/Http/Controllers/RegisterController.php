@@ -46,33 +46,29 @@ class RegisterController extends Controller
     {
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
-        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d");
+        $time = date("Y-m-d H:i:s");
+        $request['user_id'] = 12;
         $data = array(
-            "cash_total" => $request['expectedcash'],
-            "cash_sub" => $request['countedcash'],
-            "cc_total" => $request['expectedcc'],
-            "cc_sub" => $request['countedcc'],
-            "cheque_total" => $request['expectedcheque'],
-            "cheque_sub" => $request['countedcheque'],
-            "note" => $request['registerNote'],
-            "closed_by" => $request['user_id'],
-            "closed_at" => $date,
-            "status" => 0
+            "cash_inhand" => $request['cash_inhand'],
+            "date" => $date,
+            "user_id" => $request['user_id'],
+            "store_id" => $request['store_id'],
+            "status" => 1
         );
-
-        $register = Register::find($request['register_id'])->update($data);
-
-
-        $store = Store::find($register->store_id);
-        $store->status = 0;
-        $store->save();
-
-        Table::where('store_id', $register->store_id)->update(['status' => 0, 'time' => '']);
-
-
-        Hold::where('register_id', $register->id)->delete();
-        Posale::where('register_id', $register->id)->delete();
-
+        $register = Register::create($data);
+        
+        $i = 0;
+        $waiter_keys = collect($request['waiters']);
+        foreach($request['waiters'] as $waiter_cash){
+            $keys = $waiter_keys->keys();
+            $data = array(
+                "cash_in_hand" => $waiter_cash,
+            );
+            $register->waiters()->attach($keys[$i],$data);
+            $i++;
+        }
+        
     }
 
     /**

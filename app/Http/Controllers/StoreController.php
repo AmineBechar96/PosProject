@@ -59,7 +59,9 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        //
+        $store = Store::find($id);
+        $waiters = $store->waiters;
+        return Response(['id'=>$id,'waiters'=>$waiters]);
     }
 
     /**
@@ -70,8 +72,8 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        $stores = Store::find($id)->get();
-        return Response(['stores'=>$stores]);
+        $store = Store::find($id)->get();
+        return Response(['stores'=>$store,]);
     }
 
     /**
