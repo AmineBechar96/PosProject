@@ -14,12 +14,17 @@ use App\Models\Table;
 use App\Models\User;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
+use App\Traits\RegisterVariableTrait;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class RegisterController extends Controller
 {
+    use RegisterVariableTrait;
     /**
      * Display a listing of the resource.
      *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -42,13 +47,15 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
     public function store(Request $request)
     {
+        $user_id = Auth::id();
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d");
         $time = date("Y-m-d H:i:s");
-        $request['user_id'] = 12;
+        $request['user_id'] = $user_id;
         $data = array(
             "cash_inhand" => $request['cash_inhand'],
             "date" => $date,
@@ -57,6 +64,7 @@ class RegisterController extends Controller
             "status" => 1
         );
         $register = Register::create($data);
+        $this->setRegister($register->id);
         
         $i = 0;
         $waiter_keys = collect($request['waiters']);
@@ -68,6 +76,13 @@ class RegisterController extends Controller
             $register->waiters()->attach($keys[$i],$data);
             $i++;
         }
+
+        $store = Store::find($register->store_id);
+        $zones = $store->zones;
+        $tables = $store->tables;
+        return Inertia::render('TableScreen', [
+            'tables' => $tables,'zones' => $zones,
+        ]);
         
     }
 

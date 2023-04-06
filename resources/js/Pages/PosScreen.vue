@@ -998,16 +998,6 @@
             </div>
           </div>
         </main>
-
-        <div
-          class="fixed right-3 bottom-3 rounded-full bg-white dark:bg-navy-700"
-        >
-          <button
-            class="btn h-14 w-14 rounded-full bg-warning p-0 font-medium text-white hover:bg-warning-focus focus:bg-warning-focus active:bg-warning-focus/90 sm:hidden"
-          >
-            $60
-          </button>
-        </div>
       </div>
     </div>
   </Base>

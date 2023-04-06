@@ -15,6 +15,7 @@ use App\Models\Store;
 use App\Models\Table;
 use App\Models\Waiter;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PosController extends Controller
 {
@@ -246,7 +247,12 @@ class PosController extends Controller
 
     public function show($id)
     {
-        //
+        $setting = Setting::find(1)->select('currency');
+        $posales = Posale::where('status', 1)->get();
+        $registers = Register::all();
+        $stocks = Stock::all();
+
+        return Inertia::render('PosScreen', ['setting' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks]);
     }
 
     /**

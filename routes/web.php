@@ -13,6 +13,7 @@ use App\Http\Controllers\PayementIncomeController;
 use App\Http\Controllers\PayementOutcomeController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PosController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -85,7 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::inertia('/login', 'Users/Index')->name('login');
-Route::inertia('/pos', 'PosScreen');
+Route::inertia('/tables', 'TableScreen');
 Route::post('login', [LoginController::class, 'store'])->name('login.post');
 
 Route::get('stripe',[StripePaymentController::class,'paymentStripe'])->name('addmoney.paymentstripe');

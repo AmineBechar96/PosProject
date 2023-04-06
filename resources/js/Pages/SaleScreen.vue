@@ -7,7 +7,6 @@
           class="mt-6 ml-20"
           :menu="[menu]"
         ></BreadcumberComponent>
-        {{ dat }}
         <div
           class="
             mx-auto

@@ -57,11 +57,11 @@
 
 <template>
   <Base>
-    <div class="bg-gray-100 w-full h-full">
+    <div class="bg-white w-full h-full">
       <TheNavbar />
       <!-- Start Hero -->
       <section
-        class="relative table w-full py-32 lg:py-36 bg-[url('../../assets/images/real/bg/01.jpg')] bg-no-repeat bg-center"
+        class="relative table w-full py-32 lg:py-36 bg-[url('/resources/css/images/01.jpg')] bg-no-repeat bg-center"
       >
         <div class="absolute inset-0 bg-black opacity-80"></div>
         <div class="container">
