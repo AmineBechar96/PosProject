@@ -12,173 +12,8 @@
         >
           <div class="grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6">
             <div class="col-span-12 sm:col-span-6 lg:col-span-8">
-              <div
-                class="swiper"
-                x-init="$nextTick(()=>$el._x_swiper= new Swiper($el,{  slidesPerView: 'auto', spaceBetween: 14,navigation:{nextEl:'.next-btn',prevEl:'.prev-btn'}}))"
-              >
-                <div class="flex items-center justify-between">
-                  <p
-                    class="text-base font-medium text-slate-700 dark:text-navy-100"
-                  >
-                    Categories
-                  </p>
-                  <div class="flex">
-                    <button
-                      class="btn prev-btn h-7 w-7 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 disabled:pointer-events-none disabled:select-none disabled:opacity-60 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="1.5"
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      class="btn next-btn h-7 w-7 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 disabled:pointer-events-none disabled:select-none disabled:opacity-60 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25"
-                      @click="slideNext"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="1.5"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <swiper-container
-                  class="mt-5"
-                  slides-per-view="6"
-                  speed="500"
-                  loop="true"
-                  css-mode="true"
-                >
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4 mr-3"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Burger
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Hot Dog
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                      j
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Pizza
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Sandwich
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Popcorn
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Taco
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Burrito
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Pizza
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                  <swiper-slide
-                    class="card swiper-slide w-24 shrink-0 cursor-pointer"
-                  >
-                    <div
-                      class="flex flex-col items-center rounded-lg px-2 py-4"
-                    >
-                      <img class="w-12" src="images/100x100.png" alt="image" />
-                      <h3 class="pt-2 font-medium tracking-wide line-clamp-1">
-                        Burrito
-                      </h3>
-                    </div>
-                  </swiper-slide>
-                </swiper-container>
+              <div class="swiper">
+                <SwiperAllSlider :data="categories" />
               </div>
               <div
                 class="mt-4 grid grid-cols-2 gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:mt-6 lg:grid-cols-3 xl:grid-cols-4"
@@ -1004,13 +839,15 @@
 </template>
 
 <script setup>
-import { register } from "swiper/element/bundle";
-// register Swiper custom elements
-register();
-const swiperEl = document.querySelector("swiper-container");
-function slideNext() {
-  swiperEl.swiper.slideNext();
-}
+import SwiperSlider from "../components/Pos/SwiperSlide.vue";
+import SwiperAllSlider from "../components/Pos/SwiperAllSlide.vue";
+const props = defineProps({
+  categories: Object,
+  stocks: Object,
+  posales: Object,
+  currency: Object,
+  data: Object,
+});
 </script>
 
 <style scoped>

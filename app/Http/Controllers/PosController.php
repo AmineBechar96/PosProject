@@ -14,6 +14,7 @@ use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Table;
 use App\Models\Waiter;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,6 +31,7 @@ class PosController extends Controller
         $posales = Posale::where('status', 1)->get();
         $registers = Register::all();
         $stocks = Stock::all();
+        $categories = Category::all();
 
 
         return Response(['setting' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks]);
@@ -251,8 +253,9 @@ class PosController extends Controller
         $posales = Posale::where('status', 1)->get();
         $registers = Register::all();
         $stocks = Stock::all();
+        $categories = Category::all();
 
-        return Inertia::render('PosScreen', ['setting' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks]);
+        return Inertia::render('PosScreen', ['currency' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks,'categories' => $categories]);
     }
 
     /**
