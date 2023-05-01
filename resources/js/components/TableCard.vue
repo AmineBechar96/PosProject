@@ -73,7 +73,7 @@
               />
             </g>
           </svg>
-          <span> {{data.time}}</span>
+          <span> {{data.time.slice(-8)}}</span>
         </button>
       </div>
     </div>

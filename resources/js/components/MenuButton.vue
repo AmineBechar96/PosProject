@@ -29,6 +29,16 @@
         <MenuItem>
           <Link
             :href="'/invoice/' + id"
+            v-if="page_name != 'purchases'"
+            class="font-medium block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+            role="menuitem"
+          >
+            <font-awesome-icon icon="fa-solid fa-file-invoice" class="mr-2" />
+            <div class="inline-flex items-center">Invoice</div>
+          </Link>
+          <Link
+            :href="'/invoice_p/' + id"
+            v-else
             class="font-medium block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
             role="menuitem"
           >
@@ -49,12 +59,16 @@
   </Menu>
   <Teleport to="body">
     <PayementModalSale
-      page_name="payementIncome"
+      :page_name="
+        page_name == 'purchases' ? 'payementOutcome' : 'payementIncome'
+      "
       :open="activePayementModal"
       @close="closeModal()"
     ></PayementModalSale>
     <TicketModal
-      page_name="payementIncome"
+      :page_name="
+        page_name == 'purchases' ? 'payementOutcome' : 'payementIncome'
+      "
       v-if="activeTicketModal"
       :data="payementStore.items"
       @close="closeModal()"
@@ -74,17 +88,18 @@ import { usePayementStore } from "../stores/PayementStores.js";
 
 const props = defineProps({
   id: Number,
+  page_name: String,
 });
 const activePayementModal = ref(false);
 const activeTicketModal = ref(false);
 const payementStore = usePayementStore();
 
 async function open_payement(id) {
-  await payementStore.getPayementData(id);
+  await payementStore.getPayementData(id, props.page_name);
   activePayementModal.value = true;
 }
 async function open_ticket(id) {
-  await payementStore.getTicketData(id);
+  await payementStore.getTicketData(id, props.page_name);
   activeTicketModal.value = true;
 }
 

@@ -51,7 +51,7 @@
                             <p
                               class="text-xl font-semibold text-slate-700 dark:text-navy-100"
                             >
-                              {{ payementStore.items.sale.total.toFixed(2) }} DA
+                              {{ payementStore.items.data.total.toFixed(2) }} DA
                             </p>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@
                             <p
                               class="text-xl font-semibold text-slate-700 dark:text-navy-100"
                             >
-                              {{ payementStore.items.sale.paid.toFixed(2) }} DA
+                              {{ payementStore.items.data.paid.toFixed(2) }} DA
                             </p>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -105,8 +105,8 @@
                             >
                               {{
                                 (
-                                  payementStore.items.sale.total -
-                                  payementStore.items.sale.paid
+                                  payementStore.items.data.total -
+                                  payementStore.items.data.paid
                                 ).toFixed(2)
                               }}
                               DA
@@ -168,7 +168,7 @@
                             >
                               {{
                                 new Date(
-                                  payementStore.items.sale.created_at
+                                  payementStore.items.data.created_at
                                 ).toLocaleDateString("fr-CA")
                               }}
                             </td>
@@ -176,19 +176,19 @@
                               {{ payementStore.items.user.username }}
                             </td>
                             <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                              {{ payementStore.items.sale.first_payement }} DA
+                              {{ payementStore.items.data.first_payement }} DA
                             </td>
                             <td
                               class="whitespace-nowrap rounded-r-lg px-4 py-3 sm:px-5"
                             >
                               <div
-                                v-if="payementStore.items.sale.type == 0"
+                                v-if="payementStore.items.data.type == 0"
                                 class="badge rounded-full border border-info text-info"
                               >
                                 Cash
                               </div>
                               <div
-                                v-else-if="payementStore.items.sale.type == 1"
+                                v-else-if="payementStore.items.data.type == 1"
                                 class="badge rounded-full border border-info text-primary"
                               >
                                 Cheque
@@ -292,7 +292,7 @@
                   @confirm="confirm_delete_item"
                 >
                 </AlertModal>
-                <AddPayement :open="activeAddModal" @close="closeModal()">
+                <AddPayement :open="activeAddModal" @close="closeModal()" :page_name="page_name">
                 </AddPayement>
               </Teleport>
             </DialogPanel>
@@ -342,7 +342,7 @@ function closeModal() {
   activeAddModal.value = false;
 }
 
-const emit = defineEmits(["close", "update"]);
+const emit = defineEmits(["close"]);
 
 function deletePayement(id,paid) {
   item_id.value = id;
@@ -352,7 +352,7 @@ function deletePayement(id,paid) {
 async function confirm_delete_item({ decision, id }) {
   activeAlertModal.value = false;
   if (decision == true) {
-    await payementStore.deletePayement(id,payement.value);
+    await payementStore.deletePayement(id,payement.value,props.page_name);
   }
 }
 </script>

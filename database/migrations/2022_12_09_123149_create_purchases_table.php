@@ -20,7 +20,8 @@ return new class extends Migration
             $table->integer('tax')->nullable();
             $table->integer('discount')->nullable();
             $table->float('total')->nullable();
-            $table->float('payement')->nullable();
+            $table->integer('total_items')->nullable();
+            $table->float('paid')->nullable();
             $table->text('description')->nullable();
             $table->text('attachment')->nullable();
             $table->mediumText('note')->nullable();

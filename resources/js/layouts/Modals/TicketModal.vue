@@ -76,7 +76,7 @@
                           <div
                             class="w-full flex-none text-lg text-blue-800 font-bold leading-none mt-2"
                           >
-                            <span class="text-gray-500">Customer:</span> {{payementStore.items.customer.name}}
+                            <span class="text-gray-500">{{payementStore.items.buyer_name}}:</span> {{payementStore.items.buyer.name}}
                           </div>
                         </div>
                         <div class="flex ml-auto" id="printop">

@@ -9,7 +9,7 @@
           <main class="main-content w-full px-18 pb-8">
             <div class="flex items-center justify-between py-5 lg:py-6">
               <div class="flex">
-                <Link class="pt-2 mr-3" href="/sales" @click="back()"
+                <Link class="pt-2 mr-3" :href="page_name" @click="back()"
                   ><font-awesome-icon icon="fa-solid fa-arrow-left"
                 /></Link>
 
@@ -54,177 +54,175 @@
               </div>
             </div>
             <div class="grid grid-cols-1" id="printMe" ref="myReference">
-                  <div class="card px-5 py-12 sm:px-18 bg-black">
-                    <div class="flex flex-col justify-between sm:flex-row">
-                      <div class="text-center sm:text-left">
-                        <h2
-                          class="text-2xl font-semibold uppercase text-primary dark:text-accent-light"
-                        >
-                          {{user.company_name}}
-                        </h2>
-                        <div class="space-y-1 pt-2">
-                          <p></p>
-                          <p>{{user.phone}}</p>
-                        </div>
-                      </div>
-                      <div class="mt-4 text-center sm:m-0 sm:text-right">
-                        <h2
-                          class="text-2xl font-semibold uppercase text-primary dark:text-accent-light"
-                        >
-                          invoice
-                        </h2>
-                        <div class="space-y-1 pt-2">
-                          <p>
-                            Invoice #:
-                            <span class="font-semibold">{{ data.id }}</span>
-                          </p>
-                          <p>
-                            Created:
-                            <span class="font-semibold">{{
-                              new Date(data.created_at).toLocaleDateString("en-CA")
-                            }}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
-                    <div class="flex flex-row justify-between sm:flex-row">
-                      <div class="text-center sm:text-left">
-                        <p
-                          class="text-lg font-medium text-slate-600 dark:text-navy-100"
-                        >
-                          Invoiced To:
-                        </p>
-                        <div class="space-y-1 pt-2">
-                          <p v-if="customer" class="font-semibold">
-                            {{ customer.name }}
-                          </p>
-                          <p v-else class="font-semibold">WalkIn Customer</p>
-                          <p v-if="customer">{{ customer.email }}</p>
-                          <p v-if="customer">{{ customer.phone }}</p>
-                        </div>
-                      </div>
-                      <div class="mt-4 text-center sm:m-0 sm:text-right">
-                        <p
-                          class="text-lg font-medium text-slate-600 dark:text-navy-100"
-                        >
-                          Payment Method:
-                        </p>
-                        <div class="space-y-1 pt-2">
-                          <p class="font-medium" v-if="data.type == '0'">Cash</p>
-                          <p class="font-medium" v-if="data.type == '1'">Cheque</p>
-                          <p class="font-medium" v-if="data.type == '2'">
-                            Visa **** ****
-                          </p>
-                          <p v-if="data.type != '0'">
-                            <span class="font-medium m-2" v-if="data.type == '1'"
-                              >Cheque Number:</span
-                            >{{ data.credit_card_number }}
-                          </p>
-                        </div>
-                        <p
-                          v-if="data.type == '2'"
-                          class="text-lg font-medium text-slate-600 dark:text-navy-100 mt-3"
-                        >
-                          Credit Card Holder
-                        </p>
-                        <div class="space-y-1 pt-2" v-if="data.type == '2'">
-                          <p class="font-medium">{{ data.credit_card_holder }}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
-                    <div class="is-scrollbar-hidden min-w-full">
-                      <table class="is-zebra w-full text-left">
-                        <thead>
-                          <tr>
-                            <th
-                              class="whitespace-nowrap rounded-l-lg bg-slate-200 px-3 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
-                            >
-                              #
-                            </th>
-                            <th
-                              class="whitespace-nowrap bg-slate-200 px-6 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
-                            >
-                              PRODUCT
-                            </th>
-                            <th
-                              class="whitespace-nowrap bg-slate-200 px-3 py-3 text-right font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
-                            >
-                              QUANTITY
-                            </th>
-                            <th
-                              class="whitespace-nowrap rounded-r-lg bg-slate-200 px-3 py-3 text-right font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
-                            >
-                              SUBTOTAL
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="product in data.products" :key="product.name">
-                            <td
-                              class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
-                            >
-                              {{ i++ }}
-                            </td>
-                            <td class="whitespace-nowrap px-4 py-3 sm:px-5">
-                              <div>
-                                <p
-                                  class="font-medium text-slate-600 dark:text-navy-100"
-                                >
-                                  {{ product.name }}
-                                </p>
-                                
-                              </div>
-                            </td>
-                            <td
-                              class="w-3/12 whitespace-nowrap px-4 py-3 text-right sm:px-5"
-                            >
-                              {{ product.pivot.quantity }}
-                            </td>
-
-                            <td
-                              class="w-3/12 whitespace-nowrap rounded-r-lg px-4 py-3 text-right font-semibold sm:px-5"
-                            >
-                              {{ product.pivot.price * product.pivot.quantity }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
-
-                    <div class="flex flex-col justify-end sm:flex-row">
-                      <div class="mt-4 text-center sm:m-0 sm:text-right">
-                        <p
-                          class="text-lg font-medium text-slate-600 dark:text-navy-100"
-                        >
-                          Total Items : {{ data.total_items }}
-                        </p>
-                        <div class="space-y-1 pt-2">
-                          <p>
-                            Summary :
-                            <span class="font-medium"
-                              >{{ data.total_items }} DA</span
-                            >
-                          </p>
-                          <p v-if="data.discount">
-                            Discount :
-                            <span class="font-medium">{{ data.discount }}%</span>
-                          </p>
-                          <p v-if="data.tax">
-                            Tax : <span class="font-medium">{{ data.tax }}%</span>
-                          </p>
-                          <p class="text-lg text-primary dark:text-accent-light">
-                            Total:
-                            <span class="font-medium">{{ data.total }} DA</span>
-                          </p>
-                        </div>
-                      </div>
+              <div class="card px-5 py-12 sm:px-18 bg-black">
+                <div class="flex flex-col justify-between sm:flex-row">
+                  <div class="text-center sm:text-left">
+                    <h2
+                      class="text-2xl font-semibold uppercase text-primary dark:text-accent-light"
+                    >
+                      {{ user.company_name }}
+                    </h2>
+                    <div class="space-y-1 pt-2">
+                      <p></p>
+                      <p>{{ user.phone }}</p>
                     </div>
                   </div>
+                  <div class="mt-4 text-center sm:m-0 sm:text-right">
+                    <h2
+                      class="text-2xl font-semibold uppercase text-primary dark:text-accent-light"
+                    >
+                      invoice
+                    </h2>
+                    <div class="space-y-1 pt-2">
+                      <p>
+                        Invoice #:
+                        <span class="font-semibold">{{ data.id }}</span>
+                      </p>
+                      <p>
+                        Created:
+                        <span class="font-semibold">{{
+                          new Date(data.created_at).toLocaleDateString("en-CA")
+                        }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
+                <div class="flex flex-row justify-between sm:flex-row">
+                  <div class="text-center sm:text-left">
+                    <p
+                      class="text-lg font-medium text-slate-600 dark:text-navy-100"
+                    >
+                      Invoiced To :
+                    </p>
+                    <div class="space-y-1 pt-2">
+                      <p v-if="customer" class="font-semibold">
+                        {{ customer.name }}
+                      </p>
+                      <p v-else class="font-semibold">WalkIn Customer</p>
+                      <p v-if="customer">{{ customer.email }}</p>
+                      <p v-if="customer">{{ customer.phone }}</p>
+                    </div>
+                  </div>
+                  <div class="mt-4 text-center sm:m-0 sm:text-right">
+                    <p
+                      class="text-lg font-medium text-slate-600 dark:text-navy-100"
+                    >
+                      Payment Method :
+                    </p>
+                    <div class="space-y-1 pt-2">
+                      <p class="font-medium" v-if="data.type == '0'">Cash</p>
+                      <p class="font-medium" v-if="data.type == '1'">Cheque</p>
+                      <p class="font-medium" v-if="data.type == '2'">
+                        Visa **** ****
+                      </p>
+                      <p v-if="data.type != '0'">
+                        <span class="font-medium m-2" v-if="data.type == '1'"
+                          >Cheque Number:</span
+                        >{{ data.credit_card_number }}
+                      </p>
+                    </div>
+                    <p
+                      v-if="data.type == '2'"
+                      class="text-lg font-medium text-slate-600 dark:text-navy-100 mt-3"
+                    >
+                      Credit Card Holder
+                    </p>
+                    <div class="space-y-1 pt-2" v-if="data.type == '2'">
+                      <p class="font-medium">{{ data.credit_card_holder }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
+                <div class="is-scrollbar-hidden min-w-full">
+                  <table class="is-zebra w-full text-left">
+                    <thead>
+                      <tr>
+                        <th
+                          class="whitespace-nowrap rounded-l-lg bg-slate-200 px-3 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
+                        >
+                          #
+                        </th>
+                        <th
+                          class="whitespace-nowrap bg-slate-200 px-6 py-3 font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
+                        >
+                          PRODUCT
+                        </th>
+                        <th
+                          class="whitespace-nowrap bg-slate-200 px-3 py-3 text-right font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
+                        >
+                          QUANTITY
+                        </th>
+                        <th
+                          class="whitespace-nowrap rounded-r-lg bg-slate-200 px-3 py-3 text-right font-semibold uppercase text-slate-800 dark:bg-navy-800 dark:text-navy-100 lg:px-5"
+                        >
+                          SUBTOTAL
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="product in data.products" :key="product.name">
+                        <td
+                          class="whitespace-nowrap rounded-l-lg px-4 py-3 sm:px-5"
+                        >
+                          {{ i++ }}
+                        </td>
+                        <td class="whitespace-nowrap px-4 py-3 sm:px-5">
+                          <div>
+                            <p
+                              class="font-medium text-slate-600 dark:text-navy-100"
+                            >
+                              {{ product.name }}
+                            </p>
+                          </div>
+                        </td>
+                        <td
+                          class="w-3/12 whitespace-nowrap px-4 py-3 text-right sm:px-5"
+                        >
+                          {{ product.pivot.quantity }}
+                        </td>
+
+                        <td
+                          class="w-3/12 whitespace-nowrap rounded-r-lg px-4 py-3 text-right font-semibold sm:px-5"
+                        >
+                          {{ product.pivot.price * product.pivot.quantity }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="my-7 h-px bg-slate-200 dark:bg-navy-500"></div>
+
+                <div class="flex flex-col justify-end sm:flex-row">
+                  <div class="mt-4 text-center sm:m-0 sm:text-right">
+                    <p
+                      class="text-lg font-medium text-slate-600 dark:text-navy-100"
+                    >
+                      Total Items : {{ data.total_items }}
+                    </p>
+                    <div class="space-y-1 pt-2">
+                      <p>
+                        Summary :
+                        <span class="font-medium"
+                          >{{ data.total_items }} DA</span
+                        >
+                      </p>
+                      <p v-if="data.discount">
+                        Discount :
+                        <span class="font-medium">{{ data.discount }}%</span>
+                      </p>
+                      <p v-if="data.tax">
+                        Tax : <span class="font-medium">{{ data.tax }}%</span>
+                      </p>
+                      <p class="text-lg text-primary dark:text-accent-light">
+                        Total:
+                        <span class="font-medium">{{ data.total }} DA</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-             
           </main>
         </div>
       </div>
@@ -244,29 +242,27 @@ const props = defineProps({
   products: Object,
   customer: Object,
   user: Object,
+  page_name: String,
 });
 var i = 1;
 
 function toPdf() {
+  var doc = new jsPDF();
 
+  // Source HTMLElement or a string containing HTML.
+  var elementHTML = document.querySelector("printMe");
 
-var doc = new jsPDF();
-	
-// Source HTMLElement or a string containing HTML.
-var elementHTML = document.querySelector("printMe");
-
-doc.html(myReference.value.innerHTML, {
-    callback: function(doc) {
-        // Save the PDF
-        doc.save('tassyir-invoice.pdf');
+  doc.html(myReference.value.innerHTML, {
+    callback: function (doc) {
+      // Save the PDF
+      doc.save("tassyir-invoice.pdf");
     },
     x: 2,
     y: 2,
     width: 190, //target width in the PDF document
-    windowWidth: 850 //window width in CSS pixels
-});
+    windowWidth: 850, //window width in CSS pixels
+  });
 }
-
 
 function printDiv(divName) {
   var printContents = document.getElementById(divName).innerHTML;

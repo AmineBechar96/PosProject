@@ -32,14 +32,15 @@ class SaleController extends Controller
             $perPage = 5;
         }
         $sales = Sale::query()
-            ->when(FacadesRequest::input('search'), function ($query, $search) {
-                $query->where('reference', 'like', "%{$search}%");
-            })
+            
             ->when(FacadesRequest::has('column'), function ($query) {
                 $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
             })
             ->join('customers', 'customers.id', '=', 'sales.client_id')
             ->join('users', 'users.id', '=', 'sales.created_by')
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
             ->select('sales.*', 'users.username', 'customers.name')
             ->paginate($perPage)
             ->withQueryString();
@@ -64,7 +65,7 @@ class SaleController extends Controller
         $customer = Customer::find($sale->client_id);
         $user = Setting::find(1);
         return Inertia::render('InvoiceScreen', [
-            'data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user
+            'data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user,'page_name' =>'/sales'
         ]);
     }
     public function create_ticket($id)
@@ -73,7 +74,7 @@ class SaleController extends Controller
         $products = $sale->products;
         $customer = Customer::find($sale->client_id);
         $user = Setting::find(1);
-        return ['data' => $sale, 'products' => $products,'customer'=>$customer,'user' => $user];
+        return ['data' => $sale, 'products' => $products,'buyer'=>$customer,'user' => $user,'buyer_name'=>'Customer'];
     }
 
     /**
@@ -179,7 +180,7 @@ class SaleController extends Controller
             $single_user = $users->where('id',$item->created_by);
             return collect($item)->merge($single_user);
         });
-        return ['user'=>$user,'sale'=>$sale,'items'=>$items,'payements'=>$payements];
+        return ['user'=>$user,'data'=>$sale,'items'=>$items,'payements'=>$payements];
     }
 
     /**

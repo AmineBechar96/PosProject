@@ -8,7 +8,9 @@ use App\Models\Register;
 use App\Models\Setting;
 use App\Models\Stock;
 use App\Models\Supplier;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class PurchaseController extends Controller
@@ -20,10 +22,26 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::all();
-        return Inertia::render('PurchasesScreen', [
-            'purchases' => $purchases
-        ]);
+        $suppliers = Supplier::all();
+        $perPage = FacadesRequest::input('per_pages');
+        if ($perPage == null) {
+            $perPage = 5;
+        }
+        $purchases = Purchase::query()
+            ->when(FacadesRequest::has('column'), function ($query) {
+                $query->orderBy(FacadesRequest::input('column'), FacadesRequest::input('direction'));
+            })
+            ->join('suppliers', 'suppliers.id', '=', 'purchases.supplier_id')
+            ->join('users', 'users.id', '=', 'purchases.created_by')
+            ->when(FacadesRequest::input('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->select('purchases.*', 'users.username', 'suppliers.name')
+            ->paginate($perPage)
+            ->withQueryString();
+            return Inertia::render('PurchaseScreen', [
+                'purchases' => $purchases, 'suppliers' => $suppliers, 'page_name' => 'purchases', 'filters' => FacadesRequest::only(['search', 'per_pages'])
+            ]);
     }
 
     /**
@@ -34,6 +52,25 @@ class PurchaseController extends Controller
     public function create()
     {
         //
+    }
+
+    public function create_invoice($id)
+    {
+        $purchase = Purchase::find($id);
+        $products = $purchase->products;
+        $supplier = Supplier::find($purchase->supplier_id);
+        $user = Setting::find(1);
+        return Inertia::render('InvoiceScreen', [
+            'data' => $purchase, 'products' => $products,'supplier'=>$supplier,'user' => $user,'page_name' =>'/purchases'
+        ]);
+    }
+    public function create_ticket($id)
+    {
+        $purchase = Purchase::find($id);
+        $products = $purchase->products;
+        $supplier = Supplier::find($purchase->supplier_id);
+        $user = Setting::find(1);
+        return ['data' => $purchase, 'products' => $products,'buyer'=>$supplier,'user' => $user,'buyer_name'=>'Supplier'];
     }
 
     /**
@@ -89,10 +126,16 @@ class PurchaseController extends Controller
     public function show($id)
     {
         $purchase = Purchase::find($id);
-        $items = $purchase->products();
+        $items = $purchase->products;
         $supplier = Supplier::find($purchase->supplier_id);
-        $payements = $purchase->payementOutcomes();
-        return ['purchase' => $purchase, 'items' => $items, 'supplier' => $supplier, 'payements' => $payements];
+        $user = User::find($purchase->created_by);
+        $payements = $purchase->payementOutcomes;
+        $payements= $payements->map(function ($item, $key) {
+            $users = User::all();
+            $single_user = $users->where('id',$item->created_by);
+            return collect($item)->merge($single_user);
+        });
+        return ['user'=>$user,'data'=>$purchase,'items'=>$items,'payements'=>$payements];
     }
 
     /**
@@ -107,7 +150,8 @@ class PurchaseController extends Controller
         $items = $purchase->products();
         $supplier = Supplier::find($purchase->supplier_id);
         $payements = $purchase->payementOutcomes();
-        return ['purchase' => $purchase, 'items' => $items, 'supplier' => $supplier, 'payements' => $payements];
+        $setting = Setting::find(1);
+        return ['purchase' => $purchase, 'items' => $items, 'supplier' => $supplier, 'payements' => $payements,'setting'=>$setting];
     }
 
     /**
@@ -124,7 +168,6 @@ class PurchaseController extends Controller
         $date = date("Y-m-d H:i:s");
         $request["modified_at"] = $date;
         Purchase::find($id)->update($request->json()->all());
-        return response(['success' => true]);
     }
 
     /**
@@ -138,6 +181,5 @@ class PurchaseController extends Controller
         $purchase = Purchase::find($id);
         $purchase->products()->detach();
         Purchase::destroy($id);
-        return response(['success' => true]);
     }
 }

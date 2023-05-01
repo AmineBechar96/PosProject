@@ -30,7 +30,8 @@
             @click="sort('name')"
           >
           <div class="flex justify-evenly">
-            <span class="mr-2">Customer</span>
+            <span v-if="page_name == 'purchases'" class="mr-2">Supplier</span>
+            <span v-else class="mr-2">Customer</span>
             <SortIcons
               :column="column"
               column_selected="name"
@@ -232,7 +233,7 @@
                 />
                 <TheTooltip text="Edit"></TheTooltip>
               </button>
-              <SubMenuButton :id="item.id"></SubMenuButton>
+              <SubMenuButton :id="item.id" :page_name="page_name"></SubMenuButton>
             </div>
           </td>
           <td class="px-6 py-4">

@@ -32,7 +32,7 @@
             >
               <form
                 @submit.prevent="
-                  form.post('payementIncome', {
+                  form.post(page_name, {
                     preserveScroll: true,
                     onStart: () => (errors = null),
                     onSuccess: () => emit('close'),
@@ -297,8 +297,8 @@ const form = useForm({
   cvv: "",
   created_by: 12,
   register_id: 12,
-  waiter_id: null,
-  sale_id: payementStore.items.sale.id,
+  waiter_id: 12,
+  data_id: payementStore.items.data.id,
 });
 
 const emit = defineEmits(["close"]);

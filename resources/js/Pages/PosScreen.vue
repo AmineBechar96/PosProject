@@ -18,294 +18,12 @@
               <div
                 class="mt-4 grid grid-cols-2 gap-4 sm:mt-5 sm:grid-cols-2 sm:gap-5 lg:mt-6 lg:grid-cols-3 xl:grid-cols-4"
               >
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Duck Salad
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      35.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Breakfast board
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      14.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Hummus
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      24.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Roast beef
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      17.50 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Tuna salad
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      35.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Salmon
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      48.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      California roll
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      74.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Sashimi
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      75.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Pub salad
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      64.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Duck carpaccio
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      72.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Maui food
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      42.00 $
-                    </p>
-                  </div>
-                </div>
-                <div class="card p-2">
-                  <img
-                    class="rounded-lg"
-                    src="images/800x600.png"
-                    alt="image"
-                  />
-                  <div class="pt-2">
-                    <p
-                      class="font-medium text-slate-700 line-clamp-1 dark:text-navy-100"
-                    >
-                      Scottish salmon
-                    </p>
-                    <p
-                      class="text-xs text-slate-400 line-clamp-1 dark:text-navy-300"
-                    >
-                      Description
-                    </p>
-                    <p
-                      class="text-right font-medium text-primary dark:text-accent-light"
-                    >
-                      86.00 $
-                    </p>
-                  </div>
-                </div>
+                <ProductCard
+                  v-for="product in products"
+                  :key="product.id"
+                  :product="product"
+                  @click="addPosale(product)"
+                ></ProductCard>
               </div>
             </div>
             <div class="hidden sm:col-span-6 sm:block lg:col-span-4">
@@ -841,13 +559,36 @@
 <script setup>
 import SwiperSlider from "../components/Pos/SwiperSlide.vue";
 import SwiperAllSlider from "../components/Pos/SwiperAllSlide.vue";
+import ProductCard from "../components/Pos/ProductCard.vue";
+import { Head, useForm } from "@inertiajs/vue3";
 const props = defineProps({
   categories: Object,
   stocks: Object,
   posales: Object,
   currency: Object,
-  data: Object,
+  products: Object,
+  table_id: String,
+  store_id: Number,
 });
+
+const form = useForm({
+  product_id: null,
+  price: null,
+  store_id: null,
+  register_id: 1,
+  table_id: null,
+  store_id: 1,
+});
+function addPosale(product) {
+  (form.product_id = product.id),
+    (form.price = product.price),
+    (form.register_id = props.register_id),
+    (form.store_id = props.store_id),
+    (form.table_id = props.table_id);
+  form.get("pos", {
+    preserveScroll: true,
+  });
+}
 </script>
 
 <style scoped>

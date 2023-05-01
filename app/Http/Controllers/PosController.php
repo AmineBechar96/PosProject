@@ -17,9 +17,11 @@ use App\Models\Waiter;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Traits\RegisterVariableTrait;
 
 class PosController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -63,9 +65,9 @@ class PosController extends Controller
         $request["price"] = $price;
         $request["quantity"] = 1;
         $request["status"] = 1;
-        Posale::create(
-            $request->all(),
-        );
+        $request["time"] = date("Y-m-d H:i:s");
+        $request["time_visit"] = date("Y-m-d H:i:s");
+        Posale::create($request->all());
         return true;
     }
     /**
@@ -76,6 +78,7 @@ class PosController extends Controller
      */
     public function store(Request $request)
     {
+        dd('aw');
         $product = Product::find($request['product_id']);
         $postPrice = $request['price'];
         $price = !$product->taxmethod || $product->taxmethod == '0' ? floatval($postPrice) : floatval($postPrice) * (1 + $product->tax / 100);
@@ -246,16 +249,17 @@ class PosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
+    use RegisterVariableTrait;
     public function show($id)
     {
         $setting = Setting::find(1)->select('currency');
         $posales = Posale::where('status', 1)->get();
-        $registers = Register::all();
+        $register_id = $this->getRegister();
         $stocks = Stock::all();
         $categories = Category::all();
-
-        return Inertia::render('PosScreen', ['currency' => $setting, 'posales' => $posales, 'registers' => $registers, 'stocks' => $stocks,'categories' => $categories]);
+        $products = Product::all();
+        $store_id = Table::find($id)["store_id"];
+        return Inertia::render('PosScreen', ['currency' => $setting, 'posales' => $posales, 'register_id' => $register_id, 'stocks' => $stocks,'categories' => $categories,'products'=>$products,'table_id'=>$id,'store_id',$store_id]);
     }
 
     /**
@@ -288,13 +292,11 @@ class PosController extends Controller
             $quantity = $stock ? $stock->quantity : 0;
             if ($request['quantity'] <= $quantity) {
                 $this->updatePosale($posale, $request['quantity']);
-                return response(['success' => true]);
             } else {
                 return response(['error' => 'stock']);
             }
         } else if ($product->type == 1) {
             $this->updatePosale($posale, $request['quantity']);
-            return response(['success' => true]);
         } else {
             $storeId = $request['store_id'];
             $quantity = 0;
@@ -311,7 +313,6 @@ class PosController extends Controller
             }
             if ($quantity > 0) {
                 $this->updatePosale($posale, $request['quantity']);
-                return response(['success' => true]);
             } else {
                 return response(['error' => 'stock']);
             }
@@ -326,7 +327,6 @@ class PosController extends Controller
         foreach ($posales as $posale) {
             $sub += $posale->price * $posale->quantity;
         }
-        return ["subTotal" => $sub];
     }
 
     public function totPosales(Request $request)
@@ -336,7 +336,6 @@ class PosController extends Controller
         foreach ($posales as $posale) {
             $sub += $posale->quantity;
         }
-        return ["totPosale" => $sub];
     }
 
     /**
@@ -348,11 +347,9 @@ class PosController extends Controller
     public function destroy($id)
     {
         Posale::destroy($id);
-        return response(['success' => true]);
     }
     public function resetPos($id)
     {
         Posale::where(['status' => 1, 'register_id' => $id])->delete();
-        return response(['success' => true]);
     }
 }

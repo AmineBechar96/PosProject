@@ -14,6 +14,7 @@ use App\Http\Controllers\PayementOutcomeController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\PurchaseController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -52,6 +53,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('products/createStock', [ProductController::class, 'createStock']);
     Route::get('products/makePrdInvis/{id}/{store_id}', [ProductController::class, 'makePrdInvis']);
     Route::resource('products', ProductController::class);
+
+    Route::get('/invoice_p/{id}', [PurchaseController::class, 'create_invoice']);
+    Route::get('/ticket_p/{id}', [PurchaseController::class, 'create_ticket']);
     Route::resource('purchases', PurchaseController::class);
     Route::resource('registers', RegisterController::class);
 

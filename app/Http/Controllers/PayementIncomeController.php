@@ -39,10 +39,11 @@ class PayementIncomeController extends Controller
      */
     public function store(Request $request)
     {
+        $request['sale_id'] = $request['data_id'];
+        unset($request['data_id']);
         if ($request['paid'] == '0')
         return;
-        dd($request);
-         $type = $request['type'];
+        $type = $request['type'];
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
@@ -52,8 +53,10 @@ class PayementIncomeController extends Controller
         if ($type == 2) {
             //Stripe
         }
+
         unset($request['carddate']);
         unset($request['cvv']);
+        
         if ($type != 2) {
             unset($request['credit_card_holder']);
             if ($type == 0){

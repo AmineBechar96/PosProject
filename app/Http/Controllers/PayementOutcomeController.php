@@ -6,6 +6,7 @@ use App\Models\PayementOutcome;
 use App\Models\Purchase;
 use App\Models\Register;
 use App\Models\Store;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PayementOutcomeController extends Controller
@@ -38,9 +39,13 @@ class PayementOutcomeController extends Controller
      */
     public function store(Request $request)
     {
+        $request['purchase_id'] = $request['data_id'];
+        unset($request['data_id']);
+        if ($request['paid'] == '0')
+        return;
         $type = $request['type'];
-        unset($request['type']);
-        date_default_timezone_set($this->setting->timezone);
+        $setting = Setting::find(1);
+        date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
         $request['date'] = $date;
         $register = Register::find($request['register_id']);
@@ -48,10 +53,16 @@ class PayementOutcomeController extends Controller
         if ($type == 2) {
             //Stripe
         }
-        unset($_POST['ccnum']);
-        unset($_POST['ccmonth']);
-        unset($_POST['ccyear']);
-        unset($_POST['ccv']);
+
+        unset($request['carddate']);
+        unset($request['cvv']);
+        
+        if ($type != 2) {
+            unset($request['credit_card_holder']);
+            if ($type == 0){
+                unset($request['credit_card_number']);  
+            }
+        }
         PayementOutcome::create($request->json()->all());
         $purchase = Purchase::find($request['purchase_id']);
 
@@ -59,7 +70,6 @@ class PayementOutcomeController extends Controller
         $status = $purchase->paid - $purchase->total;
         $purchase->status = $status >= 0 ? 0 : 2;
         $purchase->save();
-        return response(['success' => true]);
     }
 
     /**
@@ -107,12 +117,11 @@ class PayementOutcomeController extends Controller
     public function destroy($id)
     {
         $payement = PayementOutcome::find($id);
-        $purchase = $payement->purchase();
+        $purchase = Purchase::find($payement->purchase_id);
         $purchase->paid = $purchase->paid - $payement->paid;
         $status = $purchase->paid - $purchase->total;
         $purchase->status = $status <= 0 ? 1 : 2;
         $purchase->save();
-        $payement->destroy();
-        return response(['success' => true]);
+        PayementOutcome::destroy($id);
     }
 }
