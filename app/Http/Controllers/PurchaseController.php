@@ -23,6 +23,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $suppliers = Supplier::all();
+        $products = Product::all();
         $perPage = FacadesRequest::input('per_pages');
         if ($perPage == null) {
             $perPage = 5;
@@ -40,7 +41,7 @@ class PurchaseController extends Controller
             ->paginate($perPage)
             ->withQueryString();
             return Inertia::render('PurchaseScreen', [
-                'purchases' => $purchases, 'suppliers' => $suppliers, 'page_name' => 'purchases', 'filters' => FacadesRequest::only(['search', 'per_pages'])
+                'purchases' => $purchases,'products' => $products, 'suppliers' => $suppliers, 'page_name' => 'purchases', 'filters' => FacadesRequest::only(['search', 'per_pages'])
             ]);
     }
 
@@ -114,7 +115,6 @@ class PurchaseController extends Controller
             $producto->price = $product["price"];
             $producto->save();
         }
-        return ['success' => true];
     }
 
     /**
@@ -166,7 +166,7 @@ class PurchaseController extends Controller
         $setting = Setting::find(1);
         date_default_timezone_set($setting->timezone);
         $date = date("Y-m-d H:i:s");
-        $request["modified_at"] = $date;
+        $request["updated_at"] = $date;
         Purchase::find($id)->update($request->json()->all());
     }
 

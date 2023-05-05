@@ -12,9 +12,11 @@ use App\Http\Controllers\WaiterController;
 use App\Http\Controllers\PayementIncomeController;
 use App\Http\Controllers\PayementOutcomeController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\OptionController;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -38,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('holds/removeHold', [HoldController::class, 'removeHold']);
     Route::resource('holds', HoldController::class);
     Route::resource('kitchens', KitchenController::class);
+    Route::resource('options', OptionController::class);
     Route::resource('payementIncome', PayementIncomeController::class);
     Route::resource('payementOutcome', PayementOutcomeController::class);
 
